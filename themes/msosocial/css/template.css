@@ -1,0 +1,240 @@
+body{ background-image:url(../images/bg.jpg); background-repeat:repeat; bfbfbf  font-family: tahoma, Arial, sans-serif; font-size:14px; color:black; font-weight:normal;}
+:focus {outline:none;}
+:focus {  -moz-outline-style:none;}
+a:active {  outline:none;}
+
+@font-face {font-family: 'Conv_PSLXTHAIANTIQUE BOLD';
+	src: url('../fonts/PSLXTHAIANTIQUE BOLD.eot');
+	src: local('☺'), url('../fonts/PSLXTHAIANTIQUE BOLD.woff') format('woff'), url('../fonts/PSLXTHAIANTIQUE BOLD.ttf') format('truetype'), url('../fonts/PSLXTHAIANTIQUE BOLD.svg') format('svg');
+	font-weight: normal;	font-style: normal;}
+
+@font-face {font-family: 'Conv_2555 ed_crub huajuck[TH]';
+	src: url('../fonts/2555 ed_crub huajuck[TH].eot');
+	src: local('☺'), url('../fonts/2555 ed_crub huajuck[TH].woff') format('woff'), url('../fonts/2555 ed_crub huajuck[TH].ttf') format('truetype'), url('../fonts/2555 ed_crub huajuck[TH].svg') format('svg');
+	font-weight: normal;	font-style: normal;}
+
+@font-face {font-family: 'Conv_PGVIM';
+	src: url('../fonts/PGVIM.eot');
+	src: local('☺'), url('../fonts/PGVIM.woff') format('woff'), url('../fonts/PGVIM.ttf') format('truetype'), url('../fonts/PGVIM.svg') format('svg');
+	font-weight: normal;	font-style: normal;}
+
+
+a {color:#014ab7;}
+p { word-break: break-all;}
+
+
+#wrap{position: relative; margin:0 auto;  width:1026px;}
+	#icon-social{position: absolute; right:0; text-align:right; top:43px;}
+	#searchbox{position: absolute; right:0; top:35px; z-index:1;}
+	#searchbox textarea,	#searchbox{ width:191px; height:27px; font-size:10pt; background-color:white; border:0px;  color:#626262; padding-left:7px; padding-top:3px;  padding-right:22px; border:1px solid #d3d3d1;}
+	#login{position: absolute; width:200px;  right:0; top:75px; z-index:1;}
+		#userlogin a{color:#a21665; font-size:11pt; padding-left:3px; padding-right:10px; }
+		#userregis a{color:#cf035e; font-size:11pt; padding-left:10px;}
+
+#logo{ float:left; width:928px; height:119px; background-image: url(../images/logo2.png); background-repeat:no-repeat; margin-top:7px;margin-left:-7px;}
+
+	#bgArt{position:absolute; top:0; right:30px; width:324px; height:157px; background-image: url(../images/people-bg.png); background-repeat:no-repeat; z-index: -1;}
+	
+
+/*COLUM1*/
+#col1 {position:relative; width:69%; float:left;}
+
+
+		/*NEWS*/
+		#news{margin-top:25px;}
+		.newstitle{font-family: 'Conv_2555 ed_crub huajuck[TH]'; font-weight: bold; font-size:25px; line-height:27px; color:#d80368; border-bottom:2px solid #f795c3; margin-bottom:20px; }
+		a.viewall  {float:right; display:block; font-family: tahoma; color:#db4e91; font-size:9pt;font-weight:bold;  margin-top: 5px;}
+		a.viewall:hover {color:#db4e91; }
+
+		.p-news-frist { float:left; width:314px; height:310px; overflow:hidden; margin-bottom:20px; background-color:#ec3c83;}
+			.text-titlenews-frist {float:left;  padding:10px; font-weight:bold; }
+			a.text-titlenews-frist {color:white; text-decoration:none;}
+			a.text-titlenews-frist:hover {color:#fdecf3; text-decoration:none;}
+
+			.text-detailnews-frist { float:left;  padding:10px; margin-top:-20px;}
+			a.text-detailnews-frist {color:black; text-decoration:none;}
+			a.text-detailnews-frist:hover {color:#3f3f3f; text-decoration:none;}
+
+		.p-news-second { width:386px; float:right;}
+			.p-news {float:left; display:block;width:144px; margin-left:48px; height:150px; overflow:hidden;}
+			.p-news  a{color:black; text-decoration:none;}
+			.p-news  a:hover{color:#636262; text-decoration:none;}
+
+		.img-pr-news{
+		margin-bottom:7px; 
+		display: inline-block;
+        max-width: 100%;
+        height: auto;
+        padding: 4px;
+        line-height: 1.42857143;        
+		background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out; 
+		}
+
+
+		/*WELFARE*/
+		#welfare {margin-top:35px;}
+		.welfare-title {font-family: 'Conv_2555 ed_crub huajuck[TH]'; font-weight: bold; font-size:25px; line-height:27px; color:#d80368; border-bottom:2px solid #f795c3; margin-bottom:28px;}
+			
+			/*accordion tab*/
+				#accordion { width:708px;}
+
+				/* accordion header */
+				#accordion h2 { font-family: 'Conv_PGVIM'; font-weight: normal; font-size:27px; margin:0;	height:32px; padding-left:20px; background-image: url(../images/accordion-arrow-close.jpg); background-repeat:no-repeat;	 background-position:right;
+					cursor:pointer; background-color:#f1f1f1; border:1px solid #d2cbcb; margin-top:3px; color:#e3006b;}
+
+				/* currently active header */
+				#accordion h2.current { font-family: 'Conv_PGVIM'; font-weight: normal; font-size:27px;	cursor:default;background-color:#bf2f91; color:white; border:none;
+				background-image: url(../images/accordion-arrow-open.jpg); background-repeat:no-repeat;	 background-position:right;}
+
+				/* accordion pane */
+				#accordion .pane {	border:1px solid #d2cbcb;	display:none;	padding:15px; color:black;	font-size:14px;	background-color:white;}	
+
+				/* a title inside pane */
+				#accordion .pane h3 {font-weight:normal;	margin:0 0 -5px 0;	font-size:16px;	color:#999;}
+
+				.pane ul  {padding:0; margin:0; }
+				.pane ul li {padding-left:15px; margin-left:15px; line-height:24px; list-style:none; background-image: url(../images/point-yellow.png); background-repeat:no-repeat; background-position:0px 9px;}
+				.pane ul li a {color:black;}
+				.pane ul li a:hover {color:#337ab7; text-decoration:none;}
+
+				a.viewall-welfare  {float:right; display:block; font-family: tahoma; color:#db4e91; font-size:9pt; font-weight:bold;  line-height: 0px; margin-right:-10px;}
+				a.viewall-welfare:hover {color:#db4e91; }
+
+		/*SITUATION*/
+		#situation {margin-top:35px;}
+		.situation-title {font-family: 'Conv_2555 ed_crub huajuck[TH]'; font-weight: bold; font-size:25px; line-height:27px; color:#d80368; border-bottom:2px solid #f795c3; margin-bottom:28px;}
+		.bg-situation{background-color:white; padding:10px;  height:180px;}
+		.bg-situation ul {padding:0; margin-left:15px; }
+		.bg-situation ul li {float:left; width:285px; height:28px; padding-left:25px; padding-top:5px;  margin-top:10px; margin-left:20px;  margin-right:20px;   list-style:none; background-image: url(../images/bg-sittuation.png); background-repeat:no-repeat; }
+
+		/*DOWNLOAD*/
+		#download{}
+		.download-title{font-family: 'Conv_2555 ed_crub huajuck[TH]'; font-weight: bold; font-size:25px; line-height:27px; color:#d80368; border-bottom:2px solid #f795c3; margin-top:40px; margin-bottom:23px;}
+			/*TAB*/
+			#tabkm1{position:relative; margin:auto; display:block;}
+
+			/* ------------------------------
+			Konten = Tabs + Konten Tab
+			----------------------------- */
+			#konten{background:#FFF;color:black;   margin-top: -1px; border-top:1px solid #d80368; padding:5px;}
+			#konten p{line-height:165%;}
+
+			/* ------------------------------
+			Navigasi Tabs
+			------------------------------ */
+			
+			ul#navtab {padding:0; margin:0;}
+			ul#navtab li{display:inline;float:left;position:relative; text-align:center; margin-right:7px; color:black;  font-family: tahoma;}
+			ul#navtab li a{ padding:0px 20px; font-family: 'Conv_PGVIM'; font-weight:normal; font-size:25px; color:white; text-decoration:none; display: block; background-color:#d0cdce; }
+			ul#navtab li a:hover{}
+			ul#navtab li a.active, ul#nav li a.active:hover{ font-family: 'Conv_PGVIM'; font-weight:normal; font-size:25px; color:white; border-bottom:1px solid #e83288;  background-color: #e83288;}
+
+			#tab1{background-color:white; border:10px solid white; margin-top: 8px;}
+			#tab2{background-color:white; border:10px solid white; margin-top: 8px; }
+			#tab3{background-color:white; border:10px solid white; margin-top: 8px;}
+			#tab4{background-color:white; border:10px solid white; margin-top: 8px; }
+			
+				/* -----------contentTab1	--------------- */
+				.tb1 th {font-size:12px; font-weight:bold; background-color:#fee7f2; padding:2px;}
+				.tb1 td {border-bottom:1px solid #e4e4e3; line-height:34px;}
+				.tb1 td a {color:black;}
+				.tb1 td a:hover {color:#051fa4;}
+				.tb1-date{font-size:12px; padding-left:6px; background-image: url(../images/bt1date.png); background-repeat:no-repeat; background-position:0px 4px;}
+				.viewall-tb1 a{margin-top:15px; margin-bottom:1px;  display:block; width:100%; background-color:#efefee; color:#d91070; font-weight:bold; font-size:12px; text-align:center;}
+				.viewall-tb1 a:hover{ color:#f20c7a; }
+
+
+/*COLUM2*/
+#col2 {position:relative; width:260px;  float:right;}
+.banner-regis{border:0; float:right; margin-top:20px;margin-right:10px;}
+.banner-list{border:0; float:right; margin-top:30px;}
+
+	/*องค์การสวัสดิการสังคม*/
+	.title-social-welfare-organ{font-family: 'Conv_2555 ed_crub huajuck[TH]'; font-weight: bold; font-size:25px;  color:#d80368; text-align:center; margin-top:30px;}
+	.list-social-welfare-organ { padding-top:20px; padding-bottom:10px; background-color:#f5e5ea;}
+	.list-social-welfare-organ ul {padding:0; margin:0;}
+	.list-social-welfare-organ ul li { display:block; font-family: 'Conv_PSLXTHAIANTIQUE BOLD'; color:white;font-size:23px;  list-style:none; margin-bottom:10px;  padding-left:20px; }
+	a.list-social-welfare-organ1{  color:white; display:block; height:37px; background-image: url(../images/bg-list-social-welfare-organ.jpg); background-repeat:no-repeat;padding-left:25px; line-height:23px; padding-top:5px;}
+	a.list-social-welfare-organ2{ color:white; display:block;  height:57px; background-image: url(../images/bg-list-social-welfare-organ2.jpg); background-repeat:no-repeat;padding-left:25px; line-height:23px; padding-top:5px;}
+	a.list-social-welfare-organ1:hover{  color:white; }
+	a.list-social-welfare-organ2:hover{ color:white; }
+
+.banner-link {border:0; float:right; margin-top:30px;margin-right:10px}
+
+	/*REPORT*/
+	.title-report {margin-top:40px; font-family: 'Conv_2555 ed_crub huajuck[TH]'; font-weight: bold; font-size:25px; line-height:27px; color:#d80368; padding-left:45px;  padding-top:7px; background-image: url(../images/icon-report.png); background-repeat:no-repeat; z-index:1;}
+	#report{ background-color:white; margin-top:-4px; padding:10px;}
+	#report ul {padding:0; margin-bottom:10px; }
+	#report ul li {padding-left:15px; line-height:20px; list-style:none; background-image: url(../images/arrow-pink.png); background-repeat:no-repeat; background-position:0px 9px;  border-bottom:1px dashed #d1d0d1;}
+	#report ul li a {color:black;}
+	#report ul li a:hover {color:#337ab7; text-decoration:none;}
+	.title-report2{ font-family: 'Conv_PSLXTHAIANTIQUE BOLD'; color:#d80368; font-size:24px;  font-weight:normal;}
+
+	
+	/*VDO*/
+	#vdo{ }
+	.vdotitle{font-family: 'Conv_2555 ed_crub huajuck[TH]';font-weight: bold;  font-size:25px; line-height:27px;  color:#d80368; border-bottom:2px solid #f795c3; margin-top:10px;}
+	#vdolist{position:relative;  overflow:hidden; background:white; text-align:center; padding:10px;}
+	.vdoplay{position:absolute; width:48px; height:20px; background-image: url(../images/vdoplay.jpg); background-repeat:no-repeat; cursor:pointer; top:96px; left:51px;}
+	.linkvdo a {color:black; text-align:left !important;  float:left; margin-left:20px; margin-right:20px; margin-top:6px;}
+	.linkvdo a:hover {color:#337ab7; text-decoration:none;}
+	.imgvdo{margin-top:10px;}
+		a.viewall-vdo  {float:right; display:block; font-family: tahoma; color:#db4e91; font-size:9pt;font-weight:bold;  margin-top: 5px;}
+		a.viewall-vdo:hover {color:#db4e91; }
+
+
+	/*CALENDAR*/
+	#calendar{width:260px; height:325px; background-image: url(../images/bg-calendar2.png);background-repeat:no-repeat; padding:10px;}
+	.calendartitle{width:240px; float:left; font-family: 'Conv_2555 ed_crub huajuck[TH]';font-weight: bold;  font-size:25px; line-height:27px; color:#d80368; margin-top:30px; margin-bottom:10px; border-bottom:1px solid #e4e4e4; text-align:center;}
+	.cal-arrow{  padding: 5px;}
+		.cal-pre a{ display:block; text-decoration:none; float:left;height:11px; width:8px; background-image: url(../images/cal-pre.png);background-repeat:no-repeat; margin-right:15px; margin-top:8px;}
+		.cal-pre a:hover{ text-decoration:none;background-image: url(../images/cal-pre-hot.png);}
+		.cal-next a{display:block; text-decoration:none;  float:right; height:11px; width:8px; background-image: url(../images/cal-next.png);background-repeat:no-repeat; margin-top:8px;}
+		.cal-next a:hover{ text-decoration:none;background-image: url(../images/cal-next-hot.png);}
+	.cal{position:relative; }
+	.cal-month{float:left; display:block; width:180px; color:black; font-weight:bold; font-size:15px; text-align:center; padding-top:3px; margin-bottom:10px;}
+	.cal th {color:#d80368;  font-weight:normal; font-size:17px; text-align:right;}
+	.cal td { font-family:Myriad Pro; text-align:right;  font-weight:normal; font-size:16px; line-height:25px; padding:3px;}
+	.other-date{color:#cfcfcf;}
+	.today{position:absolute; width:38px; height:32px; background-image: url(../images/today.png);background-repeat:no-repeat;}
+
+
+	
+	/*FOOTER*/
+	#footer{  position:relative;  font-size:13px;margin-top:30px;  color:white; background-color:#ce1c64; padding:10px; width:1026px; margin:0 auto; }
+	#text-footer{}
+		#textAddress{  text-align:left; float:left; }
+		.text-namefooter { font-family: 'Conv_2555 ed_crub huajuck[TH]'; font-size:30px; }
+		.text-namefooter2 { font-family: 'Conv_2555 ed_crub huajuck[TH]'; font-size:23px; margin-top:-10px; }
+		#textAddress p { font-weight:normal;}
+		#textAddress p a {font-weight:normal; color:white;}
+		.btn-social{margin-left:140px; }
+		.map{position:absolute; top:-50px; border:6px solid white;}
+
+		#stat{ float:right; text-align:left;  margin-top:5px; margin-right:30px;font-size:13px; }
+		.title-stat{ font-size:15px; margin-bottom:7px;}
+		.link-stat{color:#ffcbe0; font-size:13px;}
+		.link-stat:hover{color:#fee1ed;}
+
+		.copy{ color:#e1dfe0;font-size:11px;}
+		#back-top {position:fixed;  bottom:30px; right:105px;  z-index:1;}
+
+
+	/*BLANK*/
+	#title-blank { margin-top:20px; font-family: 'Conv_2555 ed_crub huajuck[TH]';font-weight:bold; font-size:25px;  color: #1b5cc6; 
+	background-image: url(../images/icon-write.png); background-repeat:no-repeat;  background-position:0px 0px; padding-left:40px; padding-top:2px; 
+	border-bottom:2px solid #a5badd; height:27px; display:block;}
+	#blank{ height:auto;}
+	#page{background:white; margin-top:45px; margin-bottom:15px;  padding:20px;}
+	#breadcrumb {text-align:right; margin-top:-30px; font-size:13px; color:#666666; }
+	#breadcrumb a {color:#666666; }
+	.b1{color:#3697be;}
+
+.vald {
+  color: #F00;
+}

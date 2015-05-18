@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>งานบริหารกองทุน สำนักงานปลัดกระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์</title>
+<link href="css/template.css" type="text/css" rel="stylesheet"/>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/topmenu.css">
+<script type="text/javascript" src="js/jquery.js"></script>
+   <script src="js/jquery-latest.min.js" type="text/javascript"></script>
+   <script src="js/script.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#tab1').fadeIn('slow'); //tab pertama ditampilkan
+	$('ul#navtab li a').click(function() { // jika link tab di klik
+		$('ul#navtab li a').removeClass('active'); //menghilangkan class active (yang tampil)
+		$(this).addClass("active"); // menambahkan class active pada link yang diklik
+		$('.tab_konten').hide(); // menutup semua konten tab
+		var aktif = $(this).attr('href'); // mencari mana tab yang harus ditampilkan
+		$(aktif).fadeIn('slow'); // tab yang dipilih, ditampilkan
+		return false;
+	});
+
+});
+
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	
+		//	Load	Statistics
+		$("div#statistic").html("<img src='media/images/ajax-loader.gif' />").load(" ");
+	
+		// hide #back-top first
+		$("#back-top").hide();
+		
+		// fade in #back-top
+		$(function () {
+			$(window).scroll(function () {
+				if ($(this).scrollTop() > 1500) {
+					$('#back-top').fadeIn();
+				} else {
+					$('#back-top').fadeOut();
+				}
+			});
+	
+			// scroll body to 0px on click
+			$('#back-top').click(function () {
+				$('body,html').animate({
+					scrollTop: 0
+				}, 800);
+				return false;
+			});
+		});
+	
+	});
+</script>
+</head>
+<body>
+    
+<div id="wrap">
+<div id="icon-social">
+      <a href="#"><img src="images/icon-facebook.jpg" width="23" height="22" /></a> 
+      <a href="#"><img src="images/icon-twitter.jpg" width="23" height="22" /></a>
+      <input name="searchbox" id="searchbox" maxlength="50" value="ค้นหา..." type="text" /><br>
+      <span id="login">
+        <img src="images/icon-key.png" width="14" height="14" /><span id="userlogin"><a href="#">เข้าสู่ระบบ</a></span> 
+        <img src="images/icon-user.png" width="13" height="14" /><span id="userregis"><a href="#">สมัครสมาชิก</a></span>
+      </span>
+  </div>
+    <div id="logo">&nbsp;</div> 
+    <div id="bgArt">&nbsp;</div>
+       		<div class="clearfix">&nbsp;</div>
+        	<div id='cssmenu'>
+                <ul>
+                   <li><a href='#' class="menu1">หน้าแรก</a></li>
+                   <li class='active has-sub'><a href='#' class="menu2"><span>เกี่ยวกับเรา</span></a>
+                      <ul>
+                         <li><a href='#' class="submenu2"><span>พ.ร.บ. ส่งเสริมฯ คืออะไร</span></a>
+                         <li><a href='#' class="submenu2"><span>โครงสร้างหน่วยงาน</span></a></li>
+                         <li><a href='#' class="submenu2"><span>การดำเนินงานตามนโยบาย</span></a></li>
+                         <li><a href='#' class="submenu2"><span>ที่อยู่และเบอร์ติดต่อ</span></a></li>
+                         <li><a href='#' class="submenu2"><span>การบริการ</span></a></li>
+                         <li class='last'><a href='#'><span>อำนาจหน้าที่</span></a></li>
+                      </ul>
+				   </li>
+                   <li class='active has-sub'><a href='#' class="menu3">องค์กรสาธารณประโยชน์</a>
+                      <ul>
+                         <li><a href='#' class="submenu3">เกี่ยวกับองค์กรสาธารณประโยชน์</a>
+                         <li class='last'><a href='#' class="submenu3">รายงาน</a></li>
+                      </ul>
+                   </li>
+                   <li class='active has-sub'><a href='#' class="menu4">องค์กรสวัสดิการชุมชน</a>
+                      <ul>
+                         <li><a href='#' class="submenu4">เกี่ยวกับองค์กรสวัสดิการชุมชน</a>
+                         <li class='last'><a href='#' class="submenu4">รายงาน</a></li>
+                      </ul>                   
+                   </li>
+                   <li><a href='#' class="menu5">นักสังคมสงเคราะห์</a></li>
+                   <li class='active has-sub'><a href='#' class="menu6">หน่วยงานรัฐ</a>
+                      <ul>
+                         <li><a href='#' class="submenu6">เกี่ยวกับหน่วยงานรัฐ</a>
+                         <li class='last'><a href='#' class="submenu6">รายงาน</a></li>
+                      </ul> 
+                   </li>
+                   <li class='last'><a href='#' class="menu7">อาสาสมัคร</a></li>
+                </ul>
+            </div>            
+ 			<div class="clearfix">&nbsp;</div>
+    		
+<!------------------------------------------------------------END Header and TopMenu----------------------------------------------------------->											    <div id="blank">
+    	<div id="title-blank">อำนาจหน้าที่</div>
+        <div id="breadcrumb"><a href="#">หน้าแรก</a> > <span class="b1">เกี่ยวกับเรา</span> > <span class="b1">อำนาจหน้าที่</span></div>
+	<div id="page">
+        	<p>อาศัยอำนาจตาม มาตรา 15 แห่ง พ.ร.บ.ส่งเสริมการจัดสวัสดิการสังคม พ.ศ. 2546 กำหนดให้มีสำนักงาน ก.ส.ค. ในสำนักงานปลัดกระทรวงการพัฒนาสังคมและความมั่นคง
+ของมนุษย์ มีภารกิจ ดังนี้</p>
+1. จัดทำแผนพัฒนางานสวัสดิการสังคมเสนอต่อคณะกรรมการ<br>
+2. รวบรวมข้อมูล ศึกษา วิจัยและพัฒนา เกี่ยวกับงานส่งเสริมการจัดสวัสดิการสังคม<br>
+3. เป็นศูนย์กลาง ประสานงาน เผยแพร่ และประชาสัมพันธ์งานหรือกิจกรรมเกี่ยวกับการจัดสวัสดิการสังคม
+                  <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+        </div>
+    	
+    </div>
+
+<!-------------------------------------------------------END Content-------------------------------------------------------->         
+	
+
+ 
+     
+</div>
+<!-------------------------------------------------------END wrap-------------------------------------------------------->  
+
+<div class="clearfix">&nbsp;</div>
+	<div id="footer">
+    	<div id="text-footer">
+          <div id="textAddress">
+    		  <div class="text-namefooter">พ.ร.บ. ส่งเสริมการจัดสวัสดิการสังคม</div>
+              <div class="text-namefooter2">สำนักปลัดกระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์</div>
+              <p>อาคาร ซี.พี. ทาวเวอร์ 3 อาคาร A ชั้น 6 เลขที่ 34 ถ.พญาไท<br>
+            แขวงทุ่งพญาไท เขตราชเทวี กรุงเทพมหานคร 10400<br>
+            โทรศัพท์ 0 2202 9024 -35, โทรสาร 0 2202 9034 -35, E-mail : <a href="mailto:fad@m-society.go.th" target="_blank">fad@m-society.go.th</a></p>			
+            <div class="copy">Copyright © 2014 www.envocc.org &nbsp;&nbsp;&nbsp;All Rights Reserved. </div>
+          </div>
+            
+            <div id="stat">
+        		<div class="title-stat">จำนวนผู้เข้าเยี่ยมชมเว็บไซต์</div>
+                <table width="200">
+                  <tr>
+                    <td width="102">วันนี้	</td>
+                    <td width="86">900</td>
+                  </tr>
+                  <tr>
+                    <td>เดือนนี้</td>
+                    <td>123456</td>
+                  </tr>
+                  <tr>
+                    <td> ปีนี้</td>
+                    <td>4500000</td>
+                  </tr>
+                  <tr>
+                    <td>รวมทั้งหมด	</td>
+                    <td>456789012</td>
+                  </tr>
+                  <tr>
+                    <td>เริ่มนับตั้งแต่วันที่  </td>
+                    <td>5 / 02 / 2557</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"> <a href="#" class="link-stat">ดูสถิติอย่างละเอียดทั้งหมด</a></td>
+                  </tr>
+                </table>   
+                
+        	</div>
+          	<div class="clearfix">&nbsp;</div>
+            <div id="back-top"><a href="#wrap"><img src="images/top_arrow.png" width="50" height="42" /></a></div>
+        </div>
+    </div>
+
+   <!-------------------END FOOTER--------------------->
+    
+   
+</body>
+</html>
