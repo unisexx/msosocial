@@ -521,11 +521,12 @@ class Org extends Public_Controller
 	
 	function member(){
 		$CI =& get_instance();
+		/*
 		if($CI->session->userdata('id') == ""){
 			set_notify('error', 'ยังไม่ได้ล้อกอิน ไม่สามารถเข้าใช้งานระบบได้');
 			redirect('home');
 		}
-		
+		*/
 		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
 		array_walk($_POST,'dbConvert','TIS-620');
 		$this->load->library('adodb');
