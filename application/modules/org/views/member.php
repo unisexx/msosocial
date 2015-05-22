@@ -957,7 +957,7 @@
   	<script language="JavaScript">
   		function memberList() {
   			//$('#sector-3').html('aa');
-  			$('#sector-3').html('<div style="text-align:center;">Loading...</div>');
+  			$('#sector-3--fps').html('<div style="text-align:center;">Loading...</div>');
   			$.get('org/claimfund/lists', function(data){
   				$('#sector-3--fps').html(data);
   			});
@@ -965,7 +965,7 @@
   		
   		function memberForm(type) {
   			type = (type == '')?1:type;
-  			$('#sector-3').html('<div style="text-align:center;">Loading...</div>');
+  			$('#sector-3--fps').html('<div style="text-align:center;">Loading...</div>');
   			$.get(
   				'org/claimfund/form'
   				, {
@@ -976,7 +976,20 @@
   			);
   		}
   		
-  		$(function(){ memberList(); });
+  		$(function(){ 
+  			memberList(); 
+  			
+  			$('.pagination a').live('click', function(){
+  				//$('#sector-3--fps').html($(this).attr('href'));
+  				$('#sector-3--fps').html('<div style="text-align:center;">Loading...</div>');
+  				href = $(this).attr('href');
+  				alert(href);
+  				$.get(href, function(data){
+  					$('#sector-3--fps').html(data);
+  				});
+  				return false;
+  			});
+  		});
   	</script>
 	<div id="sector-3--fps"></div><!-- #tabs-3 -- Fund project support -->
 </div>

@@ -22,8 +22,8 @@ class Claimfund extends Public_Controller
 		$pageCurrent = $_GET['page'];
 
 		#var_dump($_SERVER);
-		$tmp = explode('?', $_SERVER['HTTP_REFERER']);
-		$urlCurrent = current($tmp);
+		#$tmp = explode('?', $_SERVER['REDIRECT_URL']);
+		$urlCurrent = $_SERVER['REDIRECT_URL'];
 		
 		$pagination = '<div class="pagination">';
 			$pagination .= ($pageCurrent == $pageMin)?'<span class="disabled">« Previous</span>':'<a href="'.$urlCurrent.'?page='.($pageCurrent-1).'">« Previous</a>';
@@ -42,9 +42,10 @@ class Claimfund extends Public_Controller
 		
 		$qry .= " WHERE ROWNUM > ".$recMin." and ROWNUM <= ".$recMax;
 		
+		echo '<pre>'.$qry.'</pre>';
 		$data['rs'] = $this->ado->GetArray($qry);
 		#dbConvert($data['rs']);
-		$data['pagination'] = $pagination;
+		$data['pagination'] = $_GET['page'].$pagination;
 		
 		return $data;
 	}
