@@ -957,6 +957,7 @@
   	<script language="JavaScript">
   		function memberList() {
   			//$('#sector-3').html('aa');
+  			$('#sector-3').html('<div style="text-align:center;">Loading...</div>');
   			$.get('org/claimfund/lists', function(data){
   				$('#sector-3').html(data);
   			});
@@ -964,21 +965,9 @@
   		
   		function memberForm(type) {
   			type = (type == '')?1:type;
+  			$('#sector-3').html('<div style="text-align:center;">Loading...</div>');
   			$.get(
   				'org/claimfund/form'
-  				, {
-  					type : type
-  				} , function(data) {
-  					$('#sector-3').html(data);
-  				}
-  			);
-  		}
-  		
-  		function memberSubmit() {
-  			type = $('[name=type]').val();
-  				
-  			$.post(
-  				'org/claimfund/save'
   				, {
   					type : type
   				} , function(data) {
