@@ -6,9 +6,9 @@
 	<?php echo form_dropdown(false, array(1 => 'กองทุนเด็กฯ', 2 => 'กองทุนส่งเสริมฯ', 3 => 'กองทุนป้องกันค้ามนุษย์ฯ'), $_GET['type'], 'class="form-control" onchange = "memberForm($(this).val());"'); ?>
 </h4>
 
-<? echo form_hidden('type', @$_GET['type']); ?>
+<?php echo form_hidden('type', @$_GET['type']); ?>
 
-<form action="org/claimfund/saveChild/<? echo @$rs->id; ?>" method='post'> 
+<form action="org/claimfund/saveChild/<?php echo @$rs->id; ?>" method='post'> 
 <div class="dvChild">
 <table class="tblForm">
 	<tr>
