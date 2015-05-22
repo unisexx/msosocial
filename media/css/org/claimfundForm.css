@@ -35,3 +35,12 @@ table.tblList thead th {
 	color:#65358f;
 	font-weight:normal;
 }
+
+
+
+/*--Pagination--*/
+div.pagination span, div.pagination a {
+	background:#fff;
+	border:solid 1px #aaa;
+	padding:2px 5px;
+}
