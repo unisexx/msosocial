@@ -52,13 +52,32 @@ class Claimfund extends Public_Controller
 	}
 	
 	public function form($id = null) {
+		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
+		array_walk($_POST,'dbConvert','TIS-620');
+		$this->load->library('adodb');
+
+		$data = null;
+
+		$query = "SELECT
+			AP.PROVINCE_NAME,
+			AWB.*
+		FROM ACT_WELFARE_BENEFIT AWB
+		JOIN ACT_PROVINCE AP ON AP.PROVINCE_CODE = AWB.PROVINCE_CODE
+		WHERE ID = ".$this->session->userdata('act_welfare_benefit_id');
+
 		//-- Set default $_GET['type']
 		$_GET['type'] = (empty($_GET['type']))?1:$_GET['type'];
-		if($_GET['type'] == 1) 		{ $form = 'formChild'; } 
-		else if($_GET['type'] == 2) { $form = 'formSupport'; } 
-		else if($_GET['type'] == 3)	{ $form = 'formTraffick'; }
+		if($_GET['type'] == 1){
+			$form = 'formChild';
+		} else if($_GET['type'] == 2) {
+			$data['value'] = $this->ado->GetRow($query);
+			dbConvert($data['value']);
+			$form = 'formSupport';
+		} else if($_GET['type'] == 3) {
+			$form = 'formTraffick';
+		}
 		
-		$this->load->view('claimfund/'.$form);
+		$this->load->view('claimfund/'.$form,$data);
 	}
 	
 	public function saveChild($id = null) {
