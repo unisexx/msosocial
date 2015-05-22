@@ -5,9 +5,7 @@
   <ul>
     <li><a href="#tabs-1">ข้อมูลองค์กร</a></li>
     <li><a href="#tabs-2">สถานะการจดทะเบียน</a></li>
-    <li><a href="#tabs-3">ขอรับเงินสนับสนุน/ติดตามโครงการ</a></li>
-    
-    
+    <li><a href="#tabs-3" onclick="memberList();">ขอรับเงินสนับสนุน/ติดตามโครงการ</a></li>
   </ul>
   <div id="tabs-1">
     <h3 style="margin-top:0; color:#393">ข้อมูลองค์กร</h3>
@@ -964,8 +962,35 @@
   
   
   <div id="tabs-3">
-	<? // include 'modules/member/get_support_list_form.php'?>
-  </div>
+  	<script language="JavaScript">
+  		function memberList() {
+  			//$('#sector-3').html('aa');
+  			$.get('org/claimfund/lists', function(data){
+  				$('#sector-3').html(data);
+  			});
+  		}
+  		
+  		function memberForm() {
+  			alert('x');
+  			$.get('org/claimfund/form', function(data) {
+  				
+  				$('#sector-3').html(data);
+  			});
+  		}
+  		
+  		$(function(){
+  			memberList();
+  			
+  			$('#btnMemberForm').live('click', function(){
+  				memberForm();
+  			});
+  		});
+  	</script>
+	<div id="sector-3">
+	
+		<? // include 'modules/member/get_support_list_form.php'?>
+		</div>
+	</div><!-- #tabs-3 -->
 </div>
 
 <link rel="stylesheet" type="text/css" href="media/css/jquery-ui-1.7.2.custom.css">
