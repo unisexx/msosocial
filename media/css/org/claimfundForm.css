@@ -17,3 +17,21 @@
 		padding:10px 5px;
 		border-bottom:solid 1px #ccc;
 	}
+
+
+table.tblList {
+	font-size:14px;
+	width:100%;
+}
+
+table.tblList td, table.tblList th{
+	border-bottom:solid 1px #ccc;
+	padding:5px;
+}
+
+
+table.tblList thead th {
+	border-bottom:solid 3px #ccc;
+	color:#65358f;
+	font-weight:normal;
+}
