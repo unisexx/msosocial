@@ -13,6 +13,14 @@ class Claimfund extends Public_Controller
 		
 		//List query
 		//--Fund_project_support
+		#$_GET['page'] = 2;
+		$_GET['page'] = (empty($_GET['page']))?1:$_GET['page'];
+		
+		$limit = 10;
+		$pageMin = ($_GET['page']-1)*$limit;
+		$pageMax = (($_GET['page']-1)*$limit)+$limit;
+		
+		echo $pageMin.'/'.$pageMax;
 		$qry = "SELECT
 			FPSID,
 			PROJECT_CODE,
@@ -33,7 +41,9 @@ class Claimfund extends Public_Controller
 				SELECT ID FPSID, FPS.PROJECT_CODE, FPS.PROJECT_NAME, FPS.PROJECT_STATUS, FPS.RECEIVE_DATE
 				FROM FUND_PROJECT_SUPPORT FPS
 			)
-		)";
+		)
+		WHERE 
+			ROWNUM > ".$pageMin." and ROWNUM <= ".$pagMax;
 		$data['rs'] = $this->ado->GetArray($qry);
 		
 		dbConvert($data['rs']);

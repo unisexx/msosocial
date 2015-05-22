@@ -959,7 +959,7 @@
   			//$('#sector-3').html('aa');
   			$('#sector-3').html('<div style="text-align:center;">Loading...</div>');
   			$.get('org/claimfund/lists', function(data){
-  				$('#sector-3').html(data);
+  				$('#sector-3--fps').html(data);
   			});
   		}
   		
@@ -971,12 +971,14 @@
   				, {
   					type : type
   				} , function(data) {
-  					$('#sector-3').html(data);
+  					$('#sector-3--fps').html(data);
   				}
   			);
   		}
+  		
+  		$(function(){ memberList(); });
   	</script>
-	<div id="sector-3"> </div><!-- #tabs-3 -->
+	<div id="sector-3--fps"></div><!-- #tabs-3 -- Fund project support -->
 </div>
 
 <link rel="stylesheet" type="text/css" href="media/css/jquery-ui-1.7.2.custom.css">
