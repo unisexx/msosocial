@@ -1,5 +1,4 @@
 <?php
-
 putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
 //include('application/helpers/MY_url_helper.php');
 include('media/simpledom/simple_html_dom.php');
@@ -7,10 +6,10 @@ include('adodb/adodb.inc.php');
 
 
 $_config['dbdriver'] = 'oci8';
-$_config['server'] = '10.20.50.12';
+$_config['server'] = '27.254.33.52';
 $_config['username'] = 'boffice';
 $_config['password'] = 'bo2557';
-$_config['database'] = 'BOFFICE';
+$_config['database'] = 'orcl11';
 
 
 $db = ADONewConnection($_config['dbdriver']);

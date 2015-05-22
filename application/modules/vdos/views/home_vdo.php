@@ -10,7 +10,7 @@
 		<div id="vdolist">
                   <div class="vdoplay"><a href="#">&nbsp;</a></div>
                   
-                  <a href="vdos/view/<?=$rs->id?>">
+                  <a href="vdos/view/<?php echo $rs->id?>">
                   
                     
                     <?php
@@ -18,7 +18,7 @@
 						$vdo_value = explode("?v=", $source_vdo); 
 					?>
                     
-                    <img src="http://img.youtube.com/vi/<?=$vdo_value[1]?>/3.jpg" class="imgvdo">
+                    <img src="http://img.youtube.com/vi/<?php echo $vdo_value[1]?>/3.jpg" class="imgvdo">
                     
                   </a>
                   
@@ -26,7 +26,7 @@
             	   
                    <br>
               	  
-                  <span class="linkvdo"><a href="vdos/view/<?=$rs->id?>"><?=$rs->title?>
+                  <span class="linkvdo"><a href="vdos/view/<?php echo $rs->id?>"><?php echo $rs->title?>
                    <img src="themes/msosocial/images/icon-film.png" width="14" height="15" />
                    </a>
                    </span>			

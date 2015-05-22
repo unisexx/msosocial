@@ -17,14 +17,14 @@
       
       <div class="clearfix">&nbsp;</div>
     
-        <?=modules::run('contents/home_report'); ?>
+        <?php echo modules::run('contents/home_report'); ?>
         
     <!---------------------------------------------END REPORT------------------------------------------>
     
- 		<?=modules::run('vdos/home_vdo'); ?>
+ 		<?php echo modules::run('vdos/home_vdo'); ?>
     <!---------------------------------------------END VDO------------------------------------------>
  
-        <?=modules::run('calendar/home_calendar'); ?>
+        <?php echo modules::run('calendar/home_calendar'); ?>
     <!---------------------------------------------END CALENDAR------------------------------------------>
 
 <!------------------------------------------------------------END Col2----------------------------------------------------------->  

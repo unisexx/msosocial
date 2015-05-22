@@ -1,2 +1,4 @@
 uploads
 application/config/database.php
+application/libraries/Adodb.php
+themes/msosocial/odbc_connect.php

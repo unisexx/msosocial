@@ -31,16 +31,16 @@
 	
 <div id="col1">
 	
-        <?//=modules::run('infos/news_relation_mso'); ?>
+        <?php echo modules::run('infos/news_relation_mso'); ?>
         <!---------------------------------------------END News------------------------------------------>
         
-		<?//=modules::run('welfare/home_welfare'); ?>
+		<?php echo modules::run('welfare/home_welfare'); ?>
             <!---------------------------------------------END WELFARE------------------------------------------>
                             
-        <?//=modules::run('infos/home_situation'); ?>
+        <?php echo modules::run('infos/home_situation'); ?>
         <!---------------------------------------------END situation------------------------------------------>
         
-        <?//=modules::run('downloads/home_download'); ?>
+        <?php echo modules::run('downloads/home_download'); ?>
         
 
         <!---------------------------------------------END DOWNLOAD------------------------------------------>    	

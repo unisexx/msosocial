@@ -1,12 +1,12 @@
 
 
-<div id="breadcrumb"><a href="<?php echo base_url(); ?>home">หน้าแรก</a> > <span class="b1"><?=$news_title?></span></div>
+<div id="breadcrumb"><a href="<?php echo base_url(); ?>home">หน้าแรก</a> > <span class="b1"><?php echo $news_title?></span></div>
 
     	  <div class="clearfix">&nbsp;</div>
     	  
     	  <div style="clear:both;width: 100%; margin-bottom: 25px;"></div>
 
-<div id="title-blank"><?=$news_title?></div>
+<div id="title-blank"><?php echo $news_title?></div>
 
 <div id="page" style="background:white; margin-top:45px; margin-bottom:15px;  padding:20px;">
 
@@ -32,7 +32,7 @@
 				<section class="grid" style="width:100%;">
                 
 					<header class="top-bar">
-						<h2 class="top-bar__headline"><?=$news_title?> ล่าสุด</h2>
+						<h2 class="top-bar__headline"><?php echo $news_title?> ล่าสุด</h2>
 						<div class="filter">
 							<span>จัดเรียง by:</span>
 							<span class="dropdown">จำนวนคนดู</span>
@@ -72,12 +72,12 @@
 							
 						?>
 		
-                            <a class="grid__item" href="infos/view/<?=$row['id']?>">
+                            <a class="grid__item" href="infos/view/<?php echo $row['id']?>">
                                 <div class="loader"></div>
-                                <span class="category"><?=$text1?></span>
+                                <span class="category"><?php echo $text1?></span>
                                 <div class="meta meta--preview">
-                                    <img class="meta__avatar" src="http://intranet.m-society.go.th/upload/newsletters/<?=$row['img_title']?>" alt="author<?php echo $news; ?>" /> 
-                                    <span class="meta__date"><i class="fa fa-calendar-o"></i> <?=mysql_to_th($row['create_date'])?></span>
+                                    <img class="meta__avatar" src="http://intranet.m-society.go.th/upload/newsletters/<?php echo $row['img_title']?>" alt="author<?php echo $news; ?>" /> 
+                                    <span class="meta__date"><i class="fa fa-calendar-o"></i> <?php echo mysql_to_th($row['create_date'])?></span>
                                     <span class="meta__reading-time"><i class="fa fa-clock-o"></i> 0 อ่าน</span>
                                 </div>
                             </a>
@@ -113,15 +113,15 @@
 		
                             
                           <article class="content__item">
-							<span class="category category--full"><?=$row['title']?></span>
+							<span class="category category--full"><?php echo $row['title']?></span>
 							
 							<div class="meta meta--full">
-								<img class="meta__avatar" src="http://intranet.m-society.go.th/upload/newsletters/<?=$row['img_title']?>" alt="author<?php echo $news; ?>" />
-								<span class="meta__author"><?=$row['create_by']?></span>
-								<span class="meta__date"><i class="fa fa-calendar-o"></i><?=mysql_to_th($row['create_date'])?></span>
+								<img class="meta__avatar" src="http://intranet.m-society.go.th/upload/newsletters/<?php echo $row['img_title']?>" alt="author<?php echo $news; ?>" />
+								<span class="meta__author"><?php echo $row['create_by']?></span>
+								<span class="meta__date"><i class="fa fa-calendar-o"></i><?php echo mysql_to_th($row['create_date'])?></span>
 								<span class="meta__reading-time"><i class="fa fa-clock-o"></i> 0  อ่าน</span>
 							</div>
-							<p><?=$row['detail']?></p>
+							<p><?php echo $row['detail']?></p>
 						</article>
                         
                             
