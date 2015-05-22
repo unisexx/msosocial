@@ -43,7 +43,7 @@ class Claimfund extends Public_Controller
 			)
 		)
 		WHERE 
-			ROWNUM > ".$pageMin." and ROWNUM <= ".$pagMax;
+			ROWNUM > ".$pageMin." and ROWNUM <= ".$pageMax;
 		$data['rs'] = $this->ado->GetArray($qry);
 		
 		dbConvert($data['rs']);
