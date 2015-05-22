@@ -8,7 +8,9 @@
 
 <?php echo form_hidden('type', @$_GET['type']); ?>
 
-<form action="org/claimfund/saveChild/<?php echo @$rs->id; ?>" method='post'> 
+
+<form action="org/claimfund/saveChild/<?php echo @$rs->id; ?>" method='post'>
+	
 <div class="dvChild">
 <table class="tblForm">
 	<tr>
@@ -104,7 +106,7 @@
 	  </td>
 	</tr>
 <tr>
-	<th>รหัสโครงการ <span class="textRed">*</span><input type="hidden" name="id" value="" /></th>
+	<th>รหัสโครงการ <span class="textRed">*</span></th>
 	<td style="font-size:18px; color:#F00;" id="proj_code">คคด/2558/กาญจนบุรี/XXXX</td>
 </tr>
 <tr>
@@ -131,7 +133,7 @@
 </tr>
 	<tr>
 		<th>ชื่อองค์กรที่เสนอขอรับ <span class="textRed">*</span></th>
-		<td><input name="organization" type="text"  class="form-control" id="textfield29" style="width:550px;" value="มูลนิธิทองทศฯ เพื่อการศึกษาและสาธารณประโยชน์" readonly="readonly"/></td>
+		<td><input name="organization" type="text"  class="form-control" id="textfield29" style="width:550px;" value="" readonly="readonly"/></td>
 	</tr>
 	<tr>
 		<th>สถานะโครงการที่ขอรับเงินกองทุนฯ <span class="textRed">*</span></th>
