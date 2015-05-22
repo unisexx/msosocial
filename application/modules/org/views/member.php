@@ -1,5 +1,5 @@
 <div id="title-blank"> ยืนยันความเป็นองค์กร เพื่อสมัครสมาชิกออนไลน์</div><br>
-<h2 style="margin-top:0; color:#CC075F"><?=@$rs['organ_name']?></h2>
+<h2 style="margin-top:0; color:#CC075F"><?php echo @$rs['organ_name']?></h2>
 
 <div id="tabs">
   <ul>
@@ -11,41 +11,41 @@
     <h3 style="margin-top:0; color:#393">ข้อมูลองค์กร</h3>
     
 	<!-- ถ้าเป็นองค์กรสาธารณะประโยชน์ -->
-    <?if($this->session->userdata('act_welfare_benefit_id') > 0):?>
+    <?php if($this->session->userdata('act_welfare_benefit_id') > 0):?>
     <form class="form-horizontal" method="post" action="org/benefit_save_update" enctype="multipart/form-data">
     	<div class="form-group">
 		    <label class="col-sm-2 control-label">ประเภทหน่วยงาน <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-5"><span style="padding-right:20px;">
-		    	<input name="under_type_sub" type="radio" value="มูลนิธิ" <?=@$rs['under_type_sub'] == 'มูลนิธิ' ? 'checked=checked' : '' ;?> required/> มูลนิธิ</span><span style="padding-right:20px;">
-		    	<input name="under_type_sub" type="radio" value="สมาคม" <?=@$rs['under_type_sub'] == 'สมาคม' ? 'checked=checked' : '' ;?> required/> สมาคม</span>
-		    	<input name="under_type_sub" type="radio" value="องค์กรภาคเอกชน" <?=@$rs['under_type_sub'] == 'องค์กรภาคเอกชน' ? 'checked=checked' : '' ;?> required/> องค์กรภาคเอกชน </div>
+		    	<input name="under_type_sub" type="radio" value="มูลนิธิ" <?php echo @$rs['under_type_sub'] == 'มูลนิธิ' ? 'checked=checked' : '' ;?> required/> มูลนิธิ</span><span style="padding-right:20px;">
+		    	<input name="under_type_sub" type="radio" value="สมาคม" <?php echo @$rs['under_type_sub'] == 'สมาคม' ? 'checked=checked' : '' ;?> required/> สมาคม</span>
+		    	<input name="under_type_sub" type="radio" value="องค์กรภาคเอกชน" <?php echo @$rs['under_type_sub'] == 'องค์กรภาคเอกชน' ? 'checked=checked' : '' ;?> required/> องค์กรภาคเอกชน </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">ชื่อ-สกุลผู้ขอยื่นคำขอ <span class="vald">*</span></label>
 		    <div class="col-sm-6">
-		      <input type="text" class="form-control" name="request_name" value="<?=@$rs['request_name']?>" placeholder="ชื่อและสกุลผู้ขอยื่นคำขอ" required>
+		      <input type="text" class="form-control" name="request_name" value="<?php echo @$rs['request_name']?>" placeholder="ชื่อและสกุลผู้ขอยื่นคำขอ" required>
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">ชื่อองค์กร <span class="vald">*</span></label>
 		    <div class="col-sm-6">
-		      <input type="text" class="form-control" name="organ_name" value="<?=@$rs['organ_name']?>" placeholder="ชื่อองค์กร" required>
+		      <input type="text" class="form-control" name="organ_name" value="<?php echo @$rs['organ_name']?>" placeholder="ชื่อองค์กร" required>
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">วันเดือนปีที่ก่อตั้ง <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-4">
-		      <input type="text" class="form-control fdate dateInput" name="establish_date" value="<?=@$rs['establish_date']?>" placeholder="" style="width:100px;margin-right:5px;" required>
+		      <input type="text" class="form-control fdate dateInput" name="establish_date" value="<?php echo @$rs['establish_date']?>" placeholder="" style="width:100px;margin-right:5px;" required>
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">วัตถุประสงค์ <span class="vald">*</span></label>
 		    <div class="col-sm-8">
-		    	<textarea name="objective" cols="" rows="5" class="form-control" placeholder="ระบุวัตถุประสงค์" required ><?=@$rs['objective']?></textarea>
+		    	<textarea name="objective" cols="" rows="5" class="form-control" placeholder="ระบุวัตถุประสงค์" required ><?php echo @$rs['objective']?></textarea>
 		    </div>
 		  </div> 
 		   
@@ -53,10 +53,10 @@
 		    <label class="col-sm-2 control-label">ที่ตั้งสำนักงานใหญ๋ <span class="vald">*</span></label>
 		
 			<div class="form-inline col-sm-8">
-		      <input name="home_no" value="<?=@$rs['home_no']?>" type="text" class="form-control numInt" placeholder="เลขที่" style="width:80px;" required> 
-		      <input name="moo" value="<?=@$rs['moo']?>" type="text" class="form-control numOnly" placeholder="หมู่ที่" style="width:80px;" required>
-		      <input name="soi" value="<?=@$rs['soi']?>" type="text" class="form-control" placeholder="ตรอก/ซอย" style="width:230px;" required>
-		      <input name="road" value="<?=@$rs['road']?>" type="text" class="form-control" placeholder="ถนน" style="width:230px;" required>
+		      <input name="home_no" value="<?php echo @$rs['home_no']?>" type="text" class="form-control numInt" placeholder="เลขที่" style="width:80px;" required> 
+		      <input name="moo" value="<?php echo @$rs['moo']?>" type="text" class="form-control numOnly" placeholder="หมู่ที่" style="width:80px;" required>
+		      <input name="soi" value="<?php echo @$rs['soi']?>" type="text" class="form-control" placeholder="ตรอก/ซอย" style="width:230px;" required>
+		      <input name="road" value="<?php echo @$rs['road']?>" type="text" class="form-control" placeholder="ถนน" style="width:230px;" required>
 				<?php echo form_dropdown('province_code', get_option('province_code', 'province_name', 'act_province', 'order by province_name asc'), @$rs['province_code'], 'class="form-control"', '- เลือกจังหวัด -'); ?>
 			    <span id="ampor">
 			    <?php echo form_dropdown('ampor_code', (empty($rs['province_code'])) ? array() : get_option('ampor_code', 'ampor_name', 'act_ampor', 'where province_code = '.$rs['province_code'].' order by ampor_name'), @$rs['ampor_code'], 'class="form-control"', '- เลือกอำเภอ -'); ?>
@@ -64,21 +64,21 @@
 			    <span id="tumbon">
 			    <?php echo form_dropdown('tumbon_code', (empty($rs['ampor_code'])) ? array() : get_option('tumbon_code', 'tumbon_name', 'act_tumbon', 'where province_code = '.$rs['province_code'].' and ampor_code = '.$rs['ampor_code'].' order by tumbon_name'), @$rs['tumbon_code'], 'class="form-control"', '- เลือกตำบล -'); ?>
 			    </span>
-		      <input name="post_code" value="<?=@$rs['post_code']?>" type="text" class="form-control fpostel" placeholder="รหัสไปรณีย์" style="width:100px;" required>
+		      <input name="post_code" value="<?php echo @$rs['post_code']?>" type="text" class="form-control fpostel" placeholder="รหัสไปรณีย์" style="width:100px;" required>
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">โทรศัพท์ / โทรสาร / มือถือ <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-8">
-		      <input name="tel" value="<?=@$rs['tel']?>" type="text" class="form-control" placeholder="เบอร์โทรศัพท์" required> / <input name="fax" value="<?=@$rs['fax']?>" type="text" class="form-control fphone" placeholder="เบอร์โทรสาร" required> / <input name="mobile" value="<?=@$rs['mobile']?>" type="text" class="form-control fmobile" placeholder="เบอร์มือถือ" required>
+		      <input name="tel" value="<?php echo @$rs['tel']?>" type="text" class="form-control" placeholder="เบอร์โทรศัพท์" required> / <input name="fax" value="<?php echo @$rs['fax']?>" type="text" class="form-control fphone" placeholder="เบอร์โทรสาร" required> / <input name="mobile" value="<?php echo @$rs['mobile']?>" type="text" class="form-control fmobile" placeholder="เบอร์มือถือ" required>
 		    </div>
 		  </div>
 		
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">อีเมล์ / เว็บไซต์ <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-8">
-		      <input name="email" value="<?=@$rs['email']?>" type="text" class="form-control" style="width:300px;" placeholder="ชื่ออีเมล์">  / <input name="website" value="<?=@$rs['website']?>" type="text" class="form-control" style="width:300px;" placeholder="ชื่อเว็บไซต์">
+		      <input name="email" value="<?php echo @$rs['email']?>" type="text" class="form-control" style="width:300px;" placeholder="ชื่ออีเมล์">  / <input name="website" value="<?php echo @$rs['website']?>" type="text" class="form-control" style="width:300px;" placeholder="ชื่อเว็บไซต์">
 		    </div>
 		  </div>
 		  
@@ -86,10 +86,10 @@
 		    <label class="col-sm-2 control-label">แผนที่ตั้งของสำนักงานใหญ่ <span class="vald">*</span></label>
 		    <div class="col-sm-5">
 		    	<input type="file" name="UploadFile" id="UploadFile" class="form-control">
-		    	<? if(@$rs['filemap']!=''){?>
-		    		<a href="uploads/welfare_benefit/map/<?=$rs['filemap'];?>" target="_blank"><?=$rs['filemap'];?></a>
+		    	<?php  if(@$rs['filemap']!=''){?>
+		    		<a href="uploads/welfare_benefit/map/<?php echo $rs['filemap'];?>" target="_blank"><?php echo $rs['filemap'];?></a>
 		    		<input type="hidden" name="hdfilemap" value="<?php echo $rs['filemap'];?>" >
-		        <?}?>
+		        <?php }?>
 		    </div>
 		  </div>
 		  
@@ -97,10 +97,10 @@
 		    <label class="col-sm-2 control-label">สำนักงานสาขา (ถ้ามี)</label>
 		
 			<div class="form-inline col-sm-8">
-		      <input name="b_home_no" value="<?=@$rs['b_home_no']?>" type="text" class="form-control numInt" placeholder="เลขที่" style="width:80px;"> 
-		      <input name="b_moo" value="<?=@$rs['b_moo']?>" type="text" class="form-control numOnly" placeholder="หมู่ที่" style="width:80px;">
-		      <input name="b_soi" value="<?=@$rs['b_soi']?>" type="text" class="form-control" placeholder="ตรอก/ซอย" style="width:230px;">
-		      <input name="b_road" value="<?=@$rs['b_road']?>" type="text" class="form-control" placeholder="ถนน" style="width:230px;">
+		      <input name="b_home_no" value="<?php echo @$rs['b_home_no']?>" type="text" class="form-control numInt" placeholder="เลขที่" style="width:80px;"> 
+		      <input name="b_moo" value="<?php echo @$rs['b_moo']?>" type="text" class="form-control numOnly" placeholder="หมู่ที่" style="width:80px;">
+		      <input name="b_soi" value="<?php echo @$rs['b_soi']?>" type="text" class="form-control" placeholder="ตรอก/ซอย" style="width:230px;">
+		      <input name="b_road" value="<?php echo @$rs['b_road']?>" type="text" class="form-control" placeholder="ถนน" style="width:230px;">
 		      <?php echo form_dropdown('b_province_code', get_option('province_code', 'province_name', 'act_province', 'order by province_name asc'), @$rs['b_province_code'], 'class="form-control"', '- เลือกจังหวัด -'); ?>
 			    <span id="b_ampor">
 			    <?php echo form_dropdown('b_ampor_code', (empty($rs['b_province_code'])) ? array() : get_option('ampor_code', 'ampor_name', 'act_ampor', 'where province_code = '.$rs['b_province_code'].' order by ampor_name'), @$rs['b_ampor_code'], 'class="form-control"', '- เลือกอำเภอ -'); ?>
@@ -108,14 +108,14 @@
 			    <span id="b_tumbon">
 			    <?php echo form_dropdown('b_tumbon_code', (empty($rs['b_ampor_code'])) ? array() : get_option('tumbon_code', 'tumbon_name', 'act_tumbon', 'where province_code = '.$rs['b_province_code'].' and ampor_code = '.$rs['b_ampor_code'].' order by tumbon_name'), @$rs['b_tumbon_code'], 'class="form-control"', '- เลือกตำบล -'); ?>
 			    </span>
-		      <input name="b_post_code" value="<?=@$rs['b_post_code']?>" type="text" class="form-control fpostel" placeholder="รหัสไปรณีย์" style="width:100px;">
+		      <input name="b_post_code" value="<?php echo @$rs['b_post_code']?>" type="text" class="form-control fpostel" placeholder="รหัสไปรณีย์" style="width:100px;">
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">โทรศัพท์ / โทรสาร / มือถือ</label>
 		    <div class="form-inline col-sm-8">
-		      <input name="b_tel" value="<?=@$rs['b_tel']?>" type="text" class="form-control" placeholder="เบอร์โทรศัพท์"> / <input name="b_fax" value="<?=@$rs['b_fax']?>" type="text" class="form-control fphone" placeholder="เบอร์โทรสาร"> / <input name="b_mobile" value="<?=@$rs['b_mobile']?>" type="text" class="form-control fmobile" placeholder="เบอร์มือถือ">
+		      <input name="b_tel" value="<?php echo @$rs['b_tel']?>" type="text" class="form-control" placeholder="เบอร์โทรศัพท์"> / <input name="b_fax" value="<?php echo @$rs['b_fax']?>" type="text" class="form-control fphone" placeholder="เบอร์โทรสาร"> / <input name="b_mobile" value="<?php echo @$rs['b_mobile']?>" type="text" class="form-control fmobile" placeholder="เบอร์มือถือ">
 		    </div>
 		
 		  </div>
@@ -123,7 +123,7 @@
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">อีเมล์ / เว็บไซต์</label>
 		    <div class="form-inline col-sm-8">
-		      <input name="b_email" value="<?=@$rs['b_email']?>" type="text" class="form-control" style="width:300px;" placeholder="ชื่ออีเมล์">  / <input name="b_website" value="<?=@$rs['b_website']?>"  type="text" class="form-control" style="width:300px;" placeholder="ชื่อเว็บไซต์">
+		      <input name="b_email" value="<?php echo @$rs['b_email']?>" type="text" class="form-control" style="width:300px;" placeholder="ชื่ออีเมล์">  / <input name="b_website" value="<?php echo @$rs['b_website']?>"  type="text" class="form-control" style="width:300px;" placeholder="ชื่อเว็บไซต์">
 		    </div>
 		  </div>
 		  
@@ -131,10 +131,10 @@
 		    <label class="col-sm-2 control-label">แผนที่ตั้งของสำนักงานสาขา </label>
 		    <div class="col-sm-5">
 		    	<input type="file" name="UploadFile2" id="UploadFile2" class="form-control">
-		    	<? if(@$rs['b_filemap']!=''){?>
-		    		<a href="uploads/welfare_community/map/<?=$rs['b_filemap'];?>" target="_blank"><?=$rs['b_filemap'];?></a>
+		    	<?php  if(@$rs['b_filemap']!=''){?>
+		    		<a href="uploads/welfare_community/map/<?php echo $rs['b_filemap'];?>" target="_blank"><?php echo $rs['b_filemap'];?></a>
 		    		<input type="hidden" name="hdfilemap2" value="<?php echo $rs['b_filemap'];?>" >
-		        <?}?>
+		        <?php }?>
 		    </div>
 		  </div>
 		  
@@ -144,8 +144,8 @@
 		  </div>
 		  <div class="form-group" style="margin-left:18%;">
 		    <div class="form-inline col-sm-4">
-		    	<span style="padding-right:20px;"><input name="socialnetwork" type="radio" value="มี" <?=@$rs['socialnetwork'] == 'มี' ? 'checked=checked' : '' ;?> /> มี</span>
-		    	<input name="socialnetwork" type="radio" value="ไม่มี" <?=@$rs['socialnetwork'] == 'ไม่มี' ? 'checked=checked' : '' ;?> /> ไม่มี 
+		    	<span style="padding-right:20px;"><input name="socialnetwork" type="radio" value="มี" <?php echo @$rs['socialnetwork'] == 'มี' ? 'checked=checked' : '' ;?> /> มี</span>
+		    	<input name="socialnetwork" type="radio" value="ไม่มี" <?php echo @$rs['socialnetwork'] == 'ไม่มี' ? 'checked=checked' : '' ;?> /> ไม่มี 
 		    </div>
 		  </div>
 		  
@@ -175,32 +175,32 @@
 		    <p>(๗) หนังสือรับรองผลการดำเนินงานด้านการจัดสวัสดิการสังคมในกรณีองค์กรภาคเอกชนมิได้เป็นนิติบุคคล</p>
 		    </div>
 		    <input type="file" name="filesToUpload[]" multiple="multiple" class="form-control"><br>
-		    <?if(@is_array($doc)):?>
-		    	<?foreach($doc as $key=>$row):?>
-		    	<?=$key+1?>. <a href="uploads/welfare_benefit/doc/<?=$row['files']?>" target="_blank"><?=$row['files']?></a><br>
-		    	<?endforeach;?>
-		    <?endif;?>
+		    <?php if(@is_array($doc)):?>
+		    	<?php foreach($doc as $key=>$row):?>
+		    	<?php echo $key+1?>. <a href="uploads/welfare_benefit/doc/<?php echo $row['files']?>" target="_blank"><?php echo $row['files']?></a><br>
+		    	<?php endforeach;?>
+		    <?php endif;?>
 		    </div>
 		  </div>
     
 		<div class="form-group">
 		    <label class="col-sm-2 control-label">จำนวนบุคลากรในการปฎิบัติงานที่ได้รับเงินเดือน <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-10 section">
-		      <p>วุฒิต่ำกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="salary_1" value="<?=@$rs['salary_1']?>" /> <span class="padR20">คน</span> 
-		      วุฒิปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="salary_2" value="<?=@$rs['salary_2']?>" /> <span class="padR20">คน</span> 
-		      วุฒิสูงกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="salary_3" value="<?=@$rs['salary_3']?>"/> <span class="padR20">คน</span> </p>
-		      ได้รับปริญญาทางสังคมสงเคราะห์ศาสตร์ <input type="text" class="form-control input" style="width:60px;" name="salary_4" value="<?=@$rs['salary_4']?>" /> <span class="padR20">คน</span> รวมบุคลากร <input type="text" class="form-control total" style="width:80px;" readonly="readonly" name="salary_total" value="<?=@$rs['salary_total']?>" /> คน
+		      <p>วุฒิต่ำกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="salary_1" value="<?php echo @$rs['salary_1']?>" /> <span class="padR20">คน</span> 
+		      วุฒิปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="salary_2" value="<?php echo @$rs['salary_2']?>" /> <span class="padR20">คน</span> 
+		      วุฒิสูงกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="salary_3" value="<?php echo @$rs['salary_3']?>"/> <span class="padR20">คน</span> </p>
+		      ได้รับปริญญาทางสังคมสงเคราะห์ศาสตร์ <input type="text" class="form-control input" style="width:60px;" name="salary_4" value="<?php echo @$rs['salary_4']?>" /> <span class="padR20">คน</span> รวมบุคลากร <input type="text" class="form-control total" style="width:80px;" readonly="readonly" name="salary_total" value="<?php echo @$rs['salary_total']?>" /> คน
 		      </div>
 		  	</div>
 		    
 		    <div class="form-group">
 		    <label class="col-sm-2 control-label">จำนวนอาสาสมัครในการปฎิบัติ <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-10 section">
-		      <p>ปฎิบัติงานประจำ ::: วุฒิต่ำกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="volunteer_1" value="<?=@$rs['volunteer_1']?>" /> <span class="padR20">คน</span> 
-		      วุฒิปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="volunteer_2" value="<?=@$rs['volunteer_2']?>"/> <span class="padR20">คน</span> 
-		      วุฒิสูงกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="volunteer_3" value="<?=@$rs['volunteer_3']?>"/> <span class="padR20">คน</span> </p>
-		      <p>ปฎิบัติงานไม่ประจำ <input type="text" class="form-control input" style="width:60px;" name="volunteer_4" value="<?=@$rs['volunteer_4']?>"/> <span class="padR20">คน</span>
-		       รวมอาสาสมัคร <input type="text" class="form-control total" style="width:80px;" readonly="readonly" name="volunteer_total" value="<?=@$rs['volunteer_total']?>" /> คน</p>
+		      <p>ปฎิบัติงานประจำ ::: วุฒิต่ำกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="volunteer_1" value="<?php echo @$rs['volunteer_1']?>" /> <span class="padR20">คน</span> 
+		      วุฒิปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="volunteer_2" value="<?php echo @$rs['volunteer_2']?>"/> <span class="padR20">คน</span> 
+		      วุฒิสูงกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="volunteer_3" value="<?php echo @$rs['volunteer_3']?>"/> <span class="padR20">คน</span> </p>
+		      <p>ปฎิบัติงานไม่ประจำ <input type="text" class="form-control input" style="width:60px;" name="volunteer_4" value="<?php echo @$rs['volunteer_4']?>"/> <span class="padR20">คน</span>
+		       รวมอาสาสมัคร <input type="text" class="form-control total" style="width:80px;" readonly="readonly" name="volunteer_total" value="<?php echo @$rs['volunteer_total']?>" /> คน</p>
 		      </div>
 		  	</div>
 		
@@ -209,31 +209,31 @@
 		    <div class="form-inline col-sm-10">
 		    	ที่มีความรู้เกี่ยวกับการจัดสวัสดิการสังคมและสังคมสงเคราะห์ 
 		    	<input name="adviser" class="form-control" type="text" style="width:50px;" readonly="readonly" value="1"> คน <img class="add_adviser_btn" src="themes/msosocial/images/btn_add.png" width="24" height="24" title="เพิ่มที่ปรึกษา" style="cursor:pointer;"> <br><br>
-		    	<?if(@is_array($adviser)):?>
-		    	<?foreach($adviser as $key=>$row):?>
+		    	<?php if(@is_array($adviser)):?>
+		    	<?php foreach($adviser as $key=>$row):?>
 		    	<div class="adviser_addr" style="margin: 15px 0; position: relative;">
 		    		<img class="remove_adviser_btn" src="themes/msosocial/images/remove2.png" width="16" height="16" title="ลบที่ปรึกษา" style="cursor:pointer; position: absolute; right: 10px; top: 0;" />
 			    	<div> <!--๑)-->
-				    <input class="form-control" type="text" name="a_name[]" value="<?=@$row['name']?>" style="width:150px;" placeholder="ชื่อ" />
-				    <input class="form-control" type="text" name="a_surname[]" value="<?=@$row['surname']?>" style="width:250px;" placeholder="นามสกุล" />
-				    <input class="form-control" type="text" name="a_education[]" value="<?=@$row['surname']?>" style="width:350px;" placeholder="วุฒิ" />
+				    <input class="form-control" type="text" name="a_name[]" value="<?php echo @$row['name']?>" style="width:150px;" placeholder="ชื่อ" />
+				    <input class="form-control" type="text" name="a_surname[]" value="<?php echo @$row['surname']?>" style="width:250px;" placeholder="นามสกุล" />
+				    <input class="form-control" type="text" name="a_education[]" value="<?php echo @$row['surname']?>" style="width:350px;" placeholder="วุฒิ" />
 				    </div>
 				    <div>
-				    <input class="form-control" type="text" name="a_experience[]" value="<?=@$row['experience']?>" style="width:400px;" placeholder="ประสบการณ์ทำงาน" />
-				    <input class="form-control" type="text" name="a_location[]" value="<?=@$row['location']?>" style="width:405px;" placeholder="สถานที่ทำงาน" />
+				    <input class="form-control" type="text" name="a_experience[]" value="<?php echo @$row['experience']?>" style="width:400px;" placeholder="ประสบการณ์ทำงาน" />
+				    <input class="form-control" type="text" name="a_location[]" value="<?php echo @$row['location']?>" style="width:405px;" placeholder="สถานที่ทำงาน" />
 				    </div>
 				    <div>
-				    <input class="form-control" type="text" name="a_address[]" value="<?=@$row['address']?>" style="width:90%;" placeholder="ที่ติดต่อ" /></div>
+				    <input class="form-control" type="text" name="a_address[]" value="<?php echo @$row['address']?>" style="width:90%;" placeholder="ที่ติดต่อ" /></div>
 				    <div>
-				    <input class="form-control" type="text" name="a_tel[]" value="<?=@$row['tel']?>" style="width:180px;" placeholder="โทรศัพท์" />
-				    <input class="form-control" type="text" name="a_fax[]" value="<?=@$row['fax']?>" style="width:180px;" placeholder="โทรสาร" />
-				    <input class="form-control" type="text" name="a_mobile[]" value="<?=@$row['mobile']?>" style="width:180px;" placeholder="มือถือ" />
-				    <input class="form-control" type="text" name="a_email[]" value="<?=@$row['mobile']?>" style="width:255px;" placeholder="อีเมล์" />
+				    <input class="form-control" type="text" name="a_tel[]" value="<?php echo @$row['tel']?>" style="width:180px;" placeholder="โทรศัพท์" />
+				    <input class="form-control" type="text" name="a_fax[]" value="<?php echo @$row['fax']?>" style="width:180px;" placeholder="โทรสาร" />
+				    <input class="form-control" type="text" name="a_mobile[]" value="<?php echo @$row['mobile']?>" style="width:180px;" placeholder="มือถือ" />
+				    <input class="form-control" type="text" name="a_email[]" value="<?php echo @$row['mobile']?>" style="width:255px;" placeholder="อีเมล์" />
 				    </div>
 				    <hr>
 			    </div>
-		    	<?endforeach;?>
-		    	<?endif;?>
+		    	<?php endforeach;?>
+		    	<?php endif;?>
 		    <div class="adviser_addr" style="margin: 25px 0; position: relative;">
 			<img class="remove_adviser_btn" src="themes/msosocial/images/remove2.png" width="16" height="16" title="ลบที่ปรึกษา" style="cursor:pointer; position: absolute; right: 10px; top: 0;" />
 		    <p>
@@ -262,11 +262,11 @@
 		    <label class="col-sm-2 control-label">กลุ่มเป้าหมายในการจัดสวัสดิการสังคม (กรุณาเรียงลำดับความสำคัญ 3 ลำดับแรก) <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-10">
 		    <p>
-		    	<?foreach($target_groups as $row):?>
+		    	<?php foreach($target_groups as $row):?>
 		    	<span style="display:inline-block; width:350px;">
-		    		<input class="chkboxselected" name="target" type="checkbox" value="<?=$row->target_id?>"/> <?=$row->target_name?>
+		    		<input class="chkboxselected" name="target" type="checkbox" value="<?php echo $row->target_id?>"/> <?php echo $row->target_name?>
 		    	</span>
-		    	<?endforeach;?>
+		    	<?php endforeach;?>
 			</p>
 		    
 		    <table class="table tbweblist">
@@ -276,19 +276,19 @@
 		    <th>รายละเอียด</th>
 		    </tr>
 		    <tbody class="tb_selected_place">
-	    	<?if(@$rs['id'] > "0"):?>
+	    	<?php if(@$rs['id'] > "0"):?>
 	    		<?php foreach($targetgroup_select as $key=>$row):?>
-		    	<tr class="target_<?=$row['answer_id']?>">
-		    		<td style="width:10%"><?=$key+1?></td>
-		    		<td style="width:30%"><?=act_get_target_group_name($row['answer_id'])?></td>
+		    	<tr class="target_<?php echo $row['answer_id']?>">
+		    		<td style="width:10%"><?php echo $key+1?></td>
+		    		<td style="width:30%"><?php echo act_get_target_group_name($row['answer_id'])?></td>
 		    		<td style="width:40%">
-		    			<input type="text" name="other[]" value="<?=$row['other']?>" style="width:350px;" class="form-control">
-		    			<input type="hidden" name="answer_id[]" value="<?=$row['answer_id']?>">
-		    			<input type="hidden" name="question_name[]" value="<?=$row['question_name']?>">
+		    			<input type="text" name="other[]" value="<?php echo $row['other']?>" style="width:350px;" class="form-control">
+		    			<input type="hidden" name="answer_id[]" value="<?php echo $row['answer_id']?>">
+		    			<input type="hidden" name="question_name[]" value="<?php echo $row['question_name']?>">
 		    		</td>
 		    	</tr>
 		    	<?php endforeach;?>
-	    	<?endif;?>
+	    	<?php endif;?>
 	    	</tbody>
 		    </table>
 		    
@@ -301,8 +301,8 @@
 		    <div class="form-inline col-sm-10">
 		    <p>
 		    	<?php foreach($services as $row):?>
-		    		<span style="display:inline-block; width:350px;"><input class="chkboxselected" name="service" value="<?=$row->service_id?>" type="checkbox" />
-<?=$row->service_name?> </span>
+		    		<span style="display:inline-block; width:350px;"><input class="chkboxselected" name="service" value="<?php echo $row->service_id?>" type="checkbox" />
+<?php echo $row->service_name?> </span>
 		    	<?php endforeach;?>
 		    </p>
 		    
@@ -313,20 +313,20 @@
 		    <th>รายละเอียด</th>
 		    </tr>
 		    <tbody class="tb_selected_place">
-		  	<?if(@$rs['id'] > "0"):?>
+		  	<?php if(@$rs['id'] > "0"):?>
 			  	<?php foreach($service_select as $key=>$row):?>
-		    	<tr class="target_<?=$row['answer_id']?>">
-		    		<td style="width:10%"><?=$key+1?></td>
-		    		<td style="width:30%"><?=act_get_service_name($row['answer_id'])?></td>
+		    	<tr class="target_<?php echo $row['answer_id']?>">
+		    		<td style="width:10%"><?php echo $key+1?></td>
+		    		<td style="width:30%"><?php echo act_get_service_name($row['answer_id'])?></td>
 		    		<td style="width:40%">
-		    			<input type="text" name="other[]" value="<?=$row['other']?>" style="width:350px;" class="form-control">
-		    			<input type="hidden" name="answer_id[]" value="<?=$row['answer_id']?>">
-		    			<input type="hidden" name="question_name[]" value="<?=$row['question_name']?>">
+		    			<input type="text" name="other[]" value="<?php echo $row['other']?>" style="width:350px;" class="form-control">
+		    			<input type="hidden" name="answer_id[]" value="<?php echo $row['answer_id']?>">
+		    			<input type="hidden" name="question_name[]" value="<?php echo $row['question_name']?>">
 		    		</td>
 		    		<td style="width:10%"></td>
 		    	</tr>
 		    	<?php endforeach;?>
-	    	<?endif;?>
+	    	<?php endif;?>
 		  </tbody>
 		    </table>
 		    <span style="margin-left:140px;"></span></p> 
@@ -338,9 +338,9 @@
 		    <label class="col-sm-2 control-label">ลักษณะการดำเนินงาน (กรุณาเรียงลำดับความสำคัญ 3 ลำดับแรก) <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-10">
 		    <p>
-		    	<?foreach($processes as $row):?>
-		    	<span style="display:inline-block; width:200px;"><input class="chkboxselected" name="process" type="checkbox" value="<?=$row->process_id?>" /> <?=$row->process_name?></span>
-		    	<?endforeach;?>
+		    	<?php foreach($processes as $row):?>
+		    	<span style="display:inline-block; width:200px;"><input class="chkboxselected" name="process" type="checkbox" value="<?php echo $row->process_id?>" /> <?php echo $row->process_name?></span>
+		    	<?php endforeach;?>
 			</p>
 		    
 		    <table class="table tbweblist">
@@ -350,20 +350,20 @@
 		    <th>รายละเอียด</th>
 		    </tr>
 		    <tbody class="tb_selected_place">
-		  	<?if(@$rs['id'] > "0"):?>
+		  	<?php if(@$rs['id'] > "0"):?>
 				<?php foreach($process_select as $key=>$row):?>
-		    	<tr class="target_<?=$row['answer_id']?>">
-		    		<td style="width:10%"><?=$key+1?></td>
-		    		<td style="width:30%"><?=act_get_process_name($row['answer_id'])?></td>
+		    	<tr class="target_<?php echo $row['answer_id']?>">
+		    		<td style="width:10%"><?php echo $key+1?></td>
+		    		<td style="width:30%"><?php echo act_get_process_name($row['answer_id'])?></td>
 		    		<td style="width:40%">
-		    			<input type="text" name="other[]" value="<?=$row['other']?>" style="width:350px;" class="form-control">
-		    			<input type="hidden" name="answer_id[]" value="<?=$row['answer_id']?>">
-		    			<input type="hidden" name="question_name[]" value="<?=$row['question_name']?>">
+		    			<input type="text" name="other[]" value="<?php echo $row['other']?>" style="width:350px;" class="form-control">
+		    			<input type="hidden" name="answer_id[]" value="<?php echo $row['answer_id']?>">
+		    			<input type="hidden" name="question_name[]" value="<?php echo $row['question_name']?>">
 		    		</td>
 		    		<td style="width:10%"></td>
 		    	</tr>
 		    	<?php endforeach;?>
-	    	<?endif;?>
+	    	<?php endif;?>
 		  </tbody>
 		    </table>
 		  	</div>
@@ -373,7 +373,7 @@
 		    <label class="col-sm-2 control-label">รูปแบบการให้บริการ <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-10">
 		    <p class="td_chkboxType2">
-		    	<? 
+		    	<?php  
 		    		// echo "<pre>";
 					// echo print_r($format_select);
 					// echo "</pre>";
@@ -388,11 +388,11 @@
 					}
 		    	?>
 		    	<?php foreach($service_types as $row):?>
-		    	<?@$searchkey = searchForId($row->service_type_id, $service_type_select);?>
+		    	<?php @$searchkey = searchForId($row->service_type_id, $service_type_select);?>
 		    		<span style="padding-right:20px;">
-		    			<input name="answer_id[]" type="checkbox" value="<?php echo $row->service_type_id?>" <?=is_numeric($searchkey) ? 'checked' : '' ;?>/> <?php echo $row->service_type_name?> 
-		    			<input name="other[]" type="text" style="width:500px;" class="form-control" value="<?=@$service_type_select[$searchkey]['other']?>" <?=is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?> placeholder="ระบุ รายละเอียด"/> 
-						<input name="question_name[]" type="hidden" value="service_type" <?=is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>>
+		    			<input name="answer_id[]" type="checkbox" value="<?php echo $row->service_type_id?>" <?php echo is_numeric($searchkey) ? 'checked' : '' ;?>/> <?php echo $row->service_type_name?> 
+		    			<input name="other[]" type="text" style="width:500px;" class="form-control" value="<?php echo @$service_type_select[$searchkey]['other']?>" <?php echo is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?> placeholder="ระบุ รายละเอียด"/> 
+						<input name="question_name[]" type="hidden" value="service_type" <?php echo is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>>
 		    		</span><br><br>
 		    	<?php endforeach;?>
 		  	</div>
@@ -403,11 +403,11 @@
 		    <div class="form-inline col-sm-10">
 		    <p class="td_chkboxType2">
 		    	<?php foreach($methods as $row):?>
-		    	<?@$searchkey = searchForId($row->method_id, $method_select);?>
+		    	<?php @$searchkey = searchForId($row->method_id, $method_select);?>
 		    	<span style="padding-right:20px;">
-		    		<input name="answer_id[]" type="checkbox" value="<?=$row->method_id?>" <?=is_numeric($searchkey) ? 'checked' : '' ;?>> <?=$row->method_name?> 
-		    		<input name="other[]" type="text" class="form-control" style="width:500px;" value="<?=@$method_select[$searchkey]['other']?>" <?=is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?> placeholder="ระบุ รายละเอียด"/> 
-		    		<input name="question_name[]" type="hidden" value="method" <?=is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/>
+		    		<input name="answer_id[]" type="checkbox" value="<?php echo $row->method_id?>" <?php echo is_numeric($searchkey) ? 'checked' : '' ;?>> <?php echo $row->method_name?> 
+		    		<input name="other[]" type="text" class="form-control" style="width:500px;" value="<?php echo @$method_select[$searchkey]['other']?>" <?php echo is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?> placeholder="ระบุ รายละเอียด"/> 
+		    		<input name="question_name[]" type="hidden" value="method" <?php echo is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/>
 		    	</span><br><br>
 		    	<?php endforeach;?>
 		    </p>
@@ -421,11 +421,11 @@
 		    <p>มีการส่งเสริมและสนับสนุนให้บุคคล ครอบครัว ชุมชน องค์กรปกครองส่วนท้องถิ่น องค์กรวิชาชีพ สถาบันศาสนา และองค์กรอื่นให้มีส่วนร่วมในการจัดสวัสดิการสังคมหรือไม่</p>
 		    <p class="td_chkboxType2">
 		    	<?php foreach($promotes as $row):?>
-		    	<?@$searchkey = searchForId($row->promote_id, $promote_select);?>
+		    	<?php @$searchkey = searchForId($row->promote_id, $promote_select);?>
 				<span style="padding-right:20px;">
-					<input name="answer_id[]" type="checkbox" value="<?=$row->promote_id?>" <?=is_numeric($searchkey) ? 'checked' : '' ;?>> <?=$row->promote_name?>  
-					<input name="other[]" type="text" class="form-control" style="width:500px;" value="<?=@$promote_select[$searchkey]['other']?>" <?=is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?> placeholder="ระบุ รายละเอียด"/> 
-					<input name="question_name[]" type="hidden" value="promote" <?=is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/>
+					<input name="answer_id[]" type="checkbox" value="<?php echo $row->promote_id?>" <?php echo is_numeric($searchkey) ? 'checked' : '' ;?>> <?php echo $row->promote_name?>  
+					<input name="other[]" type="text" class="form-control" style="width:500px;" value="<?php echo @$promote_select[$searchkey]['other']?>" <?php echo is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?> placeholder="ระบุ รายละเอียด"/> 
+					<input name="question_name[]" type="hidden" value="promote" <?php echo is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/>
 				</span><br><br>
 		    	<?php endforeach;?>
 		    </p>
@@ -439,11 +439,11 @@
 		    <p>กรณีที่องค์กรสาธารณประโยชน์มีการดำเนินงานในลักษณะการประกอบกิจการเพื่อสังคม (Social Enterprise) คือ การมีกิจกรรมหารายได้มาใช้ในการดำเนินงานขององค์กร แต่ไม่ได้มีการนำผลประโยชน์ที่ได้มาแบ่งปันกันในหมู่ผู้ประกอบการ แต่นำมาใช้ในกิจกรรมเพื่อสาธารณะตามวัตถุประสงค์ขององค์กร ขอให้ระบุรายละเอียด</p>
 		    <p class="td_chkboxType2">
 		    	<?php foreach($socials as $row):?>
-		    	<?@$searchkey = searchForId($row->social_id, $social_select);?>
+		    	<?php @$searchkey = searchForId($row->social_id, $social_select);?>
 		    	<span>
-		    		<input name="answer_id[]" type="checkbox" value="<?=$row->social_id?>" <?=is_numeric($searchkey) ? 'checked' : '' ;?>> <?=$row->social_name?> 
-		    		<input name="other[]" type="text" class="form-control" style="width:500px;" value="<?=@$social_select[$searchkey]['other']?>" <?=is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?> placeholder="ระบุ รายละเอียด"/> 
-		    		<input name="question_name[]" type="hidden" value="social" <?=is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/>
+		    		<input name="answer_id[]" type="checkbox" value="<?php echo $row->social_id?>" <?php echo is_numeric($searchkey) ? 'checked' : '' ;?>> <?php echo $row->social_name?> 
+		    		<input name="other[]" type="text" class="form-control" style="width:500px;" value="<?php echo @$social_select[$searchkey]['other']?>" <?php echo is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?> placeholder="ระบุ รายละเอียด"/> 
+		    		<input name="question_name[]" type="hidden" value="social" <?php echo is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/>
 		    	</span><br><br>
 		    	<?php endforeach;?>
     		</p>
@@ -476,32 +476,32 @@
 			    <th>พื้นที่ปฎิบัติงานระดับ</th>
 			    <th>รายละเอียด</th>
 			    </tr>
-			    <?if(@is_array($location)):?>
-				<?foreach($location as $key=>$row):?>
+			    <?php if(@is_array($location)):?>
+				<?php foreach($location as $key=>$row):?>
 				<tr>
-				    <td><?=$key+1?></td>
-				    <td><?=$row['type']?></td>
+				    <td><?php echo $key+1?></td>
+				    <td><?php echo $row['type']?></td>
 				    <td>
-				    	<?=$row['province']?> <?=$row['ampor']?> <?=$row['tumbon']?> <?=$row['mooban']?>
-				    	<input type='hidden' name='location_type[]' value='<?=$row['type']?>'>
-				    	<input type='hidden' name='location_province[]' value='<?=$row['province_code']?>'>
-				    	<input type='hidden' name='location_ampor[]' value='<?=$row['ampor_code']?>'>
-				    	<input type='hidden' name='location_tumbon[]' value='<?=$row['tumbon_code']?>'>
-				    	<input type='hidden' name='location_province_text[]' value='<?=$row['province']?>'>
-				    	<input type='hidden' name='location_ampor_text[]' value='<?=$row['ampor']?>'>
-				    	<input type='hidden' name='location_tumbon_text[]' value='<?=$row['tumbon']?>'>
-				    	<input type='hidden' name='location_mooban_text[]' value='<?=$row['mooban']?>'>
+				    	<?php echo $row['province']?> <?php echo $row['ampor']?> <?php echo $row['tumbon']?> <?php echo $row['mooban']?>
+				    	<input type='hidden' name='location_type[]' value='<?php echo $row['type']?>'>
+				    	<input type='hidden' name='location_province[]' value='<?php echo $row['province_code']?>'>
+				    	<input type='hidden' name='location_ampor[]' value='<?php echo $row['ampor_code']?>'>
+				    	<input type='hidden' name='location_tumbon[]' value='<?php echo $row['tumbon_code']?>'>
+				    	<input type='hidden' name='location_province_text[]' value='<?php echo $row['province']?>'>
+				    	<input type='hidden' name='location_ampor_text[]' value='<?php echo $row['ampor']?>'>
+				    	<input type='hidden' name='location_tumbon_text[]' value='<?php echo $row['tumbon']?>'>
+				    	<input type='hidden' name='location_mooban_text[]' value='<?php echo $row['mooban']?>'>
 				    </td>
 				    <td><img class='remove_location_btn' src='themes/msosocial/images/remove2.png' width='16' height='16' title='ลบพื้นที่ปฏิบัติงาน' style='cursor: pointer;'></td>
 				</tr>
-				<?endforeach;?>
-				<?endif;?>
+				<?php endforeach;?>
+				<?php endif;?>
 			  </table>
 		    </div>
 		  </div> 
 		  <input type="hidden" name="edit_code" value="">
-		  <input type="hidden" name="id" value="<?=@$rs['id']?>">
-          <input type="hidden" name="current_status" value="<?=@$rs['current_status']?>">
+		  <input type="hidden" name="id" value="<?php echo @$rs['id']?>">
+          <input type="hidden" name="current_status" value="<?php echo @$rs['current_status']?>">
           <input type="hidden" name="post_form" value="fund02">
           
  
@@ -520,42 +520,42 @@
     
     
 	<!-- ถ้าเป็นองค์กรสวัสดิการสังคม -->
-    <?elseif($this->session->userdata('act_welfare_comm_id') > 0):?>
+    <?php elseif($this->session->userdata('act_welfare_comm_id') > 0):?>
     
 	<form class="form-horizontal" method="post" action="org/community_save_update" enctype="multipart/form-data">
 		<div class="form-group">
 		    <label class="col-sm-2 control-label">ประเภทหน่วยงาน <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-5"><span style="padding-right:20px;">
-		    	<input name="under_type_sub" type="radio" value="องค์กรสวัสดิการชุมชน" <?=@$rs['under_type_sub'] == 'องค์กรสวัสดิการชุมชน' ? 'checked=checked' : '' ;?> required/> องค์กรสวัสดิการชุมชน</span>
-		    	<input name="under_type_sub" type="radio" value="เครือข่ายองค์กรสวัสดิการชุมชน" <?=@$rs['under_type_sub'] == 'เครือข่ายองค์กรสวัสดิการชุมชน' ? 'checked=checked' : '' ;?> required/> เครือข่ายองค์กรสวัสดิการชุมชน 
+		    	<input name="under_type_sub" type="radio" value="องค์กรสวัสดิการชุมชน" <?php echo @$rs['under_type_sub'] == 'องค์กรสวัสดิการชุมชน' ? 'checked=checked' : '' ;?> required/> องค์กรสวัสดิการชุมชน</span>
+		    	<input name="under_type_sub" type="radio" value="เครือข่ายองค์กรสวัสดิการชุมชน" <?php echo @$rs['under_type_sub'] == 'เครือข่ายองค์กรสวัสดิการชุมชน' ? 'checked=checked' : '' ;?> required/> เครือข่ายองค์กรสวัสดิการชุมชน 
 		    </div>
 		  </div>
 		  
 		 <div class="form-group">
 		    <label class="col-sm-2 control-label">ชื่อ-สกุลผู้ขอยื่นคำขอ <span class="vald">*</span></label>
 		    <div class="col-sm-6">
-		      <input type="text" class="form-control" name="request_name" value="<?=@$rs['request_name']?>" placeholder="ชื่อและสกุลผู้ขอยื่นคำขอ" required>
+		      <input type="text" class="form-control" name="request_name" value="<?php echo @$rs['request_name']?>" placeholder="ชื่อและสกุลผู้ขอยื่นคำขอ" required>
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">ชื่อองค์กรภาคประชาชน <span class="vald">*</span></label>
 		    <div class="col-sm-6">
-		      <input type="text" class="form-control" name="organ_name" value="<?=@$rs['organ_name']?>" placeholder="ชื่อองค์กร" required>
+		      <input type="text" class="form-control" name="organ_name" value="<?php echo @$rs['organ_name']?>" placeholder="ชื่อองค์กร" required>
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">วันเดือนปีที่ก่อตั้ง <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-4">
-		      <input type="text" class="form-control fdate dateInput" name="establish_date" value="<?=@$rs['establish_date']?>" placeholder="" style="width:100px;margin-right:5px;" required>
+		      <input type="text" class="form-control fdate dateInput" name="establish_date" value="<?php echo @$rs['establish_date']?>" placeholder="" style="width:100px;margin-right:5px;" required>
 			</div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">วัตถุประสงค์องค์กรภาคประชาชน <span class="vald">*</span></label>
 		    <div class="col-sm-8">
-		    	<textarea name="objective" cols="" rows="5" class="form-control" placeholder="ระบุวัตถุประสงค์" required><?=@$rs['objective']?></textarea>
+		    	<textarea name="objective" cols="" rows="5" class="form-control" placeholder="ระบุวัตถุประสงค์" required><?php echo @$rs['objective']?></textarea>
 		    </div>
 		  </div> 
 		   
@@ -563,10 +563,10 @@
 		    <label class="col-sm-2 control-label">ที่ตั้งสำนักงานใหญ่ขององค์กรภาคประชาชน <span class="vald">*</span></label>
 		
 			<div class="form-inline col-sm-8">
-		      <input type="text" class="form-control numInt" name="home_no" value="<?=@$rs['home_no']?>" placeholder="เลขที่" style="width:80px;" required> 
-		      <input type="text" class="form-control numOnly" name="moo" value="<?=@$rs['moo']?>" placeholder="หมู่ที่" style="width:80px;" required>
-		      <input type="text" class="form-control" name="soi" value="<?=@$rs['soi']?>" placeholder="ตรอก/ซอย" style="width:230px;" required>
-		      <input type="text" class="form-control" name="road" value="<?=@$rs['road']?>" placeholder="ถนน" style="width:230px;" required>
+		      <input type="text" class="form-control numInt" name="home_no" value="<?php echo @$rs['home_no']?>" placeholder="เลขที่" style="width:80px;" required> 
+		      <input type="text" class="form-control numOnly" name="moo" value="<?php echo @$rs['moo']?>" placeholder="หมู่ที่" style="width:80px;" required>
+		      <input type="text" class="form-control" name="soi" value="<?php echo @$rs['soi']?>" placeholder="ตรอก/ซอย" style="width:230px;" required>
+		      <input type="text" class="form-control" name="road" value="<?php echo @$rs['road']?>" placeholder="ถนน" style="width:230px;" required>
 		      <?php echo form_dropdown('province_code', get_option('province_code', 'province_name', 'act_province', 'order by province_name asc'), @$rs['province_code'], 'class="form-control"', '- เลือกจังหวัด -'); ?>
 			    <span id="ampor">
 			    <?php echo form_dropdown('ampor_code', (empty($rs['province_code'])) ? array() : get_option('ampor_code', 'ampor_name', 'act_ampor', 'where province_code = '.$rs['province_code'].' order by ampor_name'), @$rs['ampor_code'], 'class="form-control"', '- เลือกอำเภอ -'); ?>
@@ -574,14 +574,14 @@
 			    <span id="tumbon">
 			    <?php echo form_dropdown('tumbon_code', (empty($rs['ampor_code'])) ? array() : get_option('tumbon_code', 'tumbon_name', 'act_tumbon', 'where province_code = '.$rs['province_code'].' and ampor_code = '.$rs['ampor_code'].' order by tumbon_name'), @$rs['tumbon_code'], 'class="form-control"', '- เลือกตำบล -'); ?>
 			    </span>
-		      <input type="text" class="form-control fpostel" name="post_code" value="<?=@$rs['post_code']?>" placeholder="รหัสไปรณีย์" style="width:100px;" required>
+		      <input type="text" class="form-control fpostel" name="post_code" value="<?php echo @$rs['post_code']?>" placeholder="รหัสไปรณีย์" style="width:100px;" required>
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">โทรศัพท์ / โทรสาร / มือถือ <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-8">
-		      <input type="text" class="form-control" name="tel" value="<?=@$rs['tel']?>" placeholder="เบอร์โทรศัพท์" required> / <input type="text" class="form-control fphone" name="fax" value="<?=@$rs['fax']?>" placeholder="เบอร์โทรสาร" required> / <input type="text" class="form-control fmobile" name="mobile" value="<?=@$rs['mobile']?>" placeholder="เบอร์มือถือ" required>
+		      <input type="text" class="form-control" name="tel" value="<?php echo @$rs['tel']?>" placeholder="เบอร์โทรศัพท์" required> / <input type="text" class="form-control fphone" name="fax" value="<?php echo @$rs['fax']?>" placeholder="เบอร์โทรสาร" required> / <input type="text" class="form-control fmobile" name="mobile" value="<?php echo @$rs['mobile']?>" placeholder="เบอร์มือถือ" required>
 		    </div>
 		
 		  </div>
@@ -589,7 +589,7 @@
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">อีเมล์ / เว็บไซต์ <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-8">
-		      <input type="text" class="form-control" name="email" value="<?=@$rs['email']?>" style="width:300px;" placeholder="ชื่ออีเมล์" required>  / <input type="text" class="form-control" name="website" value="<?=@$rs['website']?>" style="width:300px;" placeholder="ชื่อเว็บไซต์" required>
+		      <input type="text" class="form-control" name="email" value="<?php echo @$rs['email']?>" style="width:300px;" placeholder="ชื่ออีเมล์" required>  / <input type="text" class="form-control" name="website" value="<?php echo @$rs['website']?>" style="width:300px;" placeholder="ชื่อเว็บไซต์" required>
 		    </div>
 		  </div>
 		  
@@ -597,10 +597,10 @@
 		    <label class="col-sm-2 control-label">แผนที่ตั้งของสำนักงานใหญ่ <span class="vald">*</span></label>
 		    <div class="col-sm-5">
 		    	<input type="file" name="UploadFile" id="UploadFile" class="form-control">
-		    	<? if(@$rs['filemap']!=''){?>
-		    		<a href="uploads/welfare_community/map/<?=$rs['filemap'];?>" target="_blank"><?=$rs['filemap'];?></a>
+		    	<?php  if(@$rs['filemap']!=''){?>
+		    		<a href="uploads/welfare_community/map/<?php echo $rs['filemap'];?>" target="_blank"><?php echo $rs['filemap'];?></a>
 		    		<input type="hidden" name="hdfilemap" value="<?php echo $rs['filemap'];?>" >
-		        <?}?>
+		        <?php }?>
 		    </div>
 		  </div>
 		  
@@ -608,10 +608,10 @@
 		    <label class="col-sm-2 control-label">สำนักงานสาขาขององค์กรภาคประชาชน (ถ้ามี)</label>
 		
 			<div class="form-inline col-sm-8">
-		      <input name="b_home_no" value="<?=@$rs['b_home_no'];?>" type="text" class="form-control numInt" placeholder="เลขที่" style="width:80px;"> 
-		      <input name="b_moo" value="<?=@$rs['b_moo'];?>" type="text" class="form-control numOnly" placeholder="หมู่ที่" style="width:80px;">
-		      <input name="b_soi" value="<?=@$rs['b_soi'];?>" type="text" class="form-control" placeholder="ตรอก/ซอย" style="width:230px;">
-		      <input name="b_road" value="<?=@$rs['b_road'];?>" type="text" class="form-control" placeholder="ถนน" style="width:230px;">
+		      <input name="b_home_no" value="<?php echo @$rs['b_home_no'];?>" type="text" class="form-control numInt" placeholder="เลขที่" style="width:80px;"> 
+		      <input name="b_moo" value="<?php echo @$rs['b_moo'];?>" type="text" class="form-control numOnly" placeholder="หมู่ที่" style="width:80px;">
+		      <input name="b_soi" value="<?php echo @$rs['b_soi'];?>" type="text" class="form-control" placeholder="ตรอก/ซอย" style="width:230px;">
+		      <input name="b_road" value="<?php echo @$rs['b_road'];?>" type="text" class="form-control" placeholder="ถนน" style="width:230px;">
 		      <?php echo form_dropdown('b_province_code', get_option('province_code', 'province_name', 'act_province', 'order by province_name asc'), @$rs['b_province_code'], 'class="form-control"', '- เลือกจังหวัด -'); ?>
 			    <span id="b_ampor">
 			    <?php echo form_dropdown('b_ampor_code', (empty($rs['b_province_code'])) ? array() : get_option('ampor_code', 'ampor_name', 'act_ampor', 'where province_code = '.$rs['b_province_code'].' order by ampor_name'), @$rs['b_ampor_code'], 'class="form-control"', '- เลือกอำเภอ -'); ?>
@@ -619,14 +619,14 @@
 			    <span id="b_tumbon">
 			    <?php echo form_dropdown('b_tumbon_code', (empty($rs['b_ampor_code'])) ? array() : get_option('tumbon_code', 'tumbon_name', 'act_tumbon', 'where province_code = '.$rs['b_province_code'].' and ampor_code = '.$rs['b_ampor_code'].' order by tumbon_name'), @$rs['b_tumbon_code'], 'class="form-control"', '- เลือกตำบล -'); ?>
 			    </span>
-		      <input name="b_post_code" value="<?=@$rs['b_post_code'];?>" type="text" class="form-control fpostel" placeholder="รหัสไปรณีย์" style="width:100px;">
+		      <input name="b_post_code" value="<?php echo @$rs['b_post_code'];?>" type="text" class="form-control fpostel" placeholder="รหัสไปรณีย์" style="width:100px;">
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">โทรศัพท์ / โทรสาร / มือถือ</label>
 		    <div class="form-inline col-sm-8">
-		      <input name="b_tel" value="<?=@$rs['b_tel'];?>" type="text" class="form-control" placeholder="เบอร์โทรศัพท์"> / <input name="b_fax" value="<?=@$rs['b_fax'];?>" type="text" class="form-control fphone" placeholder="เบอร์โทรสาร"> / <input name="b_mobile" value="<?=@$rs['b_mobile'];?>" type="text" class="form-control fmobile" placeholder="เบอร์มือถือ">
+		      <input name="b_tel" value="<?php echo @$rs['b_tel'];?>" type="text" class="form-control" placeholder="เบอร์โทรศัพท์"> / <input name="b_fax" value="<?php echo @$rs['b_fax'];?>" type="text" class="form-control fphone" placeholder="เบอร์โทรสาร"> / <input name="b_mobile" value="<?php echo @$rs['b_mobile'];?>" type="text" class="form-control fmobile" placeholder="เบอร์มือถือ">
 		    </div>
 		
 		  </div>
@@ -634,7 +634,7 @@
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">อีเมล์ / เว็บไซต์</label>
 		    <div class="form-inline col-sm-8">
-		      <input name="b_email" value="<?=@$rs['b_email'];?>" type="text" class="form-control" style="width:300px;" placeholder="ชื่ออีเมล์">  / <input name="b_website" value="<?=@$rs['b_website'];?>" type="text" class="form-control" style="width:300px;" placeholder="ชื่อเว็บไซต์">
+		      <input name="b_email" value="<?php echo @$rs['b_email'];?>" type="text" class="form-control" style="width:300px;" placeholder="ชื่ออีเมล์">  / <input name="b_website" value="<?php echo @$rs['b_website'];?>" type="text" class="form-control" style="width:300px;" placeholder="ชื่อเว็บไซต์">
 		    </div>
 		  </div>
 		  
@@ -642,10 +642,10 @@
 		    <label class="col-sm-2 control-label">แผนที่ตั้งของสำนักงานสาขา <span class="vald">*</span></label>
 		    <div class="col-sm-5">
 		    	<input type="file" name="UploadFile2" id="UploadFile2" class="form-control">
-		    	<? if(@$rs['b_filemap']!=''){?>
-		    		<a href="uploads/welfare_community/map/<?=$rs['b_filemap'];?>" target="_blank"><?=$rs['b_filemap'];?></a>
+		    	<?php  if(@$rs['b_filemap']!=''){?>
+		    		<a href="uploads/welfare_community/map/<?php echo $rs['b_filemap'];?>" target="_blank"><?php echo $rs['b_filemap'];?></a>
 		    		<input type="hidden" name="hdfilemap2" value="<?php echo $rs['b_filemap'];?>" >
-		        <?}?>
+		        <?php }?>
 		    </div>
 		  </div>
 		    
@@ -665,18 +665,18 @@
 		    </div>
 		    <input class="form-control" type="file" name="filesToUpload[]" multiple="multiple">
 		    <br>
-	    	<?if(@is_array($doc)):?>
-		    	<?foreach($doc as $key=>$row):?>
-		    	<?=$key+1?>. <a href="uploads/welfare_community/doc/<?=$row['files']?>" target="_blank"><?=$row['files']?></a><br>
-		    	<?endforeach;?>
-		    <?endif;?>
+	    	<?php if(@is_array($doc)):?>
+		    	<?php foreach($doc as $key=>$row):?>
+		    	<?php echo $key+1?>. <a href="uploads/welfare_community/doc/<?php echo $row['files']?>" target="_blank"><?php echo $row['files']?></a><br>
+		    	<?php endforeach;?>
+		    <?php endif;?>
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">ลักษณะการดำเนินการองค์กร</label>
 		    <div class="form-inline col-sm-10 td_chkboxType2">
-	    	<? 
+	    	<?php  
 	    		// echo "<pre>";
 				// echo print_r($format_select);
 				// echo "</pre>";
@@ -691,16 +691,16 @@
 				}
 	    	?>
 	    	<?php foreach($pcommunities as $row):?>
-	    	<?@$searchkey = searchForId($row->pcommunity_id, $pcommunity_select);?>
+	    	<?php @$searchkey = searchForId($row->pcommunity_id, $pcommunity_select);?>
 	    	<p>
 	    	<span style="padding-right:20px;">
-				<input name="answer_id[]" type="checkbox" value="<?=$row->pcommunity_id?>" <?=is_numeric($searchkey) ? 'checked' : '' ;?>> <?=$row->pcommunity_name?>
+				<input name="answer_id[]" type="checkbox" value="<?php echo $row->pcommunity_id?>" <?php echo is_numeric($searchkey) ? 'checked' : '' ;?>> <?php echo $row->pcommunity_name?>
 				<?php if($row->pcommunity_name == "เครือข่ายองค์กรสวัสดิการชุมชน"):?>
-				&nbsp;จำนวน <input name="other[]" type="text" class="form-control" style="width:100px;" value="<?=@$pcommunity_select[$searchkey]['other']?>" <?=is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/> องค์กร
+				&nbsp;จำนวน <input name="other[]" type="text" class="form-control" style="width:100px;" value="<?php echo @$pcommunity_select[$searchkey]['other']?>" <?php echo is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/> องค์กร
 				<?php else:?>
-				<input name="other[]" type="hidden" style="width:100px;" value="<?=@$pcommunity_select[$searchkey]['other']?>" <?=is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/>
+				<input name="other[]" type="hidden" style="width:100px;" value="<?php echo @$pcommunity_select[$searchkey]['other']?>" <?php echo is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/>
 				<?php endif;?>
-				<input name="question_name[]" type="hidden" value="ProcessCommunity" <?=is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/>
+				<input name="question_name[]" type="hidden" value="ProcessCommunity" <?php echo is_numeric($searchkey) ? '' : 'disabled="disabled"' ;?>/>
 			</span>
 			</p>
 	    	<?php endforeach;?>
@@ -708,18 +708,18 @@
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">จำนวนสมาชิก</label>
-		    <div class="form-inline col-sm-5"><input name="member_number" value="<?=@$rs['member_number']?>" type="text" class="form-control" style="width:70px;"> คน (สามารถตรวจสอบรายชื่อและที่อยู่ของสมาชิกได้)</div>
+		    <div class="form-inline col-sm-5"><input name="member_number" value="<?php echo @$rs['member_number']?>" type="text" class="form-control" style="width:70px;"> คน (สามารถตรวจสอบรายชื่อและที่อยู่ของสมาชิกได้)</div>
 		  </div>
 		  
 		  
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">ครอบคลุมจำนวนพื้นที่</label>
 		    <div class="form-inline col-sm-8">
-		    	<input name="n_area" value="<?=@$rs['n_area']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> 
-		    	หมู่บ้าน/ชุมชน <input name="n_mooban" value="<?=@$rs['n_mooban']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> 
-		    	ตำบล/แขวง<input name="n_tumbon" value="<?=@$rs['n_tumbon']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> 
-		    	อำเภอ/เขต <input name="n_ampor" value="<?=@$rs['n_ampor']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> 
-		    	จังหวัด <input name="n_province" value="<?=@$rs['n_province']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน">
+		    	<input name="n_area" value="<?php echo @$rs['n_area']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> 
+		    	หมู่บ้าน/ชุมชน <input name="n_mooban" value="<?php echo @$rs['n_mooban']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> 
+		    	ตำบล/แขวง<input name="n_tumbon" value="<?php echo @$rs['n_tumbon']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> 
+		    	อำเภอ/เขต <input name="n_ampor" value="<?php echo @$rs['n_ampor']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> 
+		    	จังหวัด <input name="n_province" value="<?php echo @$rs['n_province']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน">
 		    </div>
 		  </div>
 		
@@ -727,34 +727,34 @@
 		    <label class="col-sm-2 control-label">บุคลากรขององค์กรภาคประชาชน</label>
 		    <div class="form-inline col-sm-10">
 		    
-		    <p>จำนวนคณะกรรมการ  <input name="director" value="<?=@$rs['director']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> คน</p>
-		    <p>ผู้ปฎิบัติงานประจำ  <input name="worker" value="<?=@$rs['worker']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> คน</p>
+		    <p>จำนวนคณะกรรมการ  <input name="director" value="<?php echo @$rs['director']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> คน</p>
+		    <p>ผู้ปฎิบัติงานประจำ  <input name="worker" value="<?php echo @$rs['worker']?>" type="text" class="form-control" style="width:70px;" placeholder="จำนวน"> คน</p>
 		    <p>ผู้ประสานงานองค์กร (เป็นประธานคณะกรรมการ เลขานุการ หรือตำแหน่งอื่นๆ <input name="coordinate" class="form-control" type="text" style="width:50px;" readonly="readonly" value="1"> <img class="add_coordinate_btn" src="themes/msosocial/images/btn_add.png" width="24" height="24" title="เพิ่มที่ปรึกษา" style="cursor:pointer;"></p>
-		    <?if(@is_array($coordinate)):?>
-	    	<?foreach($coordinate as $key=>$row):?>
+		    <?php if(@is_array($coordinate)):?>
+	    	<?php foreach($coordinate as $key=>$row):?>
 	    	<div class="coordinate_addr" style="margin: 15px 0; position: relative;">
 	    		<img class="remove_coordinate_btn" src="themes/msosocial/images/remove2.png" width="16" height="16" title="ลบที่ปรึกษา" style="cursor:pointer; position: absolute; right: 10px; top: 0;" />
 		    	<div> <!--๑)-->
-			    <input class="form-control" type="text" name="c_name[]" value="<?=@$row['name']?>" style="width:150px;" placeholder="ชื่อ" />
-			    <input class="form-control" type="text" name="c_surname[]" value="<?=@$row['surname']?>" style="width:250px;" placeholder="นามสกุล" />
-			    <input class="form-control" type="text" name="c_education[]" value="<?=@$row['education']?>" style="width:350px;" placeholder="วุฒิ" />
+			    <input class="form-control" type="text" name="c_name[]" value="<?php echo @$row['name']?>" style="width:150px;" placeholder="ชื่อ" />
+			    <input class="form-control" type="text" name="c_surname[]" value="<?php echo @$row['surname']?>" style="width:250px;" placeholder="นามสกุล" />
+			    <input class="form-control" type="text" name="c_education[]" value="<?php echo @$row['education']?>" style="width:350px;" placeholder="วุฒิ" />
 			    </div>
 			    <div>
-			    <input class="form-control" type="text" name="c_experience[]" value="<?=@$row['experience']?>" style="width:400px;" placeholder="ประสบการณ์ทำงาน" />
-			    <input class="form-control" type="text" name="c_location[]" value="<?=@$row['location']?>" style="width:405px;" placeholder="สถานที่ทำงาน" />
+			    <input class="form-control" type="text" name="c_experience[]" value="<?php echo @$row['experience']?>" style="width:400px;" placeholder="ประสบการณ์ทำงาน" />
+			    <input class="form-control" type="text" name="c_location[]" value="<?php echo @$row['location']?>" style="width:405px;" placeholder="สถานที่ทำงาน" />
 			    </div>
 			    <div>
-			    <input class="form-control" type="text" name="c_address[]" value="<?=@$row['address']?>" style="width:90%;" placeholder="ที่ติดต่อ" /></div>
+			    <input class="form-control" type="text" name="c_address[]" value="<?php echo @$row['address']?>" style="width:90%;" placeholder="ที่ติดต่อ" /></div>
 			    <div>
-			    <input class="form-control" type="text" name="c_tel[]" value="<?=@$row['tel']?>" style="width:180px;" placeholder="โทรศัพท์" />
-			    <input class="form-control" type="text" name="c_fax[]" value="<?=@$row['fax']?>" style="width:180px;" placeholder="โทรสาร" />
-			    <input class="form-control" type="text" name="c_mobile[]" value="<?=@$row['mobile']?>" style="width:180px;" placeholder="มือถือ" />
-			    <input class="form-control" type="text" name="c_email[]" value="<?=@$row['email']?>" style="width:255px;" placeholder="อีเมล์" />
+			    <input class="form-control" type="text" name="c_tel[]" value="<?php echo @$row['tel']?>" style="width:180px;" placeholder="โทรศัพท์" />
+			    <input class="form-control" type="text" name="c_fax[]" value="<?php echo @$row['fax']?>" style="width:180px;" placeholder="โทรสาร" />
+			    <input class="form-control" type="text" name="c_mobile[]" value="<?php echo @$row['mobile']?>" style="width:180px;" placeholder="มือถือ" />
+			    <input class="form-control" type="text" name="c_email[]" value="<?php echo @$row['email']?>" style="width:255px;" placeholder="อีเมล์" />
 			    </div>
 			    <hr>
 		    </div>
-	    	<?endforeach;?>
-	    	<?endif;?>
+	    	<?php endforeach;?>
+	    	<?php endif;?>
 		    <div class="coordinate_addr">
 			    <p>
 			    <input name="c_name[]" type="text" class="form-control" style="width:150px;" placeholder="ชื่อ" />
@@ -780,31 +780,31 @@
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">ที่ปรึกษา</label>
 		    <div class="form-inline col-sm-10"><p>ที่มีความรู้เกี่ยวกับสวัสดิการชุมชน <input class="form-control" name="adviser" type="text" style="width:50px;" readonly="readonly" value="1"> คน <img class="add_adviser_btn" src="themes/msosocial/images/btn_add.png" width="24" height="24" class="vtip" title="เพิ่มที่ปรึกษา" style="cursor:pointer;" /></p>
-		    	<?if(@is_array($adviser)):?>
-		    	<?foreach($adviser as $key=>$row):?>
+		    	<?php if(@is_array($adviser)):?>
+		    	<?php foreach($adviser as $key=>$row):?>
 		    	<div class="adviser_addr" style="margin: 15px 0; position: relative;">
 		    		<img class="remove_adviser_btn" src="themes/msosocial/images/remove2.png" width="16" height="16" title="ลบที่ปรึกษา" style="cursor:pointer; position: absolute; right: 10px; top: 0;" />
 			    	<div> <!--๑)-->
-				    <input class="form-control" type="text" name="a_name[]" value="<?=@$row['name']?>" style="width:150px;" placeholder="ชื่อ" />
-				    <input class="form-control" type="text" name="a_surname[]" value="<?=@$row['surname']?>" style="width:250px;" placeholder="นามสกุล" />
-				    <input class="form-control" type="text" name="a_education[]" value="<?=@$row['surname']?>" style="width:350px;" placeholder="วุฒิ" />
+				    <input class="form-control" type="text" name="a_name[]" value="<?php echo @$row['name']?>" style="width:150px;" placeholder="ชื่อ" />
+				    <input class="form-control" type="text" name="a_surname[]" value="<?php echo @$row['surname']?>" style="width:250px;" placeholder="นามสกุล" />
+				    <input class="form-control" type="text" name="a_education[]" value="<?php echo @$row['surname']?>" style="width:350px;" placeholder="วุฒิ" />
 				    </div>
 				    <div>
-				    <input class="form-control" type="text" name="a_experience[]" value="<?=@$row['experience']?>" style="width:400px;" placeholder="ประสบการณ์ทำงาน" />
-				    <input class="form-control" type="text" name="a_location[]" value="<?=@$row['location']?>" style="width:405px;" placeholder="สถานที่ทำงาน" />
+				    <input class="form-control" type="text" name="a_experience[]" value="<?php echo @$row['experience']?>" style="width:400px;" placeholder="ประสบการณ์ทำงาน" />
+				    <input class="form-control" type="text" name="a_location[]" value="<?php echo @$row['location']?>" style="width:405px;" placeholder="สถานที่ทำงาน" />
 				    </div>
 				    <div>
-				    <input class="form-control" type="text" name="a_address[]" value="<?=@$row['address']?>" style="width:90%;" placeholder="ที่ติดต่อ" /></div>
+				    <input class="form-control" type="text" name="a_address[]" value="<?php echo @$row['address']?>" style="width:90%;" placeholder="ที่ติดต่อ" /></div>
 				    <div>
-				    <input class="form-control" type="text" name="a_tel[]" value="<?=@$row['tel']?>" style="width:180px;" placeholder="โทรศัพท์" />
-				    <input class="form-control" type="text" name="a_fax[]" value="<?=@$row['fax']?>" style="width:180px;" placeholder="โทรสาร" />
-				    <input class="form-control" type="text" name="a_mobile[]" value="<?=@$row['mobile']?>" style="width:180px;" placeholder="มือถือ" />
-				    <input class="form-control" type="text" name="a_email[]" value="<?=@$row['mobile']?>" style="width:255px;" placeholder="อีเมล์" />
+				    <input class="form-control" type="text" name="a_tel[]" value="<?php echo @$row['tel']?>" style="width:180px;" placeholder="โทรศัพท์" />
+				    <input class="form-control" type="text" name="a_fax[]" value="<?php echo @$row['fax']?>" style="width:180px;" placeholder="โทรสาร" />
+				    <input class="form-control" type="text" name="a_mobile[]" value="<?php echo @$row['mobile']?>" style="width:180px;" placeholder="มือถือ" />
+				    <input class="form-control" type="text" name="a_email[]" value="<?php echo @$row['mobile']?>" style="width:255px;" placeholder="อีเมล์" />
 				    </div>
 				    <hr>
 			    </div>
-		    	<?endforeach;?>
-		    	<?endif;?>
+		    	<?php endforeach;?>
+		    	<?php endif;?>
 			    <div class="adviser_addr">
 			    <p>
 			    <input name="a_name[]" type="text" class="form-control" style="width:150px;" placeholder="ชื่อ" />
@@ -830,25 +830,25 @@
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">รูปแบบวิธีการดำเนินงานจัดสวัสดิการชุมชน<span class="vald">*</span></label>
 		    <div class="col-sm-8">
-		    	<textarea name="method" cols="" rows="5" class="form-control" placeholder="ระบุรูปแบบวิธีการดำเนินงานจัดสวัสดิการชุมชน"><?=@$rs['method']?></textarea>
+		    	<textarea name="method" cols="" rows="5" class="form-control" placeholder="ระบุรูปแบบวิธีการดำเนินงานจัดสวัสดิการชุมชน"><?php echo @$rs['method']?></textarea>
 		    </div>
 		  </div> 
 		  
 		<div class="form-group">
 		    <label class="col-sm-2 control-label">บริการสวัสดิการที่จัดให้แก่สมาชิก</label>
 		    <div class="form-inline col-sm-10"><p>จำนวน <input name="service_member" type="text" class="form-control" style="width:50px;" readonly="readonly" value="1" class="valid"> เรื่อง <img class="add_service_member_btn" src="themes/msosocial/images/btn_add.png" width="24" height="24" title="เพิ่มสวัสดีการ" style="cursor:pointer;"></p>
-		    	<?if(@is_array($service)):?>
-				<?foreach($service as $row):?>
+		    	<?php if(@is_array($service)):?>
+				<?php foreach($service as $row):?>
 				<div class="service_member_addr" style="margin: 15px 0; position: relative;">
 		    		<img class="remove_service_member_btn" src="themes/msosocial/images/remove2.png" width="16" height="16" title="ลบที่ปรึกษา" style="cursor:pointer; position: absolute; right: 10px; top: 0;" />
-				<input type="text" class="form-control" style="width:350px;" name="m_target[]" value="<?=@$row['target']?>" placeholder="กลุ่มเป้าหมาย">
-				<input type="text" class="form-control" style="width:350px;" name="m_receive[]" value="<?=@$row['receive']?>" placeholder="สิ่งที่ได้รับ">
-				<input type="text" class="form-control" style="width:350px;" name="m_condition[]" value="<?=@$row['condition']?>" placeholder="เงื่อนไข">
-				<input type="text" class="form-control" style="width:350px;" name="m_other[]" value="<?=@$row['other']?>" placeholder="อื่นๆ">
+				<input type="text" class="form-control" style="width:350px;" name="m_target[]" value="<?php echo @$row['target']?>" placeholder="กลุ่มเป้าหมาย">
+				<input type="text" class="form-control" style="width:350px;" name="m_receive[]" value="<?php echo @$row['receive']?>" placeholder="สิ่งที่ได้รับ">
+				<input type="text" class="form-control" style="width:350px;" name="m_condition[]" value="<?php echo @$row['condition']?>" placeholder="เงื่อนไข">
+				<input type="text" class="form-control" style="width:350px;" name="m_other[]" value="<?php echo @$row['other']?>" placeholder="อื่นๆ">
 				</div>
 				<hr>
-				<?endforeach;?>
-				<?endif;?>
+				<?php endforeach;?>
+				<?php endif;?>
 			    <div class="service_member_addr">
 			    <p>
 			    <input name="m_target[]" type="text" class="form-control" style="width:350px;" placeholder="กลุ่มเป้าหมาย" />
@@ -867,13 +867,13 @@
 		    <label class="col-sm-2 control-label">สถานการเงินขององค์กรสวัสดิการชุมชน</label>
 		    <div class="form-inline col-sm-10">
 		    <p>
-		    	<input name="s_budget" value="<?=@$rs['s_budget']?>" type="text" class="form-control numDecimal" style="width:150px;" placeholder="จำนวน"> บาท  
-		    	<input name="s_date" value="<?=@$rs['s_date']?>" type="text" class="form-control fdate dateInput" placeholder="" style="width:100px;margin-right:5px;"> </p>
-			<p>เงินทุนที่มาจากสมาชิก  <input name="s_member" value="<?=@$rs['s_member']?>" type="text" class="form-control numDecimal" style="width:150px;" placeholder="จำนวน"> บาท</p>
-		   <p>เงินสมทบภายนอก (องค์กรปกครองส่วนท้องถิ่น)  <input name="s_local" value="<?=@$rs['s_local']?>" type="text" class="form-control numDecimal" style="width:150px;" placeholder="จำนวน"> บาท</p>
-		   <p>เงินสมทบภายนอก (หน่วยงานอื่นๆ)  <input name="s_other" value="<?=@$rs['s_other']?>" type="text" class="form-control numDecimal" style="width:150px;" placeholder="จำนวน"> บาท</p>
-		   <p>เงินอื่นๆ <input name="s_other2" value="<?=@$rs['s_other2']?>" type="text" class="form-control numDecimal" style="width:150px;" placeholder="จำนวน"> บาท</p>
-		   <p><textarea name="s_note" cols="" rows="5" class="form-control" placeholder="แหล่งเงินได้จาก (ระบุที่มา/กิจกรรม เช่น ดอกผล)" style="width:600px;"><?=@$rs['s_note']?></textarea></p>
+		    	<input name="s_budget" value="<?php echo @$rs['s_budget']?>" type="text" class="form-control numDecimal" style="width:150px;" placeholder="จำนวน"> บาท  
+		    	<input name="s_date" value="<?php echo @$rs['s_date']?>" type="text" class="form-control fdate dateInput" placeholder="" style="width:100px;margin-right:5px;"> </p>
+			<p>เงินทุนที่มาจากสมาชิก  <input name="s_member" value="<?php echo @$rs['s_member']?>" type="text" class="form-control numDecimal" style="width:150px;" placeholder="จำนวน"> บาท</p>
+		   <p>เงินสมทบภายนอก (องค์กรปกครองส่วนท้องถิ่น)  <input name="s_local" value="<?php echo @$rs['s_local']?>" type="text" class="form-control numDecimal" style="width:150px;" placeholder="จำนวน"> บาท</p>
+		   <p>เงินสมทบภายนอก (หน่วยงานอื่นๆ)  <input name="s_other" value="<?php echo @$rs['s_other']?>" type="text" class="form-control numDecimal" style="width:150px;" placeholder="จำนวน"> บาท</p>
+		   <p>เงินอื่นๆ <input name="s_other2" value="<?php echo @$rs['s_other2']?>" type="text" class="form-control numDecimal" style="width:150px;" placeholder="จำนวน"> บาท</p>
+		   <p><textarea name="s_note" cols="" rows="5" class="form-control" placeholder="แหล่งเงินได้จาก (ระบุที่มา/กิจกรรม เช่น ดอกผล)" style="width:600px;"><?php echo @$rs['s_note']?></textarea></p>
 		    </div>
 		  </div>
 		  
@@ -881,16 +881,16 @@
 		<div class="form-group">
 		    <label class="col-sm-2 control-label">อื่นๆ</label>
 		    <div class="col-sm-8">
-		    	<textarea name="other_note" cols="" rows="5" class="form-control" placeholder="ระบุอื่นๆ"><?=@$rs['other_note']?></textarea>
+		    	<textarea name="other_note" cols="" rows="5" class="form-control" placeholder="ระบุอื่นๆ"><?php echo @$rs['other_note']?></textarea>
 		    </div>
 		  </div> 
 		  <input type="hidden" name="edit_code" value="">
-		  <input type="hidden" name="id" value="<?=@$rs['id']?>">
-          <input type="hidden" name="current_status" value="<?=@$rs['current_status']?>">
+		  <input type="hidden" name="id" value="<?php echo @$rs['id']?>">
+          <input type="hidden" name="current_status" value="<?php echo @$rs['current_status']?>">
           <input type="hidden" name="post_form" value="fund02">
         </div>
         
-      <?endif;?>
+      <?php endif;?>
 		
 		
 		
@@ -939,13 +939,13 @@
 	    <th>ชื่อสถานะ</th>
 	    <th>วันที่</th>
     </tr>
-    <?foreach($status as $key=>$row):?>
+    <?php foreach($status as $key=>$row):?>
     <tr>
-	    <td><?=$key+1?></td>
-	    <td><?=$row['status_type']?></td>
-	    <td><?=$row['status_date']?></td>
+	    <td><?php echo $key+1?></td>
+	    <td><?php echo $row['status_type']?></td>
+	    <td><?php echo $row['status_date']?></td>
     </tr>
-    <?endforeach;?>
+    <?php endforeach;?>
     </table>
   	
 
