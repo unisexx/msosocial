@@ -14,11 +14,11 @@
     <table class="tblForm">
         <tr>
             <th style="width: 250px;" >ปีงบประมาณ / จังหวัด</th>
-            <td class="form-inline">2558 / นนทบุรี</td>
+            <td class="form-inline"><?php echo (date('Y')+543)?> / <?php echo $value['province_name']?></td>
         </tr>
         <tr>
             <th>ชื่อองค์กรที่เสนอขอรับเงินกองทุน</th>
-            <td>มูลนิธิทองทศฯ เพื่อการศึกษาและสาธารณประโยชน์ (องค์กรสาธารณประโยชน์)</td>
+            <td><?php echo $value['organ_name'].' ('.$value['under_type_sub'].')'?></td>
         </tr>
         <tr>
             <th>ชื่อโครงการ (ภาษาไทย)<span class="Txt_red_12"> *</span></th>
