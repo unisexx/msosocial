@@ -1,4 +1,4 @@
-link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
+<link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
 
 <div style="text-align:right;"><button class="btn" id="btn2list" onclick="memberList();">กลับไปหน้ารายการ</button></div>
 <h4 style="margin-top:0; color:#393;" class="form-inline ">
@@ -151,95 +151,119 @@ link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
 	</tr>
 <tr>
 	<th>ประเภทโครงการ  <span class="textRed">*</span></th>
-	<td> 
-		<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="4"> การส่งเสริมศักยภาพครอบครัวเพื่อการเลี้ยงดูบุตรอย่างเหมาะสม</span><span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="2"> การพัฒนาเด็กและเยาวชน</span><span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="3"> การพัฒนาระบบคุ้มครองเด็ก</span><span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="5"> การส่งเสริมศักยภาพองค์กรปกครองส่วนท้องถิ่นในการคุ้มครองเด็ก</span><span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="6"> สาโรจน์_ชื่อกรอบทิศทางในการจัดสรรเงิน</span><span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="1"> การป้องกันและแก้ไขปัญหาเด็กและเยาวชน</span>			<span id="error_project_direction_set_id"></span>  
-	</td>
-</tr>
-<tr>
-	<th>กรอบทิศทางในการจัดสรรเงินกองทุนคุ้มครองเด็ก <span class="textRed">*</span></th>
 	<td>
-		<span style="margin-right:20px;">
-	    	<input type="radio" name="radio" id="radio11" value="radio" />
-			การป้องกันและแก้ไขปัญหาเด็กและเยาวชน 
-		</span> 
-		<span style="margin-right:20px;">
-			<input type="radio" name="radio" id="radio12" value="radio" />
-			การพัฒนาเด็กและเยาวชน 
-		</span> 
-		<span style="margin-right:20px;">
-			<input type="radio" name="radio" id="radio12" value="radio" />
-			การพัฒนาระบบคุ้มครองเด็ก 
-		</span> 
-		<span style="margin-right:20px;">
-			<input type="radio" name="radio" id="radio12" value="radio" />
-			การส่งเสริมศักยภาพครอบครัวเพื่อการเลี้ยงดูบุตรอย่างเหมาะสม 
+		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="1"> สงเคราะห์</span>
+		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="2"> คุ้มครองสวัสดิภาพ</span>
+		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="3"> ส่งเสริมความประพฤติ</span>
+		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="4"> 5 สถาน</span>
+		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="5"> งานวิจัย ฯ</span>
+		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="6"> อื่นๆ</span>			
+		<span id="error_project_typep_main_id"></span>
+	</td>
+</tr>
+	<tr>
+		<th>กรอบทิศทางในการจัดสรรเงินกองทุนคุ้มครองเด็ก <span class="textRed">*</span></th>
+		<td> 
+			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="4"> การส่งเสริมศักยภาพครอบครัวเพื่อการเลี้ยงดูบุตรอย่างเหมาะสม</span>
+			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="2"> การพัฒนาเด็กและเยาวชน</span>
+			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="3"> การพัฒนาระบบคุ้มครองเด็ก</span>
+			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="5"> การส่งเสริมศักยภาพองค์กรปกครองส่วนท้องถิ่นในการคุ้มครองเด็ก</span>
+			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="6"> สาโรจน์_ชื่อกรอบทิศทางในการจัดสรรเงิน</span>
+			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="1"> การป้องกันและแก้ไขปัญหาเด็กและเยาวชน</span>			
+			<span id="error_project_direction_set_id"></span>  
+		</td>
+	</tr>
+	<tr>
+		<th>งบประมาณโครงการและแหล่งสนับสนุน (เฉพาะปีปัจจุบัน) <span class="textRed">*</span></th>
+		<td>
+			<div>
+				<span style="width:240px;">งบประมาณทั้งโครงการ </span>
+				<input type="text" name="project_budget_" value="0.00" style="width:180px; background:#EEE; display:inline-block;" ref="project_budget" class="text-right form-control" readonly="readonly">  บาท
+			</div>
+			<div>
+				<span style="width:240px;">งบประมาณที่ขอรับการสนับสนุน  </span>
+				<input type="text" name="budget_request_" value="0.00" ref="budget_request" style="width:180px; display:inline-block;" class="cal_project_budget text-right form-control"> บาท
+				<span style="display:none;" class="note">* จะคำนวณเป็นขนาดโครงการ</span>
+			</div>
+			<div>
+				<span style="width:240px;">งบประมาณที่ได้รับสมทบจากแหล่งอื่น*(ถ้ามี) </span>
+				<input type="text" name="budget_other_" value="0.00" ref="budget_other" style="width:180px; display:inline-block;" class="cal_project_budget text-right form-control"> บาท
+				
+					
+				<input type="hidden" name="project_budget" value="">
+				<input type="hidden" name="budget_request" value="">
+				<input type="hidden" name="budget_other" value="">
+							
+				<span style="margin-left:20px;"> 
+					<input type="checkbox" name="budget_other_type[]" value="1"> หน่วยงานภาครัฐ 
+					<input type="checkbox" name="budget_other_type[]" value="2"> ท้องถิ่น  
+					<input type="checkbox" name="budget_other_type[]" value="3"> ธุรกิจ/องค์กรเอกชน
+				</span>
+			</div>
+						
+			<input type="hidden" name="budget_request_" value="">
+		</td>
+	</tr>
+	<tr>
+		<th>สาเหตุที่เสนอขอรับเงินกองทุน <span class="textRed">*</span></th>
+		<td>
+			<span><input type="radio" name="budget_cause" value="1"> ไม่ได้รับงบประมาณปกติของหน่วยงาน</span>   
+			<span><input type="radio" name="budget_cause" value="2"> ได้รับงบประมาณปกติจากหน่วยงานแต่ไม่เพียงพอ</span>
+			
+			<input type="hidden" name="budget_cause_" value="">
+		</td>
+	</tr>
+<tr>
+	<th>กลุ่มเป้าหมายของโครงการ<span class="textRed"> *</span></th>
+	<td>
+		<span style="margin-right:15px;">
+			<input type="checkbox" name="project_target_set_id[]" value="5"> 
+			<input type="text" name="project_target_set_val[5]" value="" class="nformat" style="width:50px;"> สาโรจน์_ชื่อกลุ่มเป้าหมายของโครงการ
 		</span>
-		<span style="margin-right:20px;">
-			<input type="radio" name="radio" id="radio12" value="radio" />
-			การส่งเสริมศักยภาพองค์กรปกครองส่วนท้องถิ่นในการคุ้มครองเด็ก 
+		<span style="margin-right:15px;">
+			<input type="checkbox" name="project_target_set_id[]" value="1"> 
+			<input type="text" name="project_target_set_val[1]" value="" class="nformat" style="width:50px;"> เด็ก
 		</span>
-		<span>
-			<input type="radio" name="radio" id="radio12" value="radio" />
-			การประชาสัมพันธ์ เผยแพร่ความรู้เกี่ยวกับการคุ้มครองเด็ก 
+		<span style="margin-right:15px;">
+			<input type="checkbox" name="project_target_set_id[]" value="2"> 
+			<input type="text" name="project_target_set_val[2]" value="" class="nformat" style="width:50px;"> ผู้ปกครอง/ครอบครัวอุปถัมภ์
 		</span>
+		<span style="margin-right:15px;">
+			<input type="checkbox" name="project_target_set_id[]" value="3"> 
+			<input type="text" name="project_target_set_val[3]" value="" class="nformat" style="width:50px;"> เจ้าหน้าที่ที่ทำงานด้านเด็ก
+		</span>
+		<span style="margin-right:15px;">
+			<input type="checkbox" name="project_target_set_id[]" value="4"> 
+			<input type="text" name="project_target_set_val[4]" value="" class="nformat" style="width:50px;"> แกนนำชุมชน
+		</span>		
 	</td>
 </tr>
 <tr>
-	<th>งบประมาณโครงการและแหล่งสนับสนุน (เฉพาะปีปัจจุบัน) <span class="textRed">*</span></th>
-	<td class="form-inline">
-		<div><span style="display:inline-block; width:240px;">งบประมาณทั้งโครงการ   </span>
-    <input name="textfield15" type="text" id="textfield34" style="width:180px;" readonly="readonly" class="form-control" />
-    บาท</div>
-  <div><span style="display:inline-block; width:240px;">งบประมาณที่ขอรับการสนับสนุน  </span>
-    <input name="textfield15" type="text" id="textfield34" style="width:180px;"  class="form-control"/>
-    บาท </div>
-    <div><span style="display:inline-block; width:240px;">งบประมาณที่ได้รับสมทบจากแหล่งอื่น<strong>*</strong><em>(ถ้ามี)</em>  </span>
-      <input name="textfield23" type="text" id="textfield35" style="width:180px;" class="form-control" />
-บาท
- 
-<p style="margin:0; margin-left:220px;"><span style="margin-left:20px;"> <input name="" type="checkbox" value="" /> หน่วยงานภาครัฐ</span> <span style="margin:0 5px;"><input name="" type="checkbox" value="" /> ท้องถิ่น</span>   <input name="" type="checkbox" value="" /> ธุรกิจ/องค์กรเอกชน</p>
-</div>
-    
-    </td>
+	<th>ประเภทองค์กรที่เสนอขอรับเงินกองทุน <span class="textRed">*</span></th>
+	<td>
+		<span><input type="radio" name="organiztion_type" value="1"> องค์กรภาคเอกชน</span>  
+		<span><input type="radio" name="organiztion_type" value="2"> หน่วยงานของรัฐ</span>
+		<input type="hidden" name="organiztion_type_" value="">
+	</td>
 </tr>
 <tr>
-  <th>สาเหตุที่เสนอขอรับเงินกองทุน <span class="textRed">*</span></th>
-  <td><span style="margin-right:20px;">
-    <input type="radio" name="radio" id="radio13" value="radio" />
-    ไม่ได้รับงบประมาณปกติของหน่วยงาน</span>
-    <input type="radio" name="radio" id="radio14" value="radio" />
-    ได้รับงบประมาณปกติจากหน่วยงานแต่ไม่เพียงพอ</td>
-</tr>
-<tr>
-  <th>กลุ่มเป้าหมายของโครงการ<span class="textRed"> *</span></th>
-  <td class="form-inline"><span style="margin-right:20px;">
-    <input type="checkbox" name="checkbox" id="checkbox" />
-เด็ก  <input name="textfield25" type="text" id="textfield36" style="width:50px;" class="form-control"  /> คน
-  </span>  <span style="margin-right:20px;">
-<input type="checkbox" name="checkbox" id="checkbox" />
-ผู้ปกครอง/ครอบครัวอุปถัมภ์  <input name="textfield25" type="text" id="textfield36" style="width:50px;" class="form-control"  /> คน</span> <span style="margin-right:20px;">
-<input type="checkbox" name="checkbox" id="checkbox" />
-เจ้าหน้าที่ที่ทำงานด้านเด็ก	 <input name="textfield25" type="text" id="textfield36" style="width:50px;" class="form-control"  /> คน </span> <span>
-<input type="checkbox" name="checkbox" id="checkbox" />
-แกนนำชุมชน <input name="textfield25" type="text" id="textfield36" style="width:50px;" class="form-control"  /> คน</span></td>
-</tr>
-<tr>
-  <th>ประเภทองค์กรที่เสนอขอรับเงินกองทุน <span class="textRed">*</span></th>
-  <td><span style="margin-right:20px;">
-    <input type="radio" name="radio" id="radio" value="radio" />
-    องค์กรภาคเอกชน </span>
-    <input type="radio" name="radio" id="radio2" value="radio" />
-    หน่วยงานของรัฐ</td>
-</tr>
-<tr>
-  <th>แนบไฟล์เอกสารประกอบการพิจารณา <span class="textRed">*</span></th>
-  <td>
-  <p>1. แบบสรุปโครงการ <br />    <input type="file" name="fileField3" id="fileField3" class="form-control" /></p>
-  <p>2. ข้อมูลเกี่ยวกับโครงการที่เสนอขอรับเงินกองทุนฯพร้อมแผนที่พื้นที่ดำเนินงานโครงการ<br />    <input type="file" name="fileField3" id="fileField3" class="form-control" /></p>
-  <p>3. ข้อมูลเกี่ยวกับองค์กรที่เสนอขอรับเงินกองทุนฯพร้อมแผนที่ตั้งองค์กร<br />    <input type="file" name="fileField3" id="fileField3" class="form-control" /></p>
-  <p>4. หนังสือรับรองผลงาน<br />    <input type="file" name="fileField3" id="fileField3" class="form-control" /></p>
-  <p>5. หนังสือรับรององค์กร<br />    <input type="file" name="fileField3" id="fileField3" class="form-control" /></p>
-  </td>
+	<th>แนบไฟล์เอกสารประกอบการพิจารณา <span class="textRed">*</span></th>
+	<td>
+		<div style="font-weight:bold;">1. แบบสรุปโครงการ</div>
+		<div class="tag_fileattach "><input type="file" name="fileattach1"></div>
+		
+		<div style="font-weight:bold;">2. ข้อมูลเกี่ยวกับโครงการที่เสนอขอรับเงินกองทุนฯพร้อมแผนที่พื้นที่ดำเนินงานโครงการ</div>
+		<div class="tag_fileattach "><input type="file" name="fileattach2"></div>
+		
+		<div style="font-weight:bold;">3. ข้อมูลเกี่ยวกับองค์กรที่เสนอขอรับเงินกองทุนฯพร้อมแผนที่ตั้งองค์กร</div>
+		<div class="tag_fileattach "><input type="file" name="fileattach3"></div>
+		
+		<div style="font-weight:bold;">4. หนังสือรับรองผลงาน</div>
+		<div class="tag_fileattach "><input type="file" name="fileattach4"></div>
+		
+		<div style="font-weight:bold;">5. หนังสือรับรององค์กร</div>
+		<div class="tag_fileattach "><input type="file" name="fileattach5"></div>
+	</td>
 </tr>
 </table>
 
