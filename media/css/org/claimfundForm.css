@@ -1,0 +1,19 @@
+	.textRed {
+		color:#f00;
+	}
+
+	.tblForm * {
+		font-size:12px;
+		line-height:20px;
+	}
+	
+	table.tblForm tr th {
+		font-size:14px;
+		width:200px;
+		vertical-align:top;
+	}
+	
+	table.tblForm tr td {
+		padding:10px 5px;
+		border-bottom:solid 1px #ccc;
+	}
