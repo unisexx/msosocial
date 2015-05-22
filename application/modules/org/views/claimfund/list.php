@@ -1,4 +1,6 @@
-<div style="text-align:right;"><button class="btn btn-primary" id="btnMemberForm">ยื่นแบบฟอร์มขอรับสนับสนุน</button></div>
+<div style="text-align:right;">
+	<button class="btn btn-primary" id="btnMemberForm" onclick="memberForm();">ยื่นแบบฟอร์มขอรับสนับสนุน</button>
+</div>
 <h3 style="margin-top:0; color:#393">รายการขอรับเงินสนับสนุนโครงการ</h3>
 	
 <table class="tblist">

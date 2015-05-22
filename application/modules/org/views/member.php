@@ -953,15 +953,7 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  <div id="tabs-3">
+<div id="tabs-3">
   	<script language="JavaScript">
   		function memberList() {
   			//$('#sector-3').html('aa');
@@ -970,27 +962,32 @@
   			});
   		}
   		
-  		function memberForm() {
-  			alert('x');
-  			$.get('org/claimfund/form', function(data) {
-  				
-  				$('#sector-3').html(data);
-  			});
+  		function memberForm(type) {
+  			type = (type == '')?1:type;
+  			$.get(
+  				'org/claimfund/form'
+  				, {
+  					type : type
+  				} , function(data) {
+  					$('#sector-3').html(data);
+  				}
+  			);
   		}
   		
-  		$(function(){
-  			memberList();
-  			
-  			$('#btnMemberForm').live('click', function(){
-  				memberForm();
-  			});
-  		});
+  		function memberSubmit() {
+  			type = $('[name=type]').val();
+  				
+  			$.post(
+  				'org/claimfund/save'
+  				, {
+  					type : type
+  				} , function(data) {
+  					$('#sector-3').html(data);
+  				}
+  			);
+  		}
   	</script>
-	<div id="sector-3">
-	
-		<? // include 'modules/member/get_support_list_form.php'?>
-		</div>
-	</div><!-- #tabs-3 -->
+	<div id="sector-3"> </div><!-- #tabs-3 -->
 </div>
 
 <link rel="stylesheet" type="text/css" href="media/css/jquery-ui-1.7.2.custom.css">
