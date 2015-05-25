@@ -125,11 +125,23 @@ class Claimfund extends Public_Controller
 
 		//-- Set default $_GET['type']
 		$_GET['type'] = (empty($_GET['type']))?1:$_GET['type'];
+
 		if($_GET['type'] == 1){
 			$form = 'formChild';
 		} else if($_GET['type'] == 2) {
+			//	สาขาของโครงการที่ขอรับสนับสนุน
+			$querySector = 'SELECT * FROM FUND_WELFARE_SECTOR WHERE STATUS = 1 ORDER BY ID ASC';
+			$data["sectors"] = $this->ado->GetArray($querySector);
+
+			//	กลุ่มเป้าหมาย
+			$queryTarget = 'SELECT * FROM FUND_WELFARE_TARGET WHERE STATUS = 1 ORDER BY ID ASC';
+			$data["targets"] = $this->ado->GetArray($queryTarget);
+
 			$data['value'] = $this->ado->GetRow($query);
+
+			dbConvert($data['sectors']);
 			dbConvert($data['value']);
+
 			$form = 'formSupport';
 		} else if($_GET['type'] == 3) {
 			$form = 'formTraffick';
