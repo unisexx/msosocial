@@ -42,7 +42,7 @@
 
 
 <link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
-<span onclick="memberForm(1, '<? echo @$id; ?>');">aaaa</span>
+<span onclick="memberForm(1, '<? echo @$rs['id']; ?>');">aaaa<? echo @$rs['id']; ?></span>
 <div style="text-align:right;"><button class="btn" id="btn2list" onclick="memberList();">กลับไปหน้ารายการ</button></div>
 <h4 style="margin-top:0; color:#393;" class="form-inline ">
 	แบบฟอร์มการขอรับเงินสนับสนุนโครงการ 
@@ -52,7 +52,7 @@
 <?php echo form_hidden('type', @$_GET['type']); ?>
 
 
-<form action="org/claimfund/saveChild/<?php echo @$rs->id; ?>" method='post' enctype="multipart/form-data">
+<form action="org/claimfund/saveChild/<?php echo @$rs['id']; ?>" method='post' enctype="multipart/form-data">
 	
 <div class="dvChild">
 <table class="tblForm">
@@ -64,11 +64,11 @@
 				$province_id = (empty($rs['province_id']))?$value['province_code']:$rs['province_id'];
 				$project_code = (empty($rs['project_code']))?'คคด/'.(date('Y')+543).'/'.$value['province_name'].'/XXXX':$rs['project_code'];
 				
-				#(date('Y')+543).'/'.$value['province_name']
+				
 				echo form_hidden('budget_year', $budget_year); 
 				echo form_hidden('province_id', $province_id);
 				
-				 
+				echo (date('Y')+543).'/'.$value['province_name']
 			?>
 	  </td>
 	</tr>
@@ -78,7 +78,7 @@
 </tr>
 <tr>
   <th>ชื่อโครงการ <span class="textRed">*</span></th>
-  <td><input type="text" name="project_name" style="width:450px;"  class="form-control"/></td>
+  <td><input type="text" name="project_name" style="width:450px;"  class="form-control" value="<? echo @$rs['project_name']; ?>" /></td>
 </tr>
 <tr>
   <th>แนบไฟล์เอกสารโครงการ<span class="textRed">*</span></th>
@@ -100,45 +100,52 @@
 </tr>
 	<tr>
 		<th>ชื่อองค์กรที่เสนอขอรับ <span class="textRed">*</span></th>
-		<td><input name="organization" type="text"  class="form-control" style="width:550px;" value="" /></td>
+		<td><input name="organization" type="text"  class="form-control" style="width:550px;" value="<? echo @$rs['organization']; ?>" /></td>
 	</tr>
 	<tr>
 		<th>สถานะโครงการที่ขอรับเงินกองทุนฯ <span class="textRed">*</span></th>
 		<td>
-		  	<div style="margin-bottom:10px;">
-		    	<input type="radio" name="project_status" value="1">
-		    	โครงการริเริ่มใหม่ (โครงการที่มีแนวคิดหรือนโยบายใหม่ไม่เคยทำมาก่อน) 
-		    </div>
-			<div style="margin-bottom:10px;">
-		  		<input type="radio" name="project_status" value="2">
-		    	โครงการใหม่ (โครงการที่ไม่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นมาก่อน) </div> 
-		    <div>
-			<input type="radio" name="project_status" value="3">
-		      	โครงการเดิม (โครงการที่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นแล้ว และต้องการดำเนินการต่อ โดยจะต้องมีทุนเพื่อใช้ในการดำเนินงานตามโครงการนี้อยู่แล้วบางส่วน)
-			</div>
+			<? 
+				
+				
+				foreach($formInput['project_status'] as $key => $item) {
+					$checked = ($key == @$rs['project_status'])?'checked="checked"':null;
+					echo '<div style="margin-bottom:10px;">
+				    	<input type="radio" name="project_status" value="'.$key.'" '.$checked.'>
+				    	'.$item.'
+				    </div>'; 
+				}
+				#echo @$rs['project_status'];
+			?>
 		</td>
 	</tr>
 <tr>
 	<th>ประเภทโครงการ  <span class="textRed">*</span></th>
 	<td>
-		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="1"> สงเคราะห์</span>
-		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="2"> คุ้มครองสวัสดิภาพ</span>
-		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="3"> ส่งเสริมความประพฤติ</span>
-		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="4"> 5 สถาน</span>
-		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="5"> งานวิจัย ฯ</span>
-		<span style="margin-right:15px;"><input type="radio" name="project_typep_main_id" value="6"> อื่นๆ</span>			
+		<? 
+			foreach($formInput['project_typep_main_id'] as $key => $item) {
+				$checked = ($key == @$rs['project_typep_main_id'])?'checked="checked"':null;
+				echo '<span style="margin-right:15px;">
+			    	<input type="radio" name="project_typep_main_id" value="'.$key.'" '.$checked.'>
+			    	'.$item.'
+			    </span>'; 
+			}
+		?>			
 		<span id="error_project_typep_main_id"></span>
 	</td>
 </tr>
 	<tr>
 		<th>กรอบทิศทางในการจัดสรรเงินกองทุนคุ้มครองเด็ก <span class="textRed">*</span></th>
 		<td> 
-			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="4"> การส่งเสริมศักยภาพครอบครัวเพื่อการเลี้ยงดูบุตรอย่างเหมาะสม</span>
-			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="2"> การพัฒนาเด็กและเยาวชน</span>
-			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="3"> การพัฒนาระบบคุ้มครองเด็ก</span>
-			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="5"> การส่งเสริมศักยภาพองค์กรปกครองส่วนท้องถิ่นในการคุ้มครองเด็ก</span>
-			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="6"> สาโรจน์_ชื่อกรอบทิศทางในการจัดสรรเงิน</span>
-			<span style="margin-right:15px;"><input type="radio" name="project_direction_set_id" value="1"> การป้องกันและแก้ไขปัญหาเด็กและเยาวชน</span>			
+			<? 
+				foreach($formInput['project_direction_set_id'] as $key => $item) {
+					$checked = ($key == @$rs['project_direction_set_id'])?'checked="checked"':null;
+					echo '<span style="margin-right:15px;">
+				    	<input type="radio" name="project_direction_set_id" value="'.$key.'" '.$checked.'>
+				    	'.$item.'
+				    </span>'; 
+				}
+			?>						
 			<span id="error_project_direction_set_id"></span>  
 		</td>
 	</tr>
@@ -147,26 +154,29 @@
 		<td>
 			<div>
 				<span style="width:240px;">งบประมาณทั้งโครงการ </span>
-				<input type="text" name="project_budget_" value="0.00" style="width:180px; background:#EEE; display:inline-block;" ref="project_budget" class="text-right form-control" readonly="readonly">  บาท
+				<input type="text" name="project_budget" value="0.00" style="width:180px; background:#EEE; display:inline-block;" ref="project_budget" class="text-right form-control" readonly="readonly" value="<? echo @$rs['project_budget']; ?>">  บาท
 			</div>
 			<div>
 				<span style="width:240px;">งบประมาณที่ขอรับการสนับสนุน  </span>
-				<input type="text" name="budget_request_" value="0.00" ref="budget_request" style="width:180px; display:inline-block;" class="cal_project_budget text-right form-control"> บาท
+				<input type="text" name="budget_request" value="0.00" style="width:180px; display:inline-block;" class="cal_project_budget text-right form-control" value="<? echo @$rs['budget_request']; ?>"> บาท
 				<span style="display:none;" class="note">* จะคำนวณเป็นขนาดโครงการ</span>
 			</div>
 			<div>
 				<span style="width:240px;">งบประมาณที่ได้รับสมทบจากแหล่งอื่น*(ถ้ามี) </span>
-				<input type="text" name="budget_other_" value="0.00" ref="budget_other" style="width:180px; display:inline-block;" class="cal_project_budget text-right form-control"> บาท
+				<input type="text" name="budget_other" value="0.00" style="width:180px; display:inline-block;" class="cal_project_budget text-right form-control" value="<? echo @$rs['budget_other']; ?>"> บาท
 				
-					
-				<input type="hidden" name="project_budget" value="">
-				<input type="hidden" name="budget_request" value="">
-				<input type="hidden" name="budget_other" value="">
+				<span style="margin-left:20px;">
+					 <? 
+					 	if(!empty($rs['budget_other_type'])) {
+					 		$rs['budget_other_type'] = explode(', ',$rs['budget_other_type']);
+					 	}	
+						
+						foreach($formInput['budget_other_type'] as $key => $item) {
 							
-				<span style="margin-left:20px;"> 
-					<input type="checkbox" name="budget_other_type[]" value="1"> หน่วยงานภาครัฐ 
-					<input type="checkbox" name="budget_other_type[]" value="2"> ท้องถิ่น  
-					<input type="checkbox" name="budget_other_type[]" value="3"> ธุรกิจ/องค์กรเอกชน
+							$checked = (@in_array($key,$rs['budget_other_type']))?'checked="checked"':null;
+							echo ' <input type="checkbox" name="budget_other_type[]" value="'.$key.'" '.$checked.'> '.$item; 
+						}
+					?>		
 				</span>
 			</div>
 						
@@ -176,43 +186,45 @@
 	<tr>
 		<th>สาเหตุที่เสนอขอรับเงินกองทุน <span class="textRed">*</span></th>
 		<td>
+			<? 
+				foreach($formInput['budget_cause'] as $key => $item) {
+					$checked = ($key == @$rs['budget_cause'])?'checked="checked"':null;
+					echo '<span style="margin-right:15px;">
+				    	<input type="radio" name="budget_cause" value="'.$key.'" '.$checked.'>
+				    	'.$item.'
+				    </span>'; 
+				}
+			?>
+		<!--		
 			<span><input type="radio" name="budget_cause" value="1"> ไม่ได้รับงบประมาณปกติของหน่วยงาน</span>   
 			<span><input type="radio" name="budget_cause" value="2"> ได้รับงบประมาณปกติจากหน่วยงานแต่ไม่เพียงพอ</span>
 			
 			<input type="hidden" name="budget_cause_" value="">
+		-->
 		</td>
 	</tr>
 <tr>
 	<th>กลุ่มเป้าหมายของโครงการ<span class="textRed"> *</span></th>
 	<td>
-		<span style="margin-right:15px;">
-			<input type="checkbox" name="project_target_set_id[]" value="5"> 
-			<input type="text" name="project_target_set_val[5]" value="" class="nformat" style="width:50px;"> สาโรจน์_ชื่อกลุ่มเป้าหมายของโครงการ
-		</span>
-		<span style="margin-right:15px;">
-			<input type="checkbox" name="project_target_set_id[]" value="1"> 
-			<input type="text" name="project_target_set_val[1]" value="" class="nformat" style="width:50px;"> เด็ก
-		</span>
-		<span style="margin-right:15px;">
-			<input type="checkbox" name="project_target_set_id[]" value="2"> 
-			<input type="text" name="project_target_set_val[2]" value="" class="nformat" style="width:50px;"> ผู้ปกครอง/ครอบครัวอุปถัมภ์
-		</span>
-		<span style="margin-right:15px;">
-			<input type="checkbox" name="project_target_set_id[]" value="3"> 
-			<input type="text" name="project_target_set_val[3]" value="" class="nformat" style="width:50px;"> เจ้าหน้าที่ที่ทำงานด้านเด็ก
-		</span>
-		<span style="margin-right:15px;">
-			<input type="checkbox" name="project_target_set_id[]" value="4"> 
-			<input type="text" name="project_target_set_val[4]" value="" class="nformat" style="width:50px;"> แกนนำชุมชน
-		</span>		
+		<?
+			foreach($formInput['project_target_set_id'] as $item) {
+				echo '<span style="margin-right:15px;">
+					<input type="checkbox" name="project_target_set_id[]" value="'.$item['id'].'"> 
+					<input type="text" name="project_target_set_val['.$item['id'].']" value="" class="nformat" style="width:50px;"> '.$item['title'].'
+				</span>';
+			}
+		?>
 	</td>
 </tr>
 <tr>
 	<th>ประเภทองค์กรที่เสนอขอรับเงินกองทุน <span class="textRed">*</span></th>
 	<td>
-		<span><input type="radio" name="organiztion_type" value="1"> องค์กรภาคเอกชน</span>  
-		<span><input type="radio" name="organiztion_type" value="2"> หน่วยงานของรัฐ</span>
-		<input type="hidden" name="organiztion_type_" value="">
+		<? 
+			foreach($formInput['budget_cause'] as $key => $item) {
+				$checked = ($key == @$rs['budget_cause'])?'checked="checked"':null;
+				echo '<span><input type="radio" name="organiztion_type" value="'.$key.'" '.$checked.'> '.$item.'</span>'; 
+			}
+		?>
 	</td>
 </tr>
 <tr>
