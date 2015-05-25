@@ -89,7 +89,7 @@ function permission($module, $action)
 
 function uploadfiles($oldPath = null, $dirPath = null, $fileInput = null) {
 	//Help
-	if(strtolower($oldPath) == 'help') {
+	if(@strtolower($oldPath) == 'help') {
 		$help = "<pre>
 			Dir : helper/authen_helper
 			uploadfiles(oldpath, dirpath, fileinput);
