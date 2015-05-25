@@ -134,9 +134,11 @@ class Claimfund extends Public_Controller
 			dbConvert($data['value']);
 			
 			if(!empty($id)) {
-				$data['rs'] = "select * from fund_project_support where id = '".$id."'";
+				$data['rs'] = $this->ado->GetRow("select * from fund_project_support where id = '".$id."'");
+				dbConvert($data['rs']);
 			}
-			 
+			
+			var_dump($data['rs']);
 			
 			$form = 'formChild';
 		} else if($_GET['type'] == 2) {

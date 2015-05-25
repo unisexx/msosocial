@@ -42,7 +42,7 @@
 
 
 <link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
-<span onclick="memberForm(1);">aaaa</span>
+<span onclick="memberForm(1, '<? echo @$id; ?>');">aaaa</span>
 <div style="text-align:right;"><button class="btn" id="btn2list" onclick="memberList();">กลับไปหน้ารายการ</button></div>
 <h4 style="margin-top:0; color:#393;" class="form-inline ">
 	แบบฟอร์มการขอรับเงินสนับสนุนโครงการ 
@@ -60,16 +60,21 @@
 		<th>ปีงบประมาณ / จังหวัด</th>
 		<td class="form-inline">
 			<? 
-				echo form_hidden('budget_year', (date('Y')+543)); 
-				echo form_hidden('province_id', $value['province_code']);
+				$budget_year = (empty($rs['budget_year']))?(date('Y')+543):$rs['budget_year'];
+				$province_id = (empty($rs['province_id']))?$value['province_code']:$rs['province_id'];
+				$project_code = (empty($rs['project_code']))?'คคด/'.(date('Y')+543).'/'.$value['province_name'].'/XXXX':$rs['project_code'];
+				
+				#(date('Y')+543).'/'.$value['province_name']
+				echo form_hidden('budget_year', $budget_year); 
+				echo form_hidden('province_id', $province_id);
+				
 				 
-				echo (date('Y')+543); ?> / <? echo $value['province_name']; 
 			?>
 	  </td>
 	</tr>
 <tr>
 	<th>รหัสโครงการ </th>
-	<td style="font-size:18px; color:#F00;" id="proj_code">คคด/<? echo (date('Y')+543).'/'.$value['province_name']; ?>/XXXX</td>
+	<td style="font-size:18px; color:#F00;" id="proj_code"><? echo $project_code; ?> </td>
 </tr>
 <tr>
   <th>ชื่อโครงการ <span class="textRed">*</span></th>
