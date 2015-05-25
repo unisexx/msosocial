@@ -313,6 +313,27 @@ class Claimfund extends Public_Controller
 		set_notify('success', 'บันทึกข้อมูลเสร็จสิ้น');
 		redirect('org/member#tabs-3');
 	}
+
+	//	เซฟกองทุนส่งเสริม
+	public function saveSupport() {
+
+	}
+
+	public function getTarget($id) {
+		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
+		$this->load->library('adodb');
+		$data['other'] = 0;
+
+		if($id==1) {
+			$data['other'] = 1;
+			$where = " AND SYSTEM_NORMAL = 1";
+		} else {
+			$where = " AND SYSTEM_DISTRIBUTE = 1";
+		}
+		$queryTarget = "SELECT * FROM FUND_WELFARE_TARGET WHERE STATUS = 1 $where ORDER BY ID ASC";
+
+		$data["variable"] = $this->ado->GetArray($queryTarget);
+		dbConvert($data['variable']);
+		$this->load->view('claimfund/getSupportTarget',$data);
+	}
 }
->>>>>>> bc47a67aa8ea9bfc7b5897d92378bba11de4e519
-?>

@@ -147,7 +147,7 @@
         </tr>
         <tr>
             <th>กลุ่มเป้าหมาย <span class="Txt_red_12">*</span></th>
-            <td>
+            <td id="project_target" >
                 <span style="display:inline-block; width:300px;">
                   <input type="checkbox" class="checkbox-inline" name="checkbox7" /> เด็กและเยาวชน    
                   <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน
@@ -342,6 +342,30 @@
             $("#is_project_system_2").hide();
             $("input[name=is_project_system_2]").attr("checked", false);
         }
+    });
+
+    //  คลิกเลือก ระบบการขอรับเงินสนับสนุน 1= ระบบปกติ,2 = ระบบกระจาย
+    $("input[name=project_system]").click(function() {
+        var id = $(this).val();
+
+        if (id == "2") {
+            $("#is_project_system_2").show();
+        } else {
+            $("#is_project_system_2").hide();
+            $("input[name=is_project_system_2]").attr("checked", false);
+        }
+
+        //  กลุ่มเป้าหมาย
+        $.get("org/claimfund/getTarget/" + id, function(data) {
+            //  $("#project_target").html(ajaxLoader);
+
+            setTimeout(function() {
+                $("#project_target").html(data);
+            }, 500)
+
+        });
+
+        formValidate();
     });
 
     //  งบประมาณทั้งโครงการ
