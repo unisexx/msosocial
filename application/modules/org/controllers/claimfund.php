@@ -5,76 +5,9 @@ class Claimfund extends Public_Controller
 	{
 		parent::__construct();
 	}
-	
-	function QueryOracle($amountRec, $qry = null) {
-		if(!$qry || $amountRec == 0) {
-			return false;
-		}
-		
-		$_GET['page'] = (empty($_GET['page']))?1:$_GET['page'];
-		
-		$limit = 10;
-		$recMin = ($_GET['page']-1)*$limit;
-		$recMax = (($_GET['page']-1)*$limit)+$limit;
-		
-		$pageMin = 1;
-		$pageMax = ceil($amountRec/$limit);
-		$pageCurrent = $_GET['page'];
-
-		$urlCurrent = $_SERVER['REDIRECT_URL'];
-		
-		$pagination = '<div class="pagination">';
-			$pagination .= ($pageCurrent == $pageMin)?'<span class="disabled">« Previous</span>':'<a href="'.$urlCurrent.'?page='.($pageCurrent-1).'">« Previous</a>';
-				
-			for($i=$pageMin; $i<=$pageMax; $i++) {
-				$pagination .= ($i == $pageCurrent)?'<span class="current">'.$i.'</span>':'<a href="'.$urlCurrent.'?page='.$i.'">'.$i.'</a>';
-			}
-			
-			$pagination .= ($pageCurrent == $pageMax)?'<span class="disabled">Next »</span>':'<a href="'.$urlCurrent.'?page='.($pageCurrent+1).'">Next »</a>';
-		$pagination .= '</div>';
-		
-		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
-		array_walk($_POST,'dbConvert','TIS-620');
-		$this->load->library('adodb');
-		
-		
-		#$qry .= " WHERE ROWNUM > ".$recMin." and ROWNUM <= ".$recMax;
-		$qry .= " order by FPSID desc ";
-		$data['rs'] = $this->ado->GetArray($qry);
-		$data['pagination'] = $_GET['page'].$pagination;
-		
-		return $data;
-	}
-	
 	public function lists() {
-		
-		//List query
-		//--Fund_project_support
-		#$_GET['page'] = 2;
-		
-		//--Amount record
 		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
-		array_walk($_POST,'dbConvert','TIS-620');
 		$this->load->library('adodb');
-		
-		$qry = "SELECT
-			count(FPSID) AMOUNTREC
-		FROM
-			(
-			SELECT
-				FPSID, PROJECT_CODE, PROJECT_NAME, PROJECT_STATUS, RECEIVE_DATE, (
-					SELECT MAX(TIME) 
-					FROM FUND_PROJECT_SUPPORT_RESULT 
-					WHERE FUND_PROJECT_SUPPORT_ID = FPSID
-				) FTIME
-			FROM (
-				SELECT ID FPSID, FPS.PROJECT_CODE, FPS.PROJECT_NAME, FPS.PROJECT_STATUS, FPS.RECEIVE_DATE
-				FROM FUND_PROJECT_SUPPORT FPS
-			)
-		)";
-		
-		$amountRecord = $this->ado->GetOne($qry);
-		
 		$qry = "SELECT
 			FPSID,
 			PROJECT_CODE,
@@ -96,9 +29,9 @@ class Claimfund extends Public_Controller
 				FROM FUND_PROJECT_SUPPORT FPS
 			)
 		)";
-		$data = $this->QueryOracle($amountRecord, $qry);
-		
+		$data['rs'] = $this->ado->GetArray($qry);
 		dbConvert($data['rs']);
+		
 		$this->load->view('claimfund/list', @$data);
 	}
 
@@ -241,8 +174,7 @@ class Claimfund extends Public_Controller
 			
 			
 			if(!empty($current) && !empty($id)) {
-				$code = $current['project_code'];
-			
+				$code = $current;
 			} else if((!empty($current) && empty($id)) || (empty($current) && !empty($id))) {
 				$current = $this->ado->GetOne("select project_code from fund_project_support where project_code like '".iconv('utf-8', 'tis-620', $code)."%'");
 				dbConvert($current);
@@ -267,16 +199,16 @@ class Claimfund extends Public_Controller
 		//gen project_code
 		$_POST['project_code'] = $this->gen_projectcode($_POST['budget_year'], @$id, @$_POST['province_id'], @$_POST['central_check']);
 		//-- งบประมาณที่ได้รับสมทบจากแหล่งอื่น*(ถ้ามี) : Budget_other_type
-		if(!empty($_POST['budget_other_type'])) {
-			$tmp = '';
-			$i = 0 ; 
-			foreach($_POST['budget_other_type'] as $item) {
-				if($i != 0) { $tmp .= ', '; }
-				$i++;
-				$tmp .= $item;
+			if(!empty($_POST['budget_other_type'])) {
+				$tmp = '';
+				$i = 0 ; 
+				foreach($_POST['budget_other_type'] as $item) {
+					if($i != 0) { $tmp .= ', '; }
+					$i++;
+					$tmp .= $item;
+				}
+				$_POST['budget_other_type'] = $tmp;
 			}
-			$_POST['budget_other_type'] = $tmp;
-		}
 		//--End
 		
 		$fieldExcept = array(
@@ -288,8 +220,6 @@ class Claimfund extends Public_Controller
 			, 'budget_request_'
 			, 'budget_other_'
 		);
-		
-		#array_walk($_POST,'dbConvert','TIS-620');
 		if(empty($id)) {
 			//Get new id 
 			$_POST['id'] = $id = $this->ado->GetOne("select MAX(id) id from fund_project_support")+1;
@@ -317,12 +247,14 @@ class Claimfund extends Public_Controller
 					if($i != 0){ $set .= ', '; }
 					$i++;
 					
-					$set .= ''.$key.' = '."'".$item."'";
+					$set .= ''.$key.' = '."'".iconv('utf-8', 'tis-620', $item)."'";
+					#$set .= ''.$key.' = '."'".$item."'";
 				}	
 			}
 			$qry = "UPDATE FUND_PROJECT_SUPPORT SET ".$set." WHERE ID = '".$id."'";
 			$this->ado->query($qry);
 		}
+		
 		/*
 		//--กลุ่มเป้าหมายของโครงการ  (fund_project_target_set_data)
 		#$this->project_target_set_data->where("project_support_id = '".$_POST['id']."'")->delete(); #Clear old data
@@ -338,14 +270,15 @@ class Claimfund extends Public_Controller
 			);
 			var_dump($data);
 			#$this->project_target_set_data->save($data);
-		}
+		}/**/
 	
 	
 			
 		//--แนบไฟล์เอกสารประกอบการพิจารณา 
 		for($i=1; $i<6; $i++) {
 			if(!empty($_FILES['fileattach'.$i]['tmp_name'])) {
-				$module = 'project_support_attach'.$i;
+				$fileattach['module'] = 'project_support_attach'.$i;
+				$fileattach['module_id'] = $id;
 				
 				//Find old data - Table:Fund_attach
 				if(!empty($id)) {
@@ -353,19 +286,18 @@ class Claimfund extends Public_Controller
 					from fund_attach 
 					where module = '".$module."'
 						and module_id = '".$id."'";
-					echo $qry;
+					$oldfile = $this->ado->GetRow($qry);
 				}
 				
-				#$dir = 'uploads/org/claimfund/child';
-				#var_dump($_FILES['fileattach'.$i]);
 				
-				$id;
-				#echo uploadfiles('help');
+				$dir = 'uploads/org/claimfund/child';
+				var_dump($_FILES['fileattach'.$i]);
+				
+				#echo uploadfiles('help', $dir, $_FILES['fileattach'.$i]);
 			}
 		}
+		
 		return false;
-		 * 
-		 */
 		set_notify('success', 'บันทึกข้อมูลเสร็จสิ้น');
 		redirect('org/member#tabs-3');
 	}
