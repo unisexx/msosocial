@@ -126,8 +126,20 @@ class Claimfund extends Public_Controller
 			
 			$form = 'formChild';
 		} else if($_GET['type'] == 2) {
+			//	สาขาของโครงการที่ขอรับสนับสนุน
+			$querySector = 'SELECT * FROM FUND_WELFARE_SECTOR WHERE STATUS = 1 ORDER BY ID ASC';
+			$data["sectors"] = $this->ado->GetArray($querySector);
+
+			//	กลุ่มเป้าหมาย
+			$queryTarget = 'SELECT * FROM FUND_WELFARE_TARGET WHERE STATUS = 1 ORDER BY ID ASC';
+			$data["targets"] = $this->ado->GetArray($queryTarget);
+
 			$data['value'] = $this->ado->GetRow($query);
+
+			dbConvert($data['sectors']);
+			dbConvert($data['targets']);
 			dbConvert($data['value']);
+
 			$form = 'formSupport';
 		} else if($_GET['type'] == 3) {
 			$form = 'formTraffick';
@@ -275,36 +287,25 @@ class Claimfund extends Public_Controller
 	
 			
 		//--แนบไฟล์เอกสารประกอบการพิจารณา 
-		$dir = 'uploads/org/claimfund/child/';
 		for($i=1; $i<6; $i++) {
 			if(!empty($_FILES['fileattach'.$i]['tmp_name'])) {
 				$fileattach['module'] = 'project_support_attach'.$i;
 				$fileattach['module_id'] = $id;
 				
 				//Find old data - Table:Fund_attach
-				$oldfile = null;
 				if(!empty($id)) {
 					$qry = "select * 
 					from fund_attach 
-					where module = '".$fileattach['module']."'
+					where module = '".$module."'
 						and module_id = '".$id."'";
 					$oldfile = $this->ado->GetRow($qry);
 				}
 				
-				#$fileattach['attach_name'] = uploadfiles($oldfile, $dir, $_FILES['fileattach'.$i]);
 				
-				$i = 0; $field = $val = null;
-				foreach($fileattach as $key => $item) {
-					if($i != 0) { $field .= ', '; $val .= ', '; }
-					$i++;
-					
-					$field .= $key;
-					$val .= "'".$item."'";
-				}
-				$qry = "insert into fund_attach (".$field.") values (".$val.")";
-				echo $qry;
-				var_dump($fileattach);
-				echo '<hr>';
+				$dir = 'uploads/org/claimfund/child';
+				var_dump($_FILES['fileattach'.$i]);
+				
+				#echo uploadfiles('help', $dir, $_FILES['fileattach'.$i]);
 			}
 		}
 		

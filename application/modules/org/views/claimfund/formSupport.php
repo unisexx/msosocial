@@ -14,16 +14,73 @@
     <table class="tblForm">
         <tr>
             <th style="width: 250px;" >ปีงบประมาณ / จังหวัด</th>
-            <td class="form-inline"><?php echo (date('Y')+543)?> / <?php echo $value['province_name']?></td>
+            <td class="form-inline">
+              <?php echo (date('Y')+543).' / '.$value['province_name']?>
+              <input type="hidden" name='year_budget' value='<?php echo (date('Y')+543)?>' >
+            </td>
         </tr>
         <tr>
             <th>ชื่อองค์กรที่เสนอขอรับเงินกองทุน</th>
-            <td><?php echo $value['organ_name'].' ('.$value['under_type_sub'].')'?></td>
+            <td>
+              <?php
+                //  act_welfare_benefit_id = องค์กรสาธารณประโยชน์
+                //  act_welfare_comm_id = องค์กรสวัสดิการชุมชน
+                //  under_type_sub ประเภทหน่วยงาน
+                //    1 = มูลนิธิ   
+                //    2 = สมาคม
+                //    3 = องค์กรภาคเอกชน
+                $under_type_sub = $value['under_type_sub'];
+
+                if(@$this->session->userdata('act_welfare_benefit_id')==true) {
+                  $agency_type_id = 1;
+                  switch ($under_type_sub) {
+                    case 'มูลนิธิ':
+                      $agency_sub_type = 1;
+                      break;
+                    case 'สมาคม':
+                      $agency_sub_type = 2;
+                      break;
+                    case 'องค์กรภาคเอกชน':
+                      $agency_sub_type = 3;
+                      break;
+                  }
+                } else {
+                  $agency_type_id = 2;
+                    switch ($under_type_sub) {
+                    case 'องค์กรสวัสดิการชุมชน':
+                      $agency_sub_type = 4;
+                      break;
+                    case 'เครือข่าย':
+                      $agency_sub_type = 5;
+                      break;
+                    }
+                }
+
+                echo $value['organ_name'].' ('.$value['under_type_sub'].')';
+                echo form_hidden('agency_type_id',$agency_type_id);
+                echo form_hidden('agency_sub_type',$agency_sub_type);
+              ?>
+            </td>
+        </tr>
+        <tr>
+          <th>ระบบ / รูปแบบ<br />การขอรับเงินสนับสนุน</th>
+          <td>
+            <input type="radio" name="project_system" value="1"> ระบบปกติ
+            <input type="radio" id="project_system_2" name="project_system" value="2"> ระบบกระจาย
+        </td>
+        <tr id="is_project_system_2" style="display: none;">
+            <th>รูปแบบการขอรับการสนับสนุน</th>
+            <td>
+                <div>
+                    <input type="radio" name="is_project_system_2" value="1"> เชิงประเด็น</div>
+                <div>
+                    <input type="radio" name="is_project_system_2" value="2"> เชิงพื้นที่</div>
+            </td>
         </tr>
         <tr>
             <th>ชื่อโครงการ (ภาษาไทย)<span class="Txt_red_12"> *</span></th>
             <td>
-                <input type="text" name="textfield10" id="textfield28" style="width:550px;" class="form-control" />
+                <input type="text" name="project_name" style="width:550px;" class="form-control" />
             </td>
         </tr>
         <tr>
@@ -31,20 +88,20 @@
             <td>
                 <div class="boxOrgType1">
                     <div style="margin-bottom:10px;">
-                        <input type="radio" class="radio-inline" name="radio" value="1" /> โครงการใหม่ (โครงการที่ไม่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้น มาก่อน)
+                        <input type="radio" class="radio-inline" name="project_type_id" value="1" /> โครงการใหม่ (โครงการที่ไม่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้น มาก่อน)
                     </div>
 
                     <div style="margin-bottom:10px;">
-                        <input type="radio" class="radio-inline" name="radio" value="1" /> โครงการที่ดำเนินงานมาแล้ว (โครงการที่ได้ดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นแล้ว โดยต้องมีทุนเพื่อใช้ในการดำเนินงานตามโครงการนี้อยู่แล้วบางส่วน ซึ่งต้องไม่น้อยกว่า 25%)
+                        <input type="radio" class="radio-inline" name="project_type_id" value="2" /> โครงการที่ดำเนินงานมาแล้ว (โครงการที่ได้ดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นแล้ว โดยต้องมีทุนเพื่อใช้ในการดำเนินงานตามโครงการนี้อยู่แล้วบางส่วน ซึ่งต้องไม่น้อยกว่า 25%)
                     </div>
 
                     <div>
-                        <input type="radio" class="radio-inline" name="radio" value="1" /> ไม่ได้รับการสนับสนุนงบประมาณจากส่วนราชการและแหล่งทุนอื่นๆ หรือได้รับแต่ไม่เพียงพอ
+                        <input type="radio" class="radio-inline" name="project_type_id" value="3" /> ไม่ได้รับการสนับสนุนงบประมาณจากส่วนราชการและแหล่งทุนอื่นๆ หรือได้รับแต่ไม่เพียงพอ
                     </div>
                 </div>
 
 
-                <div class="boxOrgType2">
+                <div class="boxOrgType2" style="display: none;" >
                     
                     <div style="margin-bottom:10px;">
                         <input type="radio" class="radio-inline" name="radio" value="1" /> โครงการรึเริ่มใหม่ (โครงการที่มีแนวคิดหรือนโยบายใหม่ ไม่เคยทำมาก่อน)
@@ -83,13 +140,9 @@
         <tr>
             <th>สาขาของโครงการที่ขอรับสนับสนุน <span class="Txt_red_12">*</span></th>
             <td>
-                <span style="display:inline-block; width:280px;"><input type="checkbox" class="checkbox-inline" name="checkbox2" /> สาขาการบริการสังคม </span>
-                <span style="display:inline-block; width:280px;"><input type="checkbox" class="checkbox-inline" name="checkbox3" /> สาขาการศึกษา </span>
-                <span style="display:inline-block; width:280px;"><input type="checkbox" class="checkbox-inline" name="checkbox4" /> สาขาสุขภาพอนามัย</span>
-                <span style="display:inline-block; width:280px;"><input type="checkbox" class="checkbox-inline" name="checkbox5" /> สาขาที่อยู่อาศัย</span>
-                <span style="display:inline-block; width:280px;"><input type="checkbox" class="checkbox-inline" name="checkbox6" /> สาขาแรงงานการฝึกอาชีพและการประกอบอาชีพ </span>
-                <span style="display:inline-block; width:280px;"><input type="checkbox" class="checkbox-inline" name="checkbox6" /> สาขานันทนาการ </span>
-                <span style="display:inline-block; width:280px;"><input type="checkbox" class="checkbox-inline" name="checkbox6" /> สาขากระบวนการยุติธรรม</span>
+                <?php foreach ($sectors as $num => $sector):?>
+                <span style="display:inline-block; width:280px;"><input type="checkbox" class="checkbox-inline" name="project_sector_<?php echo $sector['id']?>" value="1" /> <?php echo $sector['title_normal']?> </span>
+                <?php endforeach?>
                 <span style="display:inline-block;"><input type="checkbox" class="checkbox-inline" name="checkbox6" /> ด้านอื่นๆ ระบุ <input type="text" class="form-control" name="" style="display: inline; width: 200px;" /> </span></td>
         </tr>
         <tr>
@@ -169,24 +222,82 @@
         <tr>
             <th>งบประมาณโครงการและแหล่งสนับสนุน(เฉพาะปีปัจจุบัน) <span class="Txt_red_12">*</span></th>
             <td>
-                <div>
-                  <span style="display:inline-block; width:230px;">งบประมาณทั้งโครงการ (เฉพาะปีปัจจุบัน)    </span>
-                  <input type="text" class="form-control" name="textfield15" style="display:inline; width:180px;" readonly="readonly" /> บาท
-                </div>
 
-                <div>
-                  <span style="display:inline-block; width:230px;">งบประมาณที่ขอรับการสนับสนุน  </span>
-                  <input type="text" class="form-control" name="textfield15" style="display:inline; width:180px;" /> บาท <span class="note">* จะคำนวณเป็นขนาดโครงการ</span>
-                </div>
+              <div>
+                  <div style="display: inline-block; width: 310px;">
+                      งบประมาณทั้งโครงการ (เฉพาะปีปัจจุบัน)
+                  </div>
+                  <input type="number" id="budget_total" name="budget_total" class="num-format form-control" value="" readonly style="display:inline;width: 250px;" > บาท
+              </div>
 
-                <div>
-                  <span style="display:inline-block; width:230px;">งบประมาณที่ได้รับสมทบจากแหล่งอื่น<strong>*</strong><em>(ถ้ามี)</em>  </span>
-                  <input type="text" class="form-control" name="textfield23" style="display:inline; width:180px;" /> บาท
-                  <span style="margin-left:20px;"><input name="" type="checkbox" value="" /> หน่วยงานภาครัฐ</span> <span style="margin:0 5px;"><input name="" type="checkbox" value="" /> ท้องถิ่น</span>
-                  <input name="" type="checkbox" value="" /> ธุรกิจ/องค์กรเอกชน
-                </div>
+              <div>
+                  <div style="display: inline-block; width: 310px;">
+                      งบประมาณที่ขอรับการสนับสนุน
+                  </div>
+                  <input type="number" id="budget_request" class="num-format calculate-budget form-control" name="budget_request" value="" style="display:inline;width: 250px;" > บาท
+                  <span class="note">* จะคำนวณเป็นขนาดโครงการ</span>
+              </div>
 
-            </td>
+              <div style="padding-left: 50px;">
+                  งบประมาณที่ได้รับสมทบจากแหล่งอื่น
+
+                  <div style="padding-left: 20px;">
+                      <div style="display: inline-block; width: 240px;">
+                          <input type="checkbox" id="budget_other_1" class="budget_other" name="has_budget_other_1" data-target="1" value="1"> หน่วยงานรัฐ
+                      </div>
+                      <input type="number" class="calculate-budget form-control" name="budget_other_1" value="" style="display: inline; width: 250px;" disabled > บาท
+                  </div>
+
+                  <div style="padding-left: 20px;">
+                      <div style="display: inline-block; width: 240px;">
+                          <input type="checkbox" id="budget_other_2" class="budget_other" name="has_budget_other_2" data-target="2" value="1"> หน่วยงานภาคเอกชน
+                      </div>
+                      <input type="number" class="calculate-budget form-control" name="budget_other_2" value="" style="display: inline; width: 250px;" disabled > บาท
+                  </div>
+
+                  <div style="padding-left: 20px;">
+                      <input type="checkbox" id="has_budget_other_3" name="has_budget_other_3" value="1"> ท้องถิ่น
+
+                      <div id="div_has_budget_other_3" style="padding-left: 40px;display:none;">
+                          <div>
+                              <div style="display: inline-block; width: 200px;">
+                                  <input type="checkbox" id="has_budget_other_3_1" class="has_budget_other_3" name="has_budget_other_3_1" data-target="1" value="1"> องค์การบริหารส่วนจังหวัด
+                              </div>
+                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_1" value="" style="display: inline; width: 250px;" disabled > บาท
+                          </div>
+
+                          <div>
+                              <div style="display: inline-block; width: 200px;">
+                                  <input type="checkbox" id="has_budget_other_3_2" class="has_budget_other_3" name="has_budget_other_3_2" data-target="2" value="1"> องค์การบริหารส่วนตำบล
+                              </div>
+                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_2" value="" style="display: inline; width: 250px;" disabled > บาท
+                          </div>
+
+                          <div>
+                              <div style="display: inline-block; width: 200px;">
+                                  <input type="checkbox" id="has_budget_other_3_3" class="has_budget_other_3" name="has_budget_other_3_3" data-target="3" value="1"> องค์กรปกครองส่วนท้องถิ่น
+                              </div>
+                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_3" value="" style="display: inline; width: 250px;" disabled > บาท
+                          </div>
+
+                          <div>
+                              <div style="display: inline-block; width: 200px;">
+                                  <input type="checkbox" id="has_budget_other_3_4" class="has_budget_other_3" name="has_budget_other_3_4" data-target="4" value="1"> เทศบาล
+                              </div>
+                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_4" value="" style="display: inline; width: 250px;" disabled > บาท
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div>
+                  <div style="display: inline-block; width: 310px;">
+                      งบประมาณที่องค์กรสมทบเอง
+                  </div>
+                  <input type="text" class="calculate-budget form-control" name="organization_budget" value="" style="display: inline; width: 250px;" > บาท
+              </div>
+
+          </td>
         </tr>
         <tr>
             <th>แนบไฟล์โครงการ</th>
@@ -200,3 +311,91 @@
         <button class="btn btn-primary">บันทึกส่งแบบฟอร์ม</button>
     </div>
 </div>
+
+<script type="text/javascript">
+
+  function formValidate() {
+
+  }
+
+  function calculateTotal() {
+    var totalInput = $(".calculate-budget:enabled").length;
+    var totalBudget = 0;
+    var budget = 0;
+    
+    for (var i=0; i < totalInput; i++) {
+      totalBudget += Number($(".calculate-budget:enabled").eq(i).val());      
+    };
+    
+    $("#budget_total").val(totalBudget);
+  }
+
+  $(document).ready(function(){
+
+    //  คลิกเลือก ระบบการขอรับเงินสนับสนุน 1= ระบบปกติ,2 = ระบบกระจาย
+    $("input[name=project_system]").click(function() {
+        var id = $(this).val();
+
+        if (id=="2") {
+            $("#is_project_system_2").show();
+        } else {
+            $("#is_project_system_2").hide();
+            $("input[name=is_project_system_2]").attr("checked", false);
+        }
+    });
+
+    //  งบประมาณทั้งโครงการ
+    $(".calculate-budget").keyup(function() {
+        calculateTotal();
+    })
+
+    //  งบประมาณที่ได้รับสมทบจากแหล่งอื่น
+    $(".budget_other").click(function() {
+        var c = $(this);
+        var target = $(this).attr("data-target");
+        var input = $("input[name=budget_other_" + target + "]");
+
+        if (c.is(":checked")) {
+            input.attr("disabled", false);
+        } else {
+            input.attr("disabled", true);
+        }
+
+        calculateTotal();
+        formValidate();
+    })
+
+    //  งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> ท้องถิ่น
+    $("input[name=has_budget_other_3]").click(function() {
+        var c = $(this);
+
+        if (c.is(":checked")) {
+            $("#div_has_budget_other_3").show();
+        } else {
+            $("#div_has_budget_other_3").hide();
+            $("input.has_budget_other_3[type=checkbox]").attr("checked", false);
+            $("input.has_budget_other_3[type=number]").attr("disabled", true);
+        }
+
+        calculateTotal();
+        formValidate();
+    });
+
+    //  งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> ท้องถิ่น -> องค์กร...
+    $("input.has_budget_other_3[type=checkbox]").click(function() {
+        var c = $(this);
+        var target = c.attr("data-target");
+        var t = $("input.has_budget_other_3[name=budget_other_3_" + target + "]");
+
+        if (c.is(":checked")) {
+            t.attr("disabled", false);
+        } else {
+            t.attr("disabled", true);
+        }
+
+        calculateTotal();
+        formValidate();
+    });
+
+  });
+</script>
