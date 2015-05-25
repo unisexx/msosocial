@@ -266,46 +266,61 @@ class Claimfund extends Public_Controller
 			$qry = "UPDATE FUND_PROJECT_SUPPORT SET ".$set." WHERE ID = '".$id."'";
 			$this->ado->query($qry);
 		}
-		
-		/*
-		//--กลุ่มเป้าหมายของโครงการ  (fund_project_target_set_data)
-		#$this->project_target_set_data->where("project_support_id = '".$_POST['id']."'")->delete(); #Clear old data
-		if(!empty($id)) {
-			$this->ado->query("delete from project_target_set_data where project_support_id = '".$id."'");
-		}	
-		foreach($_POST['project_target_set_id'] as $item) {
-			echo $item;
-			$data = array(
-				'project_support_id'=>@$id,
-				'project_target_set_id'=>$item,
-				'value'=>$_POST['project_target_set_val'][$item]
-			);
-			var_dump($data);
-			#$this->project_target_set_data->save($data);
-		}/**/
-	
-	
-			
-		//--แนบไฟล์เอกสารประกอบการพิจารณา 
+
+		//--แนบไฟล์เอกสารประกอบการพิจารณา
+		$dir = 'uploads/org/claimfund/child/'; 
 		for($i=1; $i<6; $i++) {
 			if(!empty($_FILES['fileattach'.$i]['tmp_name'])) {
+				$fileattach['id'] = null;
 				$fileattach['module'] = 'project_support_attach'.$i;
-				$fileattach['module_id'] = $id;
+				
 				
 				//Find old data - Table:Fund_attach
 				if(!empty($id)) {
-					$qry = "select * 
+					$qry = "select id, attach_name 
 					from fund_attach 
-					where module = '".$module."'
-						and module_id = '".$id."'";
+					where module = '".$fileattach['module']."' and module_id = '".$id."'";
 					$oldfile = $this->ado->GetRow($qry);
+					echo $fileattach['module'];
+					dbConvert($oldfile);
+					var_dump($oldfile);
+					#return false;
+					if(!empty($oldfile['id'])) {
+						$fileattach['id'] = $oldfile['id'];
+						$oldfile = $oldfile['attach_name'];
+					}
 				}
 				
-				
-				$dir = 'uploads/org/claimfund/child';
-				var_dump($_FILES['fileattach'.$i]);
-				
-				#echo uploadfiles('help', $dir, $_FILES['fileattach'.$i]);
+				echo $fileattach['id'];
+				echo '<hr>';
+				//Data in fund_attach
+				$fileattach['module_id'] = $id;
+				$fileattach['attach_name'] = uploadfiles($oldfile, $dir, $_FILES['fileattach'.$i]);
+
+				$j = 0; $set = $field = $values = null;
+				foreach($fileattach as $key=> $item) {
+					if($key != 'id') {
+						if(empty($fileattach['id'])) {
+							$field .= ', '; $values .= ', ';
+							$field .= $key;
+							$values .= "'".$item."'";
+						} else {
+							if($j != 0) {
+								$set .= ', ';
+							}
+							$j++;
+							$set .= $key." = '".$item."'";
+						}
+							
+					}	
+				}
+				if(empty($fileattach['id'])) {
+					$qry = "insert into fund_attach (id".$field.") values ((select max(id) from fund_attach)".$values.")";
+				} else {
+					$qry = "update fund_attach set ".$set." where id = '".$fileattach['id']."'";
+				}
+				echo $qry.'<br>';
+				#$this->ado->query($qry);
 			}
 		}
 		
