@@ -30,7 +30,8 @@
 			    <td><?php echo @$item['receive_date']; ?></td>
 			    <td><?php echo @$item['resultt']; ?></td>
 			    <td><?php echo @$item['date_appoved']; ?></td>
-			    <td><img src="media/images/view.png" width="24" height="23" /></td>
+			    <!-- <td><img src="media/images/view.png" width="24" height="23" /></td> -->
+			    <td><img src="media/images/edit.png" width="16" height="16" onclick="memberForm(1, <? echo $item['fpsid']; ?>);"/></td>
 			    <!-- <td><img src="media/images/edit.png" width="16" height="16" /></td> -->
 		    </tr>
 	    <?php } ?>

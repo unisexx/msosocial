@@ -1,5 +1,48 @@
-<link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
+<style type='text/css'>
+	.div_attach {
+		margin:5px;
+	}
+	
+	.div_attach>div {
+		display:inline-block;
+		border:solid 1px #AAA; 
+		padding:10px; 
+		border-radius:4px; 
+		background:#EEE;
+		line-height:30px;
+		min-width:420px;
+	}
+	
+	.btn-delete_input {
+		display:inline-block;
+		width:70px; 
+		float:right;
+	}
+	
+	
+	.tag_fileattach {
+		display:inline-block;
+		border:solid 1px #AAA;
+		border-radius:4px;
+		background:#EEE;
+		padding:10px 15px;
+		margin:10px 0px;
+		margin-bottom:20px;
+		
+		min-width:280px;
+		line-height:30px;
+	}
+	
+	.tag_fileattach.download {
+		background:#95c9dd;
+		border:solid 1px #688c9a;
+	}
+</style>
 
+
+
+<link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
+<span onclick="memberForm(1);">aaaa</span>
 <div style="text-align:right;"><button class="btn" id="btn2list" onclick="memberList();">กลับไปหน้ารายการ</button></div>
 <h4 style="margin-top:0; color:#393;" class="form-inline ">
 	แบบฟอร์มการขอรับเงินสนับสนุนโครงการ 
@@ -9,105 +52,24 @@
 <?php echo form_hidden('type', @$_GET['type']); ?>
 
 
-<form action="org/claimfund/saveChild/<?php echo @$rs->id; ?>" method='post'>
+<form action="org/claimfund/saveChild/<?php echo @$rs->id; ?>" method='post' enctype="multipart/form-data">
 	
 <div class="dvChild">
 <table class="tblForm">
 	<tr>
-	  <th>ปีงบประมาณ / จังหวัด</th>
-	  <td class="form-inline">
-	  	<select name="budget_year" class="gen_projcode valid form-control">
-			<option value="2558">2558</option>
-			<option value="2557">2557</option>
-			<option value="2556">2556</option>
-			<option value="2555">2555</option>
-			<option value="2554">2554</option>
-		</select> /
-		<select name="province_id" id="province_id" class="gen_projcode valid form-control">
-			<option value="">-- เลือกจังหวัด --</option>\n<option value="64">กระบี่</option>
-			<option value="1">กรุงเทพมหานคร</option>
-			<option value="56" selected="selected">กาญจนบุรี</option>
-			<option value="34">กาฬสินธุ์</option>
-			<option value="49">กำแพงเพชร</option>
-			<option value="28">ขอนแก่น</option>
-			<option value="13">จันทบุรี</option>
-			<option value="15">ฉะเชิงเทรา</option>
-			<option value="11">ชลบุรี</option>
-			<option value="9">ชัยนาท</option>
-			<option value="25">ชัยภูมิ</option>
-			<option value="69">ชุมพร</option>
-			<option value="72">ตรัง</option>
-			<option value="14">ตราด</option>
-			<option value="50">ตาก</option>
-			<option value="17">นครนายก</option>
-			<option value="58">นครปฐม</option>
-			<option value="36">นครพนม</option>
-			<option value="19">นครราชสีมา</option>
-			<option value="63">นครศรีธรรมราช</option>
-			<option value="47">นครสวรรค์</option>
-			<option value="3">นนทบุรี</option>
-			<option value="76">นราธิวาส</option>
-			<option value="43">น่าน</option>
-			<option value="77">บึงกาฬ</option>
-			<option value="20">บุรีรัมย์</option>
-			<option value="4">ปทุมธานี</option>
-			<option value="62">ประจวบคีรีขันธ์</option>
-			<option value="16">ปราจีนบุรี</option>
-			<option value="74">ปัตตานี</option>
-			<option value="5">พระนครศรีอยุธยา</option>
-			<option value="44">พะเยา</option>
-			<option value="65">พังงา</option>
-			<option value="73">พัทลุง</option>
-			<option value="53">พิจิตร</option>
-			<option value="52">พิษณุโลก</option>
-			<option value="66">ภูเก็ต</option>
-			<option value="32">มหาสารคาม</option>
-			<option value="37">มุกดาหาร</option>
-			<option value="75">ยะลา</option>
-			<option value="24">ยโสธร</option>
-			<option value="68">ระนอง</option>
-			<option value="12">ระยอง</option>
-			<option value="55">ราชบุรี</option>
-			<option value="33">ร้อยเอ็ด</option>
-			<option value="7">ลพบุรี</option>
-			<option value="40">ลำปาง</option>
-			<option value="39">ลำพูน</option>
-			<option value="22">ศรีสะเกษ</option>
-			<option value="35">สกลนคร</option>
-			<option value="70">สงขลา</option>
-			<option value="71">สตูล</option>
-			<option value="2">สมุทรปราการ</option>
-			<option value="60">สมุทรสงคราม</option>
-			<option value="59">สมุทรสาคร</option>
-			<option value="10">สระบุรี</option>
-			<option value="18">สระแก้ว</option>
-			<option value="8">สิงห์บุรี</option>
-			<option value="57">สุพรรณบุรี</option>
-			<option value="67">สุราษฎร์ธานี</option>
-			<option value="21">สุรินทร์</option>
-			<option value="51">สุโขทัย</option>
-			<option value="31">หนองคาย</option>
-			<option value="27">หนองบัวลำภู</option>
-			<option value="26">อำนาจเจริญ</option>
-			<option value="29">อุดรธานี</option>
-			<option value="41">อุตรดิตถ์</option>
-			<option value="48">อุทัยธานี</option>
-			<option value="23">อุบลราชธานี</option>
-			<option value="6">อ่างทอง</option>
-			<option value="45">เชียงราย</option>
-			<option value="38">เชียงใหม่</option>
-			<option value="61">เพชรบุรี</option>
-			<option value="54">เพชรบูรณ์</option>
-			<option value="30">เลย</option>
-			<option value="42">แพร่</option>
-			<option value="46">แม่ฮ่องสอน</option>
-		</select>
-		<input type="checkbox" name="central_check" value="1"> ส่วนกลาง<span id="error_province_id"></span>
+		<th>ปีงบประมาณ / จังหวัด</th>
+		<td class="form-inline">
+			<? 
+				echo form_hidden('budget_year', (date('Y')+543)); 
+				echo form_hidden('province_id', $value['province_code']);
+				 
+				echo (date('Y')+543); ?> / <? echo $value['province_name']; 
+			?>
 	  </td>
 	</tr>
 <tr>
-	<th>รหัสโครงการ <span class="textRed">*</span></th>
-	<td style="font-size:18px; color:#F00;" id="proj_code">คคด/2558/กาญจนบุรี/XXXX</td>
+	<th>รหัสโครงการ </th>
+	<td style="font-size:18px; color:#F00;" id="proj_code">คคด/<? echo (date('Y')+543).'/'.$value['province_name']; ?>/XXXX</td>
 </tr>
 <tr>
   <th>ชื่อโครงการ <span class="textRed">*</span></th>
@@ -133,7 +95,7 @@
 </tr>
 	<tr>
 		<th>ชื่อองค์กรที่เสนอขอรับ <span class="textRed">*</span></th>
-		<td><input name="organization" type="text"  class="form-control" id="textfield29" style="width:550px;" value="" readonly="readonly"/></td>
+		<td><input name="organization" type="text"  class="form-control" style="width:550px;" value="" /></td>
 	</tr>
 	<tr>
 		<th>สถานะโครงการที่ขอรับเงินกองทุนฯ <span class="textRed">*</span></th>
@@ -273,3 +235,29 @@
 </div>
 
 </form>
+
+<script language="JavaScript">
+	function add_input_attach(name, obj_sector) {
+		content = "<div class='div_attach'>";
+			content += "<div>";
+				content += "<strong>แนบไฟล์ : </strong>";
+					content += "<input type='file' style='display:inline-block;' name='"+name+"[]'>";
+					content += "<input type='button' value='Delete' class='btn btn-danger btn-delete_input'>";
+			content += "</div>";
+		content += "</div>";
+		
+		obj_sector.prepend(content);
+	}
+
+	$(function(){
+		$('#btn_add_files1').click(function(){
+			add_input_attach('attach_file', $('#file_sector1'));
+		});
+		
+		$('#btn_add_files2').click(function(){
+			add_input_attach('attach_file_pay', $('#file_sector2'));
+		});
+
+
+	});
+</script>

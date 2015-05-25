@@ -963,11 +963,11 @@
   			});
   		}
   		
-  		function memberForm(type) {
+  		function memberForm(type, id) {
   			type = (type == '')?1:type;
   			$('#sector-3--fps').html('<div style="text-align:center;">Loading...</div>');
   			$.get(
-  				'org/claimfund/form'
+  				'org/claimfund/form/'+id
   				, {
   					type : type
   				} , function(data) {

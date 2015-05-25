@@ -83,4 +83,51 @@ function permission($module, $action)
 		return FALSE;
 	}
 }
+
+
+
+
+function uploadfiles($oldPath = null, $dirPath = null, $fileInput = null) {
+	//Help
+	if(strtolower($oldPath) == 'help') {
+		$help = "<pre>
+			Dir : helper/authen_helper
+			uploadfiles(oldpath, dirpath, fileinput);
+			input--oldpath : remove old file or fileinput error function will return \"oldpath\".
+			input--dirpath : directory for uploadfiles.
+			input--fileinput : \$_FILES for upload.
+			return : upload file and return directory current file.
+		</pre>";
+		return $help;
+	}
+	
+	//Retur old path;
+	if(empty($fileInput['tmp_name'])) {
+		return $oldPath;
+	}
+	
+	//Remove old file
+	if(@file_exists($oldPath) && !empty($oldPath)) {
+		unlink($oldPath);
+	}
+	
+	//Make directory
+	if(@!file_exists($dirPath)) {
+		mkdir($dirPath);
+	}
+	
+	//Get fil type
+	$fileType = explode('.', $fileInput['name']);
+	$fileType = end($fileType);
+	
+	//Get file name
+	$rs = $dirPath.uniqid().'.'.$fileType;
+	
+	//Upload file 
+	move_uploaded_file($fileInput['tmp_name'], $rs);
+	
+	return $rs;
+}
+
+
 ?>
