@@ -231,11 +231,11 @@
 	<th>แนบไฟล์เอกสารประกอบการพิจารณา <span class="textRed">*</span></th>
 	<td>
 		<?php foreach($formInput['fileattach'] as $key => $item){
-				if(!empty($rs['fileattach']['project_support_attach'.$key]) && file_exists($rs['fileattach']['project_support_attach'.$key])) { ?>
+				if(!empty($rs['fileattach']['project_support_attach'.$key]['file']) && file_exists($rs['fileattach']['project_support_attach'.$key]['file'])) { ?>
 					<div style="font-weight:bold;"><? echo $item; ?></div>
 					<div class="tag_fileattach download">
-						
-						<a href="<? echo site_url().$rs['fileattach']['project_support_attach'.$key]; ?>" target="_blank" class="btn btn-primary">Download</a>
+						<a href="<? echo site_url().$rs['fileattach']['project_support_attach'.$key]['file']; ?>" target="_blank" class="btn btn-primary">Download</a>
+						<a href="claimfund/deleteFile/<? echo $rs['fileattach']['project_support_attach'.$key]['id']; ?>" class="btn btn-danger pull-right">Remove</a>
 					</div>
 				<?php } else { ?>
 					<div style="font-weight:bold;"><? echo $item; ?></div>
