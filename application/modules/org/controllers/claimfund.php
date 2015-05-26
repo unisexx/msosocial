@@ -36,7 +36,6 @@ class Claimfund extends Public_Controller
 					WHERE AWB.ID = '".$this->session->userdata('act_welfare_benefit_id')."'
 				)
 			)";
-			echo '<pre>'.$qry.'</pre>';
 		} else {
 			$qry = "SELECT * from FUND_WELFARE";
 		}
