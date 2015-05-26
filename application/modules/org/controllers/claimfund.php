@@ -466,7 +466,6 @@ class Claimfund extends Public_Controller
 			
 			foreach ($input as $value) {
 				if(!@$_POST[$value]) {
-					echo $value.'<br />';
 					$error = 1;
 				}
 			}
