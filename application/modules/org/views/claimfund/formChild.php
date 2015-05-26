@@ -125,7 +125,7 @@
 </tr>
 	<tr>
 		<th>ชื่อองค์กรที่เสนอขอรับ <span class="textRed">*</span></th>
-		<td><input name="organization" type="text"  class="form-control" style="width:550px;" value="<? echo @$rs['organization']; ?>" /></td>
+		<td><input name="organization" type="text"  class="form-control" style="width:550px;" value="<? echo @$rs['organ_name']; ?>" readonly="readonly"/></td>
 	</tr>
 	<tr>
 		<th>สถานะโครงการที่ขอรับเงินกองทุนฯ <span class="textRed">*</span></th>

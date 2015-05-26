@@ -994,7 +994,6 @@
   			});
   			
   			$('#myTab1').tabs();
-  			memberForm(1, '62');
   		});
   	</script>
 	
