@@ -105,7 +105,8 @@ class Claimfund extends Public_Controller
 					$tmp = $this->ado->GetArray($sql);
 					dbConvert($tmp);
 					foreach($tmp as $item) {
-						$data['rs']['fileattach'][$item['module']] = $item['attach_name'];
+						$data['rs']['fileattach'][$item['module']]['id'] = $item['id'];
+						$data['rs']['fileattach'][$item['module']]['file'] = $item['attach_name'];
 					}
 				}
 			//--End : Data for edit
