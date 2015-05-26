@@ -17,8 +17,7 @@ class Claimfund extends Public_Controller
 				PROJECT_STATUS,
 				RECEIVE_DATE,
 				(SELECT RESULT_TYPE FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) RESULTT,
-				(SELECT DATE_APPOVED FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) DATE_APPOVED,
-				PROVINCE_CODE
+				(SELECT DATE_APPOVED FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) DATE_APPOVED
 			FROM
 				(
 				SELECT
@@ -26,14 +25,11 @@ class Claimfund extends Public_Controller
 						SELECT MAX(TIME) 
 						FROM FUND_PROJECT_SUPPORT_RESULT 
 						WHERE FUND_PROJECT_SUPPORT_ID = FPSID
-					) FTIME,
-					PROVINCE_CODE
+					) FTIME
 				FROM (
-					SELECT FPS.ID FPSID, FPS.PROJECT_CODE, FPS.PROJECT_NAME, FPS.PROJECT_STATUS, FPS.RECEIVE_DATE, FPS.PROVINCE_ID PROVINCE_CODE
+					SELECT FPS.ID FPSID, FPS.PROJECT_CODE, FPS.PROJECT_NAME, FPS.PROJECT_STATUS, FPS.RECEIVE_DATE
 					FROM FUND_PROJECT_SUPPORT FPS
-					JOIN ACT_PROVINCE APV ON APV.PROVINCE_CODE = FPS.PROVINCE_ID
-					JOIN ACT_WELFARE_BENEFIT AWB ON APV.PROVINCE_CODE = AWB.PROVINCE_CODE 
-					WHERE AWB.ID = '".$this->session->userdata('act_welfare_benefit_id')."'
+					WHERE FPS.ACT_WELFARE_BENEFIT_ID = '".$this->session->userdata('act_welfare_benefit_id')."'
 				)
 			)";
 		} else {
@@ -90,19 +86,34 @@ class Claimfund extends Public_Controller
 			dbConvert($data['value']);
 			
 			//--Data for edit
-				if(!empty($id)) {
-					$data['rs'] = $this->ado->GetRow("select * from fund_project_support where id = '".$id."'");
-					dbConvert($data['rs']);
-					
-					//แนบไฟล์เอกสารโครงการ
+				//--Data form fund_project_support
+				$data['rs'] = $this->ado->GetRow("select * from fund_project_support where id = '".$id."'");
+				dbConvert($data['rs']);
+				
+				if(!empty($data['rs']['id'])) {
+					//--แนบไฟล์เอกสารโครงการ
 					$data['rs']['attach_file'] = $this->ado->GetArray("select * from fund_attach where module = 'project_support_attach' and module_id = '".$data['rs']['id']."'");
 					dbConvert($data['rs']['attach_file']);
+					
+					//--แนบไฟล์เอกสารรายละเอียดค่าใช้จ่ายของโครงการ
+					$data['rs']['attach_file_pay'] = $this->ado->GetArray("select * from fund_attach where module = 'project_support_attach_pay' and module_id = '".$data['rs']['id']."'");
+					dbConvert($data['rs']['attach_file_pay']);
 					
 					//--งบประมาณทั้งโครงการ
 					$data['rs']['project_budget'] = (@$data['rs']['budget_request'] + @$data['rs']['budget_other']);
 					
 					//--กลุ่มเป้าหมายของโครงการ
-					$data['rs']['ptsd'] = $this->ado->GetArray("select * from fund_project_target_set where project_support_id = '".@$data['rs']['id']."'");
+					$data['rs']['fund_project_target_set_data'] = $this->ado->GetArray("select * from fund_project_target_set_data where project_support_id = '".@$data['rs']['id']."'");
+					dbConvert($data['rs']['fund_project_target_set_data']);
+					if(!empty($data['rs']['fund_project_target_set_data'])) {
+						foreach($data['rs']['fund_project_target_set_data'] as $key => $item) {
+							$tmp[$item['project_target_set_id']] = $item['value'];
+						}
+						$data['rs']['fund_project_target_set_data'] = $tmp;
+					} else {
+						$data['rs']['fund_project_target_set_data'] = null;
+					}
+						
 					
 					//--แนบไฟล์เอกสารประกอบการพิจารณา
 					$where = null;
@@ -117,6 +128,7 @@ class Claimfund extends Public_Controller
 						$data['rs']['fileattach'][$item['module']]['id'] = $item['id'];
 						$data['rs']['fileattach'][$item['module']]['file'] = $item['attach_name'];
 					}
+					
 				}
 			//--End : Data for edit
 			
@@ -278,9 +290,6 @@ class Claimfund extends Public_Controller
 		return false;
 	}
 	public function saveChild($id = null) {
-		//--Call adodb
-		#var_dump($id);
-		#var_dump($_POST);
 		//gen project_code
 		$_POST['project_code'] = $this->gen_projectcode($_POST['budget_year'], @$id, @$_POST['province_id'], @$_POST['central_check']);
 		//-- งบประมาณที่ได้รับสมทบจากแหล่งอื่น*(ถ้ามี) : Budget_other_type
@@ -305,9 +314,16 @@ class Claimfund extends Public_Controller
 			, 'budget_request_'
 			, 'budget_other_'
 		);
+		$_POST['budget_request'] = str_replace(',',null,$_POST['budget_request']);
+		$_POST['budget_other'] = str_replace(',',null,$_POST['budget_other']);
+		$_POST['project_budget'] = $_POST['budget_request']+$_POST['budget_other'];
+		
 		if(empty($id)) {
 			//Get new id 
 			$_POST['id'] = $id = $this->ado->GetOne("select MAX(id) id from fund_project_support")+1;
+			
+			//Act_welfare_benefit_id
+			$_POST['act_welfare_benefit_id'] = $this->session->userdata('act_welfare_benefit_id');
 			
 			$field = $val = null;	
 			$i=0;
@@ -333,15 +349,31 @@ class Claimfund extends Public_Controller
 					$i++;
 					
 					$set .= ''.$key.' = '."'".iconv('utf-8', 'tis-620', $item)."'";
-					#$set .= ''.$key.' = '."'".$item."'";
 				}	
 			}
 			$qry = "UPDATE FUND_PROJECT_SUPPORT SET ".$set." WHERE ID = '".$id."'";
 			$this->ado->query($qry);
 		}
+		//--กลุ่มเป้าหมายของโครงการ
+		$this->ado->query("delete from fund_project_target_set_data where project_support_id = '".$id."'");
+		foreach($_POST['project_target_set_id'] as $item) {
+			$data = array(
+				'project_support_id' => $id
+				,'project_target_set_id' => $item
+				,'value' => $_POST['project_target_set_val'][$item] 
+			);
+			
+			$field = $value = null;
+			foreach($data as $key => $item) {
+				$field .= ', '.$key;
+				$value .= ", '".$item."'";
+			}
+			
+			$this->ado->query("insert into fund_project_target_set_data (id".$field.") values ((select max(id)+1 from fund_project_target_set_data)".$value.")");
+		}
 		
+
 		$dir = 'uploads/org/claimfund/child/'; //Directory สำหรับ แนบไฟล์
-		
 		
 		//--แนบไฟล์เอกสารโครงการ
 		foreach($_FILES['attach_file']['tmp_name'] as $key => $item) {
@@ -359,13 +391,28 @@ class Claimfund extends Public_Controller
 			}
 			$this->ado->query("insert into fund_attach (id".$field.") values ((select MAX(id)+1 from fund_attach)".$value.")");
 		}
+		
+		//--แนบไฟล์เอกสารรายละเอียดค่าใช้จ่ายของโครงการ 
+		foreach($_FILES['attach_file_pay']['tmp_name'] as $key => $item) {
+			$file = array('tmp_name' => $item, 'name' => $_FILES['attach_file_pay']['name'][$key]);
+			$data = array(
+				'module' => 'project_support_attach_pay'
+				,'module_id' => $id
+				,'attach_name' => uploadfiles(null, $dir, $file)
+			);
+			
+			$field = $value = null;
+			foreach($data as $key => $item) {
+				$field .= ', '.$key;
+				$value .= ', \''.$item."'";
+			}
+			$this->ado->query("insert into fund_attach (id".$field.") values ((select MAX(id)+1 from fund_attach)".$value.")");
+		}
 
 		//--แนบไฟล์เอกสารประกอบการพิจารณา 
 		for($i=1; $i<6; $i++) {
 			if(!empty($_FILES['fileattach'.$i]['tmp_name'])) {
-				$fileattach['id'] = null;
 				$fileattach['module'] = 'project_support_attach'.$i;
-				
 				
 				//Find old data - Table:Fund_attach
 				if(!empty($id)) {
@@ -386,29 +433,12 @@ class Claimfund extends Public_Controller
 				
 				$j = 0; $set = $field = $values = null;
 				foreach($fileattach as $key=> $item) {
-					if($key != 'id') {
-						if(empty($fileattach['id'])) {
-							$field .= ', '; $values .= ', ';
-							$field .= $key;
-							$values .= "'".$item."'";
-						} else {
-							if($j != 0) {
-								$set .= ', ';
-							}
-							$j++;
-							$set .= $key." = '".$item."'";
-						}
-							
-					}	
+					$field .= ', '; $values .= ', ';
+					$field .= $key;
+					$values .= "'".$item."'";
 				}
-				if(empty($fileattach['id'])) {
-					
-					
-					$qry = "insert into fund_attach (id".$field.") values (".($this->ado->GetOne('select max(id) from fund_attach')+1).$values.")";
-				} else {
-					$qry = "update fund_attach set ".$set." where id = '".$fileattach['id']."'";
-				}
-				echo $qry.'<hr>';
+				$qry = "insert into fund_attach (id".$field.") values (".($this->ado->GetOne('select max(id) from fund_attach')+1).$values.")";
+				
 				$this->ado->query($qry);
 			}
 		}

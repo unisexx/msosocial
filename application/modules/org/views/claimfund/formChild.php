@@ -39,8 +39,6 @@
 	}
 </style>
 
-<span onclick="memberForm(1, '<? echo @$rs['id']; ?>');">aaaa<? echo @$rs['id']; ?></span>
-
 <link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
 
 <div style="text-align:right;"><button class="btn" id="btn2list" onclick="memberList();">กลับไปหน้ารายการ</button></div>
@@ -53,7 +51,7 @@
 
 
 <form action="org/claimfund/saveChild/<?php echo @$rs['id']; ?>" method='post' enctype="multipart/form-data">
-	
+
 <div class="dvChild">
 <table class="tblForm">
 	<tr>
@@ -86,15 +84,18 @@
   	<button name="" type="button" class="btn btn-success" id="btn_add_files1">+ เพิ่มไฟล์แนบ</button>
   	<div id='file_sector1'>
   		<?
-  			$filelist = $rs['attach_file'];
+  			$filelist = @$rs['attach_file'];
+			if(!empty($filelist)) {
 			foreach($filelist as $item) {
 				echo '<div class="div_attach">
 					<div style="background:#95c9dd; border:solid 1px #688c9a;">
 						<strong>ไฟล์แนบ : </strong><a href="'.$item['attach_name'].'" target="_blank" style="color:#fff;" class="btn btn-primary">Download</a>
-						<input type="button" value="Delete" class="btn btn-danger btn-delete_input">
+						<a href="org/claimfund/deleteFile/'.$item['id'].'" class="btn btn-danger pull-right btnDelfile" style="color:#fff;">Delete</a>
 					</div>
 				</div>';
-			} 
+			}	
+			}
+			 
   		?>
 	</div>
   	<!--<input type="file" name="fileField" id="fileField" class="form-control" />-->
@@ -105,6 +106,19 @@
   <td>
   	<button name="" type="button" class="btn btn-success" id="btn_add_files2">+ เพิ่มไฟล์แนบ</button>
   	<div id='file_sector2'>
+  		<?
+  			$filelist = @$rs['attach_file_pay'];
+			if(!empty($filelist)) {
+			foreach($filelist as $item) {
+				echo '<div class="div_attach">
+					<div style="background:#95c9dd; border:solid 1px #688c9a;">
+						<strong>ไฟล์แนบ : </strong><a href="'.$item['attach_name'].'" target="_blank" style="color:#fff;" class="btn btn-primary">Download</a>
+						<a href="org/claimfund/deleteFile/'.$item['id'].'" class="btn btn-danger pull-right btnDelfile" style="color:#fff;" >Delete</a>
+					</div>
+				</div>';
+			} 
+			}
+  		?>
 	</div>
   	<!--<input type="file" name="fileField2" id="fileField2" class="form-control" />-->
   </td>
@@ -126,7 +140,6 @@
 				    	'.$item.'
 				    </div>'; 
 				}
-				#echo @$rs['project_status'];
 			?>
 		</td>
 	</tr>
@@ -164,17 +177,17 @@
 		<th>งบประมาณโครงการและแหล่งสนับสนุน (เฉพาะปีปัจจุบัน) <span class="textRed">*</span></th>
 		<td>
 			<div>
-				<span style="width:240px;">งบประมาณทั้งโครงการ </span>
-				<input type="text" name="project_budget" value="0.00" style="width:180px; background:#EEE; display:inline-block;" ref="project_budget" class="text-right form-control" readonly="readonly" value="<? echo @$rs['project_budget']; ?>">  บาท
+				<span style="display:inline-block; width:240px;">งบประมาณทั้งโครงการ </span>
+				<input type="text" name="project_budget" value="<? echo (empty($rs['project_budget']))?'0.00':number_format($rs['project_budget'], 2); ?>" style="width:180px; background:#EEE; display:inline-block;" ref="project_budget" class="text-right form-control" readonly="readonly" value="<? echo @$rs['project_budget']; ?>">  บาท
 			</div>
-			<div>
-				<span style="width:240px;">งบประมาณที่ขอรับการสนับสนุน  </span>
-				<input type="text" name="budget_request" value="0.00" style="width:180px; display:inline-block;" class="cal_project_budget text-right form-control" value="<? echo @$rs['budget_request']; ?>"> บาท
+			<div style='margin-top:5px;'>
+				<span style="display:inline-block; width:240px;">งบประมาณที่ขอรับการสนับสนุน  </span>
+				<input type="text" name="budget_request" value="<? echo (empty($rs['budget_request']))?'0.00':number_format($rs['budget_request'], 2); ?>" style="width:180px; display:inline-block;" class="cal_project_budget text-right form-control"> บาท
 				<span style="display:none;" class="note">* จะคำนวณเป็นขนาดโครงการ</span>
 			</div>
-			<div>
-				<span style="width:240px;">งบประมาณที่ได้รับสมทบจากแหล่งอื่น*(ถ้ามี) </span>
-				<input type="text" name="budget_other" value="0.00" style="width:180px; display:inline-block;" class="cal_project_budget text-right form-control" value="<? echo @$rs['budget_other']; ?>"> บาท
+			<div style='margin-top:5px;'>
+				<span style="display:inline-block; width:240px;">งบประมาณที่ได้รับสมทบจากแหล่งอื่น*(ถ้ามี) </span>
+				<input type="text" name="budget_other" value="<? echo (empty($rs['budget_other']))?'0.00':number_format($rs['budget_other'], 2); ?>" style="width:180px; display:inline-block;" class="cal_project_budget text-right form-control" value="<? echo @$rs['budget_other']; ?>"> บาท
 				
 				<span style="margin-left:20px;">
 					 <? 
@@ -190,8 +203,6 @@
 					?>		
 				</span>
 			</div>
-						
-			<input type="hidden" name="budget_request_" value="">
 		</td>
 	</tr>
 	<tr>
@@ -219,9 +230,15 @@
 	<td>
 		<?
 			foreach($formInput['project_target_set_id'] as $item) {
+				$value = $checked = null;
+				if(!empty($rs['fund_project_target_set_data'][$item['id']])) {
+					$checked = 'checked = "checked" ';
+					$value = $rs['fund_project_target_set_data'][$item['id']];
+				}
+				
 				echo '<span style="margin-right:15px;">
-					<input type="checkbox" name="project_target_set_id[]" value="'.$item['id'].'"> 
-					<input type="text" name="project_target_set_val['.$item['id'].']" value="" class="nformat" style="width:50px;"> '.$item['title'].'
+					<input type="checkbox" name="project_target_set_id[]" value="'.$item['id'].'" '.$checked.'> 
+					<input type="text" name="project_target_set_val['.$item['id'].']" value="'.$value.'" class="nformat" style="width:50px;"> '.$item['title'].'
 				</span>';
 			}
 		?>
@@ -241,21 +258,25 @@
 <tr>
 	<th>แนบไฟล์เอกสารประกอบการพิจารณา <span class="textRed">*</span></th>
 	<td>
-		<?php foreach($formInput['fileattach'] as $key => $item){
-				if(!empty($rs['fileattach']['project_support_attach'.$key]['file']) && file_exists($rs['fileattach']['project_support_attach'.$key]['file'])) { ?>
-					<div style="font-weight:bold;"><? echo $item; ?></div>
-					<div class="tag_fileattach download">
-						<a href="<? echo site_url().$rs['fileattach']['project_support_attach'.$key]['file']; ?>" target="_blank" class="btn btn-primary">Download</a>
-						<a href="org/claimfund/deleteFile/<? echo $rs['fileattach']['project_support_attach'.$key]['id']; ?>" class="btn btn-danger pull-right btnDelfile">Remove</a>
-						<!--<span class="btnDelfile">Remove</span>-->
-					</div>
-				<?php } else { ?>
+		<?php 
+			
+			foreach($formInput['fileattach'] as $key => $item){
+				
+				if(empty($rs['fileattach']['project_support_attach'.$key]) || !file_exists($rs['fileattach']['project_support_attach'.$key]['file']) ) { ?>
 					<div style="font-weight:bold;"><? echo $item; ?></div>
 					<div class="tag_fileattach ">
 						<input type="file" name="fileattach<? echo $key; ?>">
 					</div>
-				<?php }
-		} ?>
+				<?php } else { ?>
+					<div style="font-weight:bold;"><? echo $item; ?></div>
+					<div class="tag_fileattach download">
+						<a href="<? echo site_url().$rs['fileattach']['project_support_attach'.$key]['file']; ?>" target="_blank" class="btn btn-primary" style="color:#fff;">Download</a>
+						<a href="org/claimfund/deleteFile/<? echo $rs['fileattach']['project_support_attach'.$key]['id']; ?>" class="btn btn-danger pull-right btnDelfile" style="color:#fff;">Delete</a>
+						<!--<span class="btnDelfile">Delete</span>-->
+					</div>
+				<?php }/**/
+			} 
+		?>
 	</td>
 </tr>
 </table>
@@ -266,6 +287,7 @@
 </div>
 
 </form>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
 
 <script language="JavaScript">
 	function add_input_attach(name, obj_sector) {
@@ -299,6 +321,20 @@
 				memberForm(1, '<? echo @$rs['id']; ?>');
 			});
 			return false;
+		});
+		
+		//--cal_project_budget
+		$('.cal_project_budget').focus(function(){
+			$(this).val($(this).val().replace(/,/gi, "")*1);
+		});
+		$('.cal_project_budget').blur(function(){
+			$(this).val(numeral($(this).val()).format('0,0.00'));
+			
+			project_budget = 0;
+			for(i=0; i<$('.cal_project_budget').length; i++) {
+				project_budget += ($('.cal_project_budget').eq(i).val().replace(/,/gi, "")*1);
+			}
+			$('[name=project_budget]').val(numeral(project_budget).format('0,0.00'));
 		});
 	});
 </script>

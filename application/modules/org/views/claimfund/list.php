@@ -32,7 +32,6 @@
 	    	<tr>
 			    <td><?php echo $no; ?></td>
 			    <td>
-			    	<?php echo $item['province_code'].'/'; ?>
 			    	<?php 
 			    		 if ($type == '1') {
 			    	  		echo @$item['project_code']; 
