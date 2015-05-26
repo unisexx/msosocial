@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 class Claimfund extends Public_Controller
 {
