@@ -374,3 +374,4 @@ class Claimfund extends Public_Controller
 		$this->load->view('claimfund/getSupportTarget',$data);
 	}
 }
+?>
