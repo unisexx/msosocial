@@ -150,8 +150,20 @@ class Claimfund extends Public_Controller
 			
 			$form = 'formChild';
 		} else if($_GET['type'] == 2) {
+			//	สาขาของโครงการที่ขอรับสนับสนุน
+			$querySector = 'SELECT * FROM FUND_WELFARE_SECTOR WHERE STATUS = 1 ORDER BY ID ASC';
+			$data["sectors"] = $this->ado->GetArray($querySector);
+
+			//	กลุ่มเป้าหมาย
+			$queryTarget = 'SELECT * FROM FUND_WELFARE_TARGET WHERE STATUS = 1 ORDER BY ID ASC';
+			$data["targets"] = $this->ado->GetArray($queryTarget);
+
 			$data['value'] = $this->ado->GetRow($query);
+
+			dbConvert($data['sectors']);
+			dbConvert($data['targets']);
 			dbConvert($data['value']);
+
 			$form = 'formSupport';
 		} else if($_GET['type'] == 3) {
 			$form = 'formTraffick';
@@ -324,6 +336,29 @@ class Claimfund extends Public_Controller
 		return false;
 		set_notify('success', 'บันทึกข้อมูลเสร็จสิ้น');
 		redirect('org/member#tabs-3');
+	}
+	
+	//	เซฟกองทุนส่งเสริม
+	public function saveSupport() {
+
+	}
+
+	public function getTarget($id) {
+		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
+		$this->load->library('adodb');
+		$data['other'] = 0;
+
+		if($id==1) {
+			$data['other'] = 1;
+			$where = " AND SYSTEM_NORMAL = 1";
+		} else {
+			$where = " AND SYSTEM_DISTRIBUTE = 1";
+		}
+		$queryTarget = "SELECT * FROM FUND_WELFARE_TARGET WHERE STATUS = 1 $where ORDER BY ID ASC";
+
+		$data["variable"] = $this->ado->GetArray($queryTarget);
+		dbConvert($data['variable']);
+		$this->load->view('claimfund/getSupportTarget',$data);
 	}
 }
 ?>

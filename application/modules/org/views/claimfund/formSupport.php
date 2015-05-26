@@ -10,7 +10,7 @@
 </h4>
 
 
-<form action="org/claimfund/saveSupport/<?php echo @$rs['id']; ?>" method='post' enctype="multipart/form-data" >
+<form action="org/claimfund/saveSupport" method='post' enctype="multipart/form-data" >
 <div class="dvSupport">
     <table class="tblForm">
         <tr>
