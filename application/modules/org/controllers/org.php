@@ -469,13 +469,13 @@ class Org extends Public_Controller
 		$this->load->library('adodb');
 		// $this->ado->debug = true;
 		// $rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_BENEFIT WHERE ORGAN_NAME like '%".$_POST['organ_name']."%'");
-		$rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_BENEFIT WHERE ORGAN_NAME = '".$_POST['organ_name']."'");
+		$rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_BENEFIT WHERE ORGAN_NAME = '".$_POST['organ_name']."'  AND POST_FORM = 'app4'");
 		dbConvert($rs);
 		// print_r($rs);
 		if(@$rs['id'] == "")
 		{
 			// $rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ORGAN_NAME like '%".$_POST['organ_name']."%'");
-			$rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ORGAN_NAME = '".$_POST['organ_name']."'");
+			$rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ORGAN_NAME = '".$_POST['organ_name']."' AND POST_FORM = 'app4'");
 			dbConvert($rs);
 			if(@$rs['id'] == ""){
 				echo ' <font color="#CC075F">ตรวจสอบไม่พบชื่อองค์กรนี้</font>';
