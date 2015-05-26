@@ -379,38 +379,44 @@ class Claimfund extends Public_Controller
 		$dir = 'uploads/org/claimfund/child/'; //Directory สำหรับ แนบไฟล์
 		
 		//--แนบไฟล์เอกสารโครงการ
-		foreach($_FILES['attach_file']['tmp_name'] as $key => $item) {
-			$file = array('tmp_name' => $item, 'name' => $_FILES['attach_file']['name'][$key]);
-			$data = array(
-				'module' => 'project_support_attach'
-				,'module_id' => $id
-				,'attach_name' => uploadfiles(null, $dir, $file)
-			);
-			
-			$field = $value = null;
-			foreach($data as $key => $item) {
-				$field .= ', '.$key;
-				$value .= ', \''.$item."'";
+		if(!empty($_FILES['attach_file']['tmp_name'])) {
+			foreach($_FILES['attach_file']['tmp_name'] as $key => $item) {
+				$file = array('tmp_name' => $item, 'name' => $_FILES['attach_file']['name'][$key]);
+				$data = array(
+					'module' => 'project_support_attach'
+					,'module_id' => $id
+					,'attach_name' => base_url().uploadfiles(null, $dir, $file)
+				);
+				
+				$field = $value = null;
+				foreach($data as $key => $item) {
+					$field .= ', '.$key;
+					$value .= ', \''.$item."'";
+				}
+				$this->ado->query("insert into fund_attach (id".$field.") values ((select MAX(id)+1 from fund_attach)".$value.")");
 			}
-			$this->ado->query("insert into fund_attach (id".$field.") values ((select MAX(id)+1 from fund_attach)".$value.")");
 		}
+			
 		
-		//--แนบไฟล์เอกสารรายละเอียดค่าใช้จ่ายของโครงการ 
-		foreach($_FILES['attach_file_pay']['tmp_name'] as $key => $item) {
-			$file = array('tmp_name' => $item, 'name' => $_FILES['attach_file_pay']['name'][$key]);
-			$data = array(
-				'module' => 'project_support_attach_pay'
-				,'module_id' => $id
-				,'attach_name' => uploadfiles(null, $dir, $file)
-			);
-			
-			$field = $value = null;
-			foreach($data as $key => $item) {
-				$field .= ', '.$key;
-				$value .= ', \''.$item."'";
+		//--แนบไฟล์เอกสารรายละเอียดค่าใช้จ่ายของโครงการ
+		if(!empty($_FILES['attach_file_pay']['tmp_name'])) {
+			foreach($_FILES['attach_file_pay']['tmp_name'] as $key => $item) {
+				$file = array('tmp_name' => $item, 'name' => $_FILES['attach_file_pay']['name'][$key]);
+				$data = array(
+					'module' => 'project_support_attach_pay'
+					,'module_id' => $id
+					,'attach_name' => base_url().uploadfiles(null, $dir, $file)
+				);
+				
+				$field = $value = null;
+				foreach($data as $key => $item) {
+					$field .= ', '.$key;
+					$value .= ', \''.$item."'";
+				}
+				$this->ado->query("insert into fund_attach (id".$field.") values ((select MAX(id)+1 from fund_attach)".$value.")");
 			}
-			$this->ado->query("insert into fund_attach (id".$field.") values ((select MAX(id)+1 from fund_attach)".$value.")");
-		}
+		} 
+			
 
 		//--แนบไฟล์เอกสารประกอบการพิจารณา 
 		for($i=1; $i<6; $i++) {
@@ -432,7 +438,7 @@ class Claimfund extends Public_Controller
 				
 				//Data in fund_attach
 				$fileattach['module_id'] = $id;
-				$fileattach['attach_name'] = uploadfiles($oldfile, $dir, $_FILES['fileattach'.$i]);
+				$fileattach['attach_name'] = base_url().uploadfiles($oldfile, $dir, $_FILES['fileattach'.$i]);
 				
 				$j = 0; $set = $field = $values = null;
 				foreach($fileattach as $key=> $item) {
@@ -441,7 +447,6 @@ class Claimfund extends Public_Controller
 					$values .= "'".$item."'";
 				}
 				$qry = "insert into fund_attach (id".$field.") values (".($this->ado->GetOne('select max(id) from fund_attach')+1).$values.")";
-				
 				$this->ado->query($qry);
 			}
 		}

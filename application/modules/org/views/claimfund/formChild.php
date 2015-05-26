@@ -261,8 +261,7 @@
 		<?php 
 			
 			foreach($formInput['fileattach'] as $key => $item){
-				
-				if(empty($rs['fileattach']['project_support_attach'.$key]) || !file_exists($rs['fileattach']['project_support_attach'.$key]['file']) ) { ?>
+				if(empty($rs['fileattach']['project_support_attach'.$key])) { ?>
 					<div style="font-weight:bold;"><? echo $item; ?></div>
 					<div class="tag_fileattach ">
 						<input type="file" name="fileattach<? echo $key; ?>">
@@ -270,8 +269,8 @@
 				<?php } else { ?>
 					<div style="font-weight:bold;"><? echo $item; ?></div>
 					<div class="tag_fileattach download">
-						<a href="<? echo site_url().$rs['fileattach']['project_support_attach'.$key]['file']; ?>" target="_blank" class="btn btn-primary" style="color:#fff;">Download</a>
-						<a href="org/claimfund/deleteFile/<? echo $rs['fileattach']['project_support_attach'.$key]['id']; ?>" class="btn btn-danger pull-right btnDelfile" style="color:#fff;">Delete</a>
+						<a href="<? echo $rs['fileattach']['project_support_attach'.$key]['file']; ?>" target="_blank" class="btn btn-primary" style="color:#fff;">Download</a>
+						<a href="<? echo $rs['fileattach']['project_support_attach'.$key]['id']; ?>" class="btn btn-danger pull-right btnDelfile" style="color:#fff;">Delete</a>
 						<!--<span class="btnDelfile">Delete</span>-->
 					</div>
 				<?php }/**/
