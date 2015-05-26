@@ -10,6 +10,7 @@
 </h4>
 
 
+<form action="org/claimfund/saveSupport/<?php echo @$rs['id']; ?>" method='post' enctype="multipart/form-data" >
 <div class="dvSupport">
     <table class="tblForm">
         <tr>
@@ -147,77 +148,7 @@
         </tr>
         <tr>
             <th>กลุ่มเป้าหมาย <span class="Txt_red_12">*</span></th>
-            <td id="project_target" >
-                <span style="display:inline-block; width:300px;">
-                  <input type="checkbox" class="checkbox-inline" name="checkbox7" /> เด็กและเยาวชน    
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน
-                </span>
-
-                <span style="display:inline-block; width:300px;">
-                  <input type="checkbox" class="checkbox-inline" name="checkbox7" /> ผู้หญิง ครอบครัวและผู้ถูกละเมิดทางเพศ  
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน
-                </span>
-
-                <span style="display:inline-block; width:300px;">
-                  <input type="checkbox" class="checkbox-inline" name="checkbox7" /> ผู้สูงอายุ 
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน
-                </span>
-
-                <span style="display:inline-block; width:300px;">
-                  <input type="checkbox" class="checkbox-inline" name="checkbox7" /> คนพิการ  
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน
-                </span>
-
-                <span style="display:inline-block; width:300px;">
-                  <input type="checkbox" class="checkbox-inline" name="checkbox7" /> ชุมชนเมือง 
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> แห่ง
-                </span>
-
-                <span style="display:inline-block; width:300px;"> 
-                  <input type="checkbox" class="checkbox-inline" name="checkbox7" /> คนจนเมือง  
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน
-                </span>
-
-                <span style="display:inline-block; width:300px;"> 
-                  <input type="checkbox" class="checkbox-inline" name="checkbox7" /> แรงงานข้ามชาติ/แรงงานต่างด้าว  
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน
-                </span>
-
-                <span style="display:inline-block; width:300px;">
-                  <input type="checkbox" class="checkbox-inline" name="checkbox7" /> แรงงานนอกระบบ  
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน
-                </span>
-
-                <span style="display:inline-block; width:300px;">
-                  <input type="checkbox" class="checkbox-inline" name="checkbox7" /> คนจากจังหวัดชายแดนภาคใต้  
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน
-                </span>
-
-                <span style="display:inline-block; width:300px;">     
-                  <input type="checkbox" class="checkbox-inline" name="checkbox7" /> ผู้ป่วยเอดส์และผู้ได้รับผลกระทบจากเอดส์   
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน
-                </span>
-
-                <span style="display:inline-block; width:300px;">     
-                  <input type="checkbox" class="checkbox-inline" name="checkbox8" /> คนที่มีปัญหาสถานะบุคคล/ชาติพันธุ์  
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน 
-                </span>
-
-                <span style="display:inline-block; width:300px;">    
-                  <input type="checkbox" class="checkbox-inline" name="checkbox8" /> คนไทยในต่างประเทศ  
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน
-                </span>
-
-                <br />
-
-                <span style="display:inline-block; width:300px;">
-                  <input type="checkbox" class="checkbox-inline" name="checkbox8" /> ผู้อยู่ในกระบวนการยุติธรรม  
-                  <input type="text" class="form-control" name="text" style="display: inline;width:30px;"/> คน 
-                </span>
-
-                <input type="checkbox" class="checkbox-inline" name="checkbox8" id="checkbox21" /> ผู้มีความหลากหลายทางเพศ
-                <input type="text" class="form-control" name="text" style="display: inline;width:30px;" /> คน
-            </td>
+            <td id="project_target" ></td>
         </tr>
         <tr>
             <th>งบประมาณโครงการและแหล่งสนับสนุน(เฉพาะปีปัจจุบัน) <span class="Txt_red_12">*</span></th>
@@ -302,15 +233,17 @@
         <tr>
             <th>แนบไฟล์โครงการ</th>
             <td>
-                <input type="file" name="fileField" id="fileField" />
+                <input type="file" name="file_path" />
             </td>
         </tr>
     </table>
 
     <div style="text-align:right;">
-        <button class="btn btn-primary">บันทึกส่งแบบฟอร์ม</button>
+        <button type="submit" class="btn btn-primary">บันทึกส่งแบบฟอร์ม</button>
     </div>
 </div>
+
+</form>
 
 <script type="text/javascript">
 
