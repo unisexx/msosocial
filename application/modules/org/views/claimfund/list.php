@@ -4,7 +4,7 @@
 	<button class="btn btn-primary" id="btnMemberForm" onclick="memberForm(<?php echo $type; ?>);">ยื่นแบบฟอร์มขอรับสนับสนุน</button>
 </div>
 <h3 style="margin-top:0; color:#393">รายการขอรับเงินสนับสนุนโครงการ</h3>
-<? echo $type; ?>
+
 <table class="tblList">
 	<thead>
 	    <tr>
@@ -29,8 +29,8 @@
 	        foreach($rs as $item) { $no++; 
 	    		$item['resultt'] = (empty($item['resultt']))?'-':$item['resultt'];
 			
-				$receive_date = date('d/m/', strtotime($item['receive_date'])).(date('Y', strtotime($item['receive_date']))+543);
-				$date_appoved = date('d/m/', strtotime($item['date_appoved'])).(date('Y', strtotime($item['date_appoved']))+543);
+				$receive_date = date('d/m/', @strtotime($item['receive_date'])).(date('Y', @strtotime($item['receive_date']))+543);
+				$date_appoved = date('d/m/', @strtotime($item['date_appoved'])).(date('Y', @strtotime($item['date_appoved']))+543);
 	    	?>
 	    	<tr>
 			    <td><?php echo $no; ?></td>
