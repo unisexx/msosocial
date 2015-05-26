@@ -60,69 +60,93 @@ class Claimfund extends Public_Controller
 			$data['value'] = $this->ado->GetRow($query);
 			dbConvert($data['value']);
 			
-			var_dump($id);
-			if(!empty($id)) {
-				$data['rs'] = $this->ado->GetRow("select * from fund_project_support where id = '".$id."'");
-				dbConvert($data['rs']);
+			//--Data for edit
+				if(!empty($id)) {
+					$data['rs'] = $this->ado->GetRow("select * from fund_project_support where id = '".$id."'");
+					dbConvert($data['rs']);
+					
+					//--งบประมาณทั้งโครงการ
+					$data['rs']['project_budget'] = (@$data['rs']['budget_request'] + @$data['rs']['budget_other']);
+					
+					//--กลุ่มเป้าหมายของโครงการ
+					$data['rs']['ptsd'] = $this->ado->GetArray("select * from fund_project_target_set where project_support_id = '".@$data['rs']['id']."'");
+					
+					//--แนบไฟล์เอกสารประกอบการพิจารณา
+					$where = null;
+					for($i=1; $i<6; $i++) {
+						$where .= ($i != 1)?' or ':null;
+						$where .= ' module = \'project_support_attach'.$i.'\' '; 
+					}
+					$sql = "select * from fund_attach where module_id = '".$data['rs']['id']."' and (".$where.')';
+					$tmp = $this->ado->GetArray($sql);
+					dbConvert($tmp);
+					foreach($tmp as $item) {
+						$data['rs']['fileattach'][$item['module']] = $item['attach_name'];
+					}
+				}
+			//--End : Data for edit
+			
+			
+			//--Data for form			
+				//--สถานะโครงการที่ขอรับเงินกองทุนฯ
+				$data['formInput']['project_status'] = array(
+					'1' => 'โครงการริเริ่มใหม่ (โครงการที่มีแนวคิดหรือนโยบายใหม่ไม่เคยทำมาก่อน) '
+					, '2' => 'โครงการใหม่ (โครงการที่ไม่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นมาก่อน)'
+					, '3' => 'โครงการเดิม (โครงการที่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นแล้ว และต้องการดำเนินการต่อ โดยจะต้องมีทุนเพื่อใช้ในการดำเนินงานตามโครงการนี้อยู่แล้วบางส่วน)'
+				);
 				
-				//--งบประมาณทั้งโครงการ
-				$data['rs']['project_budget'] = (@$data['rs']['budget_request'] + @$data['rs']['budget_other']);
+				//--ประเภทโครงการ
+				$data['formInput']['project_typep_main_id'] = array(
+					'1' => 'สงเคราะห์'
+					, '2' => 'คุ้มครองสวัสดิภาพ'
+					, '3' => 'ส่งเสริมความประพฤติ'
+					, '4' => '5 สถาน'
+					, '5' => 'งานวิจัย ฯ'
+					, '6' => 'อื่นๆ'
+				);
+				
+				//--กรอบทิศทางในการจัดสรรเงินกองทุนคุ้มครองเด็ก
+				$data['formInput']['project_direction_set_id'] = array(
+					'4' => 'การส่งเสริมศักยภาพครอบครัวเพื่อการเลี้ยงดูบุตรอย่างเหมาะสม'
+					, '2' => 'การพัฒนาเด็กและเยาวชน'
+					, '3' => 'การพัฒนาระบบคุ้มครองเด็ก'
+					, '5' => 'การส่งเสริมศักยภาพองค์กรปกครองส่วนท้องถิ่นในการคุ้มครองเด็ก'
+					, '6' => 'สาโรจน์_ชื่อกรอบทิศทางในการจัดสรรเงิน'
+					, '1' => 'การป้องกันและแก้ไขปัญหาเด็กและเยาวชน'
+				);
+				
+				//--กรอบทิศทางในการจัดสรรเงินกองทุนคุ้มครองเด็ก
+				$data['formInput']['budget_other_type'] = array(
+					'1' => 'หน่วยงานภาครัฐ'
+					, '2' => 'ท้องถิ่น'
+					, '3' => 'ธุรกิจ/องค์กรเอกชน'
+				);
+				
+				//--สาเหตุที่เสนอขอรับเงินกองทุน
+				$data['formInput']['budget_cause'] = array(
+					'1' => 'ไม่ได้รับงบประมาณปกติของหน่วยงาน'
+					, '2' => 'ได้รับงบประมาณปกติจากหน่วยงานแต่ไม่เพียงพอ'
+				);
 				
 				//--กลุ่มเป้าหมายของโครงการ
-				$data['rs']['ptsd'] = $this->ado->GetArray("select * from fund_project_target_set where project_support_id = '".@$data['rs']['id']."'");
-			}
-			#var_dump($data['rs']);
-			
-			//--สถานะโครงการที่ขอรับเงินกองทุนฯ
-			$data['formInput']['project_status'] = array(
-				'1' => 'โครงการริเริ่มใหม่ (โครงการที่มีแนวคิดหรือนโยบายใหม่ไม่เคยทำมาก่อน) '
-				, '2' => 'โครงการใหม่ (โครงการที่ไม่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นมาก่อน)'
-				, '3' => 'โครงการเดิม (โครงการที่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นแล้ว และต้องการดำเนินการต่อ โดยจะต้องมีทุนเพื่อใช้ในการดำเนินงานตามโครงการนี้อยู่แล้วบางส่วน)'
-			);
-			
-			//--ประเภทโครงการ
-			$data['formInput']['project_typep_main_id'] = array(
-				'1' => 'สงเคราะห์'
-				, '2' => 'คุ้มครองสวัสดิภาพ'
-				, '3' => 'ส่งเสริมความประพฤติ'
-				, '4' => '5 สถาน'
-				, '5' => 'งานวิจัย ฯ'
-				, '6' => 'อื่นๆ'
-			);
-			
-			//--กรอบทิศทางในการจัดสรรเงินกองทุนคุ้มครองเด็ก
-			$data['formInput']['project_direction_set_id'] = array(
-				'4' => 'การส่งเสริมศักยภาพครอบครัวเพื่อการเลี้ยงดูบุตรอย่างเหมาะสม'
-				, '2' => 'การพัฒนาเด็กและเยาวชน'
-				, '3' => 'การพัฒนาระบบคุ้มครองเด็ก'
-				, '5' => 'การส่งเสริมศักยภาพองค์กรปกครองส่วนท้องถิ่นในการคุ้มครองเด็ก'
-				, '6' => 'สาโรจน์_ชื่อกรอบทิศทางในการจัดสรรเงิน'
-				, '1' => 'การป้องกันและแก้ไขปัญหาเด็กและเยาวชน'
-			);
-			
-			//--กรอบทิศทางในการจัดสรรเงินกองทุนคุ้มครองเด็ก
-			$data['formInput']['budget_other_type'] = array(
-				'1' => 'หน่วยงานภาครัฐ'
-				, '2' => 'ท้องถิ่น'
-				, '3' => 'ธุรกิจ/องค์กรเอกชน'
-			);
-			
-			//--สาเหตุที่เสนอขอรับเงินกองทุน
-			$data['formInput']['budget_cause'] = array(
-				'1' => 'ไม่ได้รับงบประมาณปกติของหน่วยงาน'
-				, '2' => 'ได้รับงบประมาณปกติจากหน่วยงานแต่ไม่เพียงพอ'
-			);
-			
-			//--กลุ่มเป้าหมายของโครงการ
-			$data['formInput']['project_target_set_id'] = $this->ado->GetArray("select * from fund_project_target_set where status = '1'");
-			dbConvert($data['formInput']['project_target_set_id']);
-			
-			//--ประเภทองค์กรที่เสนอขอรับเงินกองทุน
-			$data['formInput']['organiztion_type'] = array(
-				'1' => 'องค์กรภาคเอกชน'
-				, '2' => 'หน่วยงานของรัฐ'
-			);
-			
+				$data['formInput']['project_target_set_id'] = $this->ado->GetArray("select * from fund_project_target_set where status = '1'");
+				dbConvert($data['formInput']['project_target_set_id']);
+				
+				//--ประเภทองค์กรที่เสนอขอรับเงินกองทุน
+				$data['formInput']['organiztion_type'] = array(
+					'1' => 'องค์กรภาคเอกชน'
+					, '2' => 'หน่วยงานของรัฐ'
+				);
+				
+				//--ไฟล์แนบเอกสารประกอบการพิจารณา
+				$data['formInput']['fileattach'] = array(
+					1 => '1. แบบสรุปโครงการ'
+					,2 => '2. ข้อมูลเกี่ยวกับโครงการที่เสนอขอรับเงินกองทุนฯพร้อมแผนที่พื้นที่ดำเนินงานโครงการ'
+					,3 => '3. ข้อมูลเกี่ยวกับองค์กรที่เสนอขอรับเงินกองทุนฯพร้อมแผนที่ตั้งองค์กร'
+					,4 => '4. หนังสือรับรองผลงาน'
+					,5 => '5. หนังสือรับรององค์กร'
+				);
+			//--End : data for form
 			
 			$form = 'formChild';
 		} else if($_GET['type'] == 2) {
@@ -296,7 +320,7 @@ class Claimfund extends Public_Controller
 				//Data in fund_attach
 				$fileattach['module_id'] = $id;
 				$fileattach['attach_name'] = uploadfiles($oldfile, $dir, $_FILES['fileattach'.$i]);
-
+				
 				$j = 0; $set = $field = $values = null;
 				foreach($fileattach as $key=> $item) {
 					if($key != 'id') {
@@ -319,12 +343,10 @@ class Claimfund extends Public_Controller
 				} else {
 					$qry = "update fund_attach set ".$set." where id = '".$fileattach['id']."'";
 				}
-				echo $qry.'<br>';
-				#$this->ado->query($qry);
+				$this->ado->query($qry);
 			}
 		}
 		
-		return false;
 		set_notify('success', 'บันทึกข้อมูลเสร็จสิ้น');
 		redirect('org/member#tabs-3');
 	}

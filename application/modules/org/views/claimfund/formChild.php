@@ -42,7 +42,7 @@
 
 
 <link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
-<span onclick="memberForm(1, '<? echo @$rs['id']; ?>');">aaaa<? echo @$rs['id']; ?></span>
+
 <div style="text-align:right;"><button class="btn" id="btn2list" onclick="memberList();">กลับไปหน้ารายการ</button></div>
 <h4 style="margin-top:0; color:#393;" class="form-inline ">
 	แบบฟอร์มการขอรับเงินสนับสนุนโครงการ 
@@ -230,23 +230,25 @@
 <tr>
 	<th>แนบไฟล์เอกสารประกอบการพิจารณา <span class="textRed">*</span></th>
 	<td>
-		<div style="font-weight:bold;">1. แบบสรุปโครงการ</div>
-		<div class="tag_fileattach "><input type="file" name="fileattach1"></div>
-		
-		<div style="font-weight:bold;">2. ข้อมูลเกี่ยวกับโครงการที่เสนอขอรับเงินกองทุนฯพร้อมแผนที่พื้นที่ดำเนินงานโครงการ</div>
-		<div class="tag_fileattach "><input type="file" name="fileattach2"></div>
-		
-		<div style="font-weight:bold;">3. ข้อมูลเกี่ยวกับองค์กรที่เสนอขอรับเงินกองทุนฯพร้อมแผนที่ตั้งองค์กร</div>
-		<div class="tag_fileattach "><input type="file" name="fileattach3"></div>
-		
-		<div style="font-weight:bold;">4. หนังสือรับรองผลงาน</div>
-		<div class="tag_fileattach "><input type="file" name="fileattach4"></div>
-		
-		<div style="font-weight:bold;">5. หนังสือรับรององค์กร</div>
-		<div class="tag_fileattach "><input type="file" name="fileattach5"></div>
+		<?php foreach($formInput['fileattach'] as $key => $item){
+				if(!empty($rs['fileattach']['project_support_attach'.$key]) && file_exists($rs['fileattach']['project_support_attach'.$key])) { ?>
+					<div style="font-weight:bold;"><? echo $item; ?></div>
+					<div class="tag_fileattach ">
+						
+						<a href="<? echo $rs['fileattach']['project_support_attach'.$key]; ?>" target="_blank" class="btn btn-primary">Download</a>
+					</div>
+				<?php } else { ?>
+					<div style="font-weight:bold;"><? echo $item; ?></div>
+					<div class="tag_fileattach ">
+						<input type="file" name="fileattach<? echo $key; ?>">
+					</div>
+				<?php }
+		} ?>
 	</td>
 </tr>
 </table>
+
+<span onclick="memberForm(1, '<? echo @$rs['id']; ?>');">aaaa<? echo @$rs['id']; ?></span>
 
 <div style="text-align:right; margin-top:20px;"><button type="submit" class="btn btn-primary">บันทึกส่งแบบฟอร์ม</button></div>
 </div>
