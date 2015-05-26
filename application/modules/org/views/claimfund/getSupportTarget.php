@@ -13,5 +13,5 @@
 	<input type="number" class="project_target_other form-control" name="project_target_other_number[]" value="" style="display: inline; width: 60px;" disabled /> คน
 </div>
 <span id="last-project-target" ></span>
-<button type="button" class="add-target" ><img src="images/btn_addsubproject.png" /></button>
+<button type="button" class="add-target" onclick="getOtherTarget();" ><img src="images/btn_addsubproject.png" /></button>
 <?php endif?>
