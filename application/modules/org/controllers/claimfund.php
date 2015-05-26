@@ -353,7 +353,22 @@ class Claimfund extends Public_Controller
 
 	//	เซฟกองทุนส่งเสริม
 	public function saveSupport() {
+		echo '<pre>';
+		print_r($_POST);
 
+		if($_POST) {
+			$error = 0;
+			$input = array('project_system','project_name','project_type_id');
+			
+			foreach ($input as $value) {
+				if(!@$_POST[$value]) {
+					echo $value.'<br />';
+					$error = 1;
+				}
+			}
+
+			echo $error;
+		}
 	}
 
 	public function getTarget($id) {
@@ -373,5 +388,8 @@ class Claimfund extends Public_Controller
 		dbConvert($data['variable']);
 		$this->load->view('claimfund/getSupportTarget',$data);
 	}
+
+	public function getOtherTarget() {
+		$this->load->view('claimfund/getOtherTarget');
+	}
 }
-?>

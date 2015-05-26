@@ -245,6 +245,17 @@
 
 </form>
 
+<style type="text/css">
+  input[type=number] {
+    padding: 6px 2px;
+    text-align: center;
+  }
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0;
+  }
+</style>
 <script type="text/javascript">
 
   function formValidate() {
@@ -305,6 +316,51 @@
     $(".calculate-budget").keyup(function() {
         calculateTotal();
     })
+
+    //  คลิกกลุ่มเป้าหมายสำหรับกรอกจำนวน
+    $("input.project_target[data-target]").live("click", function() {
+      var c = $(this);
+      var target = c.attr("data-target");
+      var inp = $("input[data-target-number="+target+"]");
+      
+      if(c.is(":checked")) {
+        inp.attr("disabled",false);
+      } else {
+        inp.attr("disabled",true);
+      }
+      
+      formValidate();
+    });
+    
+    //  คลิกเพิ่มกลุ่มเป้าหมายอื่นๆ (กรณีระบบปกติ)
+    $(".add-target").live("click", function() {
+      var c = $("input[name=project_target_other]");
+      
+      $.get("org/claimfund/getOtherTarget", function(data) {
+        $(data).insertBefore($("#last-project-target"));
+      
+        if(c.is(":checked")) {
+          $(".project_target_other").attr("disabled",false);
+        } else {
+          $(".project_target_other").attr("disabled",true);
+        }
+      });
+      
+      formValidate();
+    });
+    
+    //  คลิกกลุ่มเป้าหมายอื่นๆ (กรณีระบบปกติ)
+    $("input[name=project_target_other]").live("click", function() {
+      var c = $(this);
+      
+      if(c.is(":checked")) {
+        $(".project_target_other").attr("disabled",false);
+      } else {
+        $(".project_target_other").attr("disabled",true);
+      }
+      
+      formValidate();
+    });
 
     //  งบประมาณที่ได้รับสมทบจากแหล่งอื่น
     $(".budget_other").click(function() {

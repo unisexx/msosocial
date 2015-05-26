@@ -1,7 +1,7 @@
 <?php foreach ($variable as $key => $value):?>
 <span style="display: inline-block; margin: 2px 0; width: 49%;" >
 		<input type="checkbox" class="project_target checkbox" name="project_target_<?php echo $value["id"]?>" data-target="<?php echo $value["id"]?>" value="1" style="display: inline;margin-right: 5px;" /><?php echo $value["title"]?>
-		<input type="number" class="isnumeric form-control" name="project_target_number_<?php echo $value["id"]?>" data-target-number="<?php echo $value["id"]?>" value="" style="display: inline;margin-left: 5px;width:30px;" disabled > คน
+		<input type="number" class="isnumeric form-control" name="project_target_number_<?php echo $value["id"]?>" data-target-number="<?php echo $value["id"]?>" value="" maxlength="3" style="display: inline;margin-left: 5px;width:30px;" disabled > คน
 </span>
 <?php endforeach?>
 
