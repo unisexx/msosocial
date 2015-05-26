@@ -1,7 +1,7 @@
 <link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
 
 <div style="text-align:right;">
-	<button class="btn btn-primary" id="btnMemberForm" onclick="memberForm();">ยื่นแบบฟอร์มขอรับสนับสนุน</button>
+	<button class="btn btn-primary" id="btnMemberForm" onclick="memberForm(<?php echo $type; ?>);">ยื่นแบบฟอร์มขอรับสนับสนุน</button>
 </div>
 <h3 style="margin-top:0; color:#393">รายการขอรับเงินสนับสนุนโครงการ</h3>
 	
