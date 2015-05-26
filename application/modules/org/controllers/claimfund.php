@@ -31,7 +31,7 @@ class Claimfund extends Public_Controller
 					FROM FUND_PROJECT_SUPPORT FPS
 					WHERE FPS.ACT_WELFARE_BENEFIT_ID = '".$this->session->userdata('act_welfare_benefit_id')."'
 				)
-			)";
+			)";//
 		} else {
 			$qry = "SELECT * from FUND_WELFARE";
 		}
