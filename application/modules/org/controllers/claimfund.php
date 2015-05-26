@@ -5,33 +5,57 @@ class Claimfund extends Public_Controller
 	{
 		parent::__construct();
 	}
-	public function lists() {
+	public function lists($type="1") {
 		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
 		$this->load->library('adodb');
-		$qry = "SELECT
-			FPSID,
-			PROJECT_CODE,
-			PROJECT_NAME,
-			PROJECT_STATUS,
-			RECEIVE_DATE,
-			(SELECT RESULT_TYPE FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) RESULTT,
-			(SELECT DATE_APPOVED FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) DATE_APPOVED
-		FROM
-			(
-			SELECT
-				FPSID, PROJECT_CODE, PROJECT_NAME, PROJECT_STATUS, RECEIVE_DATE, (
-					SELECT MAX(TIME) 
-					FROM FUND_PROJECT_SUPPORT_RESULT 
-					WHERE FUND_PROJECT_SUPPORT_ID = FPSID
-				) FTIME
-			FROM (
-				SELECT ID FPSID, FPS.PROJECT_CODE, FPS.PROJECT_NAME, FPS.PROJECT_STATUS, FPS.RECEIVE_DATE
-				FROM FUND_PROJECT_SUPPORT FPS
-			)
-		)";
+		$data['type'] = $type;
+		if ($type == '1') {
+			$qry = "SELECT
+				FPSID,
+				PROJECT_CODE,
+				PROJECT_NAME,
+				PROJECT_STATUS,
+				RECEIVE_DATE,
+				(SELECT RESULT_TYPE FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) RESULTT,
+				(SELECT DATE_APPOVED FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) DATE_APPOVED
+			FROM
+				(
+				SELECT
+					FPSID, PROJECT_CODE, PROJECT_NAME, PROJECT_STATUS, RECEIVE_DATE, (
+						SELECT MAX(TIME) 
+						FROM FUND_PROJECT_SUPPORT_RESULT 
+						WHERE FUND_PROJECT_SUPPORT_ID = FPSID
+					) FTIME
+				FROM (
+					SELECT ID FPSID, FPS.PROJECT_CODE, FPS.PROJECT_NAME, FPS.PROJECT_STATUS, FPS.RECEIVE_DATE
+					FROM FUND_PROJECT_SUPPORT FPS
+				)
+			)";
+		} else {
+			$qry = "SELECT * from FUND_WELFARE";
+		}
+		
+		
+		/*
 		$data['rs'] = $this->ado->GetArray($qry);
 		dbConvert($data['rs']);
+		 * 
+		 */
+		$limit = '20';
+		$target = '';
+		$current_page = @$_GET['page'];
+		$this->load->library('pagination');
+		$page = new pagination();
+		$page->target($target);
+		$page->limit($limit);
+		$page->currentPage($current_page);
+		$rs = $this->ado->PageExecute($qry, $limit, $page->page);
+		$page->Items($rs->_maxRecordCount);			
+		$data['pagination'] = $page->show();
 		
+		$data['rs'] = $rs->GetArray();
+		dbConvert($data['rs']);
+	
 		$this->load->view('claimfund/list', @$data);
 	}
 

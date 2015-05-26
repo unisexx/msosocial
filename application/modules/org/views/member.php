@@ -5,7 +5,7 @@
   <ul>
     <li><a href="#tabs-1">ข้อมูลองค์กร</a></li>
     <li><a href="#tabs-2">สถานะการจดทะเบียน</a></li>
-    <li><a href="#tabs-3" onclick="memberList();">ขอรับเงินสนับสนุน/ติดตามโครงการ</a></li>
+    <li><a href="#tabs-3" onclick="memberList(1);">ขอรับเงินสนับสนุน/ติดตามโครงการ</a></li>
   </ul>
   <div id="tabs-1">
     <h3 style="margin-top:0; color:#393">ข้อมูลองค์กร</h3>
@@ -955,44 +955,61 @@
   
 <div id="tabs-3">
   	<script language="JavaScript">
-  		function memberList() {
+  		function memberList(fund_type) {
   			//$('#sector-3').html('aa');
-  			$('#sector-3--fps').html('<div style="text-align:center;">Loading...</div>');
-  			$.get('org/claimfund/lists', function(data){
-  				$('#sector-3--fps').html(data);
+  			$('#sector-3--fps_'+fund_type).html('<div style="text-align:center;">Loading...</div>');
+  			$.get('org/claimfund/lists/'+fund_type, function(data){
+  				$('#sector-3--fps_'+fund_type).html(data);
   			});
   		}
   		
   		function memberForm(type, id) {
   			type = (type == '')?1:type;
   			id = (!id)?null:id;
-  			$('#sector-3--fps').html('<div style="text-align:center;">Loading...</div>');
+  			$('#sector-3--fps_'+type).html('<div style="text-align:center;">Loading...</div>');
   			$.get(
   				'org/claimfund/form/'+id
   				, {
   					type : type
   				} , function(data) {
-  					$('#sector-3--fps').html(data);
+  					$('#sector-3--fps_'+type).html(data);
   				}
   			);
   		}
   		
   		$(function(){ 
-  			memberList(); 
-  			
-  			$('.pagination a').live('click', function(){
-  				//$('#sector-3--fps').html($(this).attr('href'));
-  				$('#sector-3--fps').html('<div style="text-align:center;">Loading...</div>');
-  				href = $(this).attr('href');
-  				alert(href);
-  				$.get(href, function(data){
-  					$('#sector-3--fps').html(data);
-  				});
+  			$('.pagination_claimfund .pagination a').live('click', function(){
+  				var href = $(this).attr('href');
+  				var page = href.split("page=");
+  				var fund_type = $('[name=fund_type]').val();
+  				if (page[1]) {
+  					$('#sector-3--fps_'+fund_type).html('<div style="text-align:center;">Loading...</div>');
+	  				$.get('org/claimfund/lists/'+fund_type+'?page='+page[1], 
+	  				function(data){
+	  					$('#sector-3--fps_'+fund_type).html(data);
+	  				});
+  				}
   				return false;
   			});
+  			
+  			$('#myTab1').tabs();
   		});
   	</script>
-	<div id="sector-3--fps"></div><!-- #tabs-3 -- Fund project support -->
+	
+	<div id="myTab1">
+		<ul class="nav nav-tabs" role="tablist">
+		  <li role="presentation"><a href="#claimfund_list" onclick="memberList(1)">กองทุนเด็กฯ</a></li>
+		  <li role="presentation"><a href="#fund_welfare" onclick="memberList(2)">กองทุนส่งเสริมฯ</a></li>
+		</ul>
+	
+	
+	  <div role="tabpanel" class="tab-pane" id="claimfund_list">
+	  	<div id="sector-3--fps_1"></div><!-- #tabs-3 -- Fund project support -->
+	  </div>
+	  <div role="tabpanel" class="tab-pane" id="fund_welfare">
+	  	<div id="sector-3--fps_2"></div>
+	  </div>
+	</div>
 </div>
 
 <link rel="stylesheet" type="text/css" href="media/css/jquery-ui-1.7.2.custom.css">
