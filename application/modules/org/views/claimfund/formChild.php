@@ -39,7 +39,7 @@
 	}
 </style>
 
-
+<span onclick="memberForm(1, '<? echo @$rs['id']; ?>');">aaaa<? echo @$rs['id']; ?></span>
 
 <link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
 
@@ -85,6 +85,17 @@
   <td>
   	<button name="" type="button" class="btn btn-success" id="btn_add_files1">+ เพิ่มไฟล์แนบ</button>
   	<div id='file_sector1'>
+  		<?
+  			$filelist = $rs['attach_file'];
+			foreach($filelist as $item) {
+				echo '<div class="div_attach">
+					<div style="background:#95c9dd; border:solid 1px #688c9a;">
+						<strong>ไฟล์แนบ : </strong><a href="'.$item['attach_name'].'" target="_blank" style="color:#fff;" class="btn btn-primary">Download</a>
+						<input type="button" value="Delete" class="btn btn-danger btn-delete_input">
+					</div>
+				</div>';
+			} 
+  		?>
 	</div>
   	<!--<input type="file" name="fileField" id="fileField" class="form-control" />-->
   </td>
@@ -235,7 +246,8 @@
 					<div style="font-weight:bold;"><? echo $item; ?></div>
 					<div class="tag_fileattach download">
 						<a href="<? echo site_url().$rs['fileattach']['project_support_attach'.$key]['file']; ?>" target="_blank" class="btn btn-primary">Download</a>
-						<a href="claimfund/deleteFile/<? echo $rs['fileattach']['project_support_attach'.$key]['id']; ?>" class="btn btn-danger pull-right">Remove</a>
+						<a href="org/claimfund/deleteFile/<? echo $rs['fileattach']['project_support_attach'.$key]['id']; ?>" class="btn btn-danger pull-right btnDelfile">Remove</a>
+						<!--<span class="btnDelfile">Remove</span>-->
 					</div>
 				<?php } else { ?>
 					<div style="font-weight:bold;"><? echo $item; ?></div>
@@ -248,7 +260,7 @@
 </tr>
 </table>
 
-<span onclick="memberForm(1, '<? echo @$rs['id']; ?>');">aaaa<? echo @$rs['id']; ?></span>
+
 
 <div style="text-align:right; margin-top:20px;"><button type="submit" class="btn btn-primary">บันทึกส่งแบบฟอร์ม</button></div>
 </div>
@@ -276,7 +288,17 @@
 		$('#btn_add_files2').click(function(){
 			add_input_attach('attach_file_pay', $('#file_sector2'));
 		});
-
-
+		
+		//Attach files
+		//--Delete attach file
+		$('a.btnDelfile').live("click", function(){
+			if(!confirm('กรุณายืนยันการลบไฟล์แนบ')) { return false; }
+			href = $(this).attr('href');
+			$.get(href, function(data){
+				$('#sector-3--fps_1').html(data);
+				memberForm(1, '<? echo @$rs['id']; ?>');
+			});
+			return false;
+		});
 	});
 </script>

@@ -17,7 +17,8 @@ class Claimfund extends Public_Controller
 				PROJECT_STATUS,
 				RECEIVE_DATE,
 				(SELECT RESULT_TYPE FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) RESULTT,
-				(SELECT DATE_APPOVED FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) DATE_APPOVED
+				(SELECT DATE_APPOVED FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) DATE_APPOVED,
+				PROVINCE_CODE
 			FROM
 				(
 				SELECT
@@ -25,12 +26,17 @@ class Claimfund extends Public_Controller
 						SELECT MAX(TIME) 
 						FROM FUND_PROJECT_SUPPORT_RESULT 
 						WHERE FUND_PROJECT_SUPPORT_ID = FPSID
-					) FTIME
+					) FTIME,
+					PROVINCE_CODE
 				FROM (
-					SELECT ID FPSID, FPS.PROJECT_CODE, FPS.PROJECT_NAME, FPS.PROJECT_STATUS, FPS.RECEIVE_DATE
+					SELECT FPS.ID FPSID, FPS.PROJECT_CODE, FPS.PROJECT_NAME, FPS.PROJECT_STATUS, FPS.RECEIVE_DATE, FPS.PROVINCE_ID PROVINCE_CODE
 					FROM FUND_PROJECT_SUPPORT FPS
+					JOIN ACT_PROVINCE APV ON APV.PROVINCE_CODE = FPS.PROVINCE_ID
+					JOIN ACT_WELFARE_BENEFIT AWB ON APV.PROVINCE_CODE = AWB.PROVINCE_CODE 
+					WHERE AWB.ID = '".$this->session->userdata('act_welfare_benefit_id')."'
 				)
 			)";
+			echo '<pre>'.$qry.'</pre>';
 		} else {
 			$qry = "SELECT * from FUND_WELFARE";
 		}
@@ -88,6 +94,10 @@ class Claimfund extends Public_Controller
 				if(!empty($id)) {
 					$data['rs'] = $this->ado->GetRow("select * from fund_project_support where id = '".$id."'");
 					dbConvert($data['rs']);
+					
+					//แนบไฟล์เอกสารโครงการ
+					$data['rs']['attach_file'] = $this->ado->GetArray("select * from fund_attach where module = 'project_support_attach' and module_id = '".$data['rs']['id']."'");
+					dbConvert($data['rs']['attach_file']);
 					
 					//--งบประมาณทั้งโครงการ
 					$data['rs']['project_budget'] = (@$data['rs']['budget_request'] + @$data['rs']['budget_other']);
@@ -253,6 +263,21 @@ class Claimfund extends Public_Controller
 		else { return $code; }
 	}
 	
+	public function deleteFile($id = null) {
+		if($id) {
+			$this->load->library('adodb');
+			$data = $this->ado->GetRow("select * from fund_attach where id = '".$id."'");
+			dbConvert($data);
+			
+			if(!empty($data['id'])) {
+				if(file_exists($data['attach_name'])) {
+					unlink($data['attach_name']);
+				}
+				$this->ado->query("delete from fund_attach where id = '".$id."'");
+			}
+		}	
+		return false;
+	}
 	public function saveChild($id = null) {
 		//--Call adodb
 		#var_dump($id);
@@ -315,9 +340,28 @@ class Claimfund extends Public_Controller
 			$qry = "UPDATE FUND_PROJECT_SUPPORT SET ".$set." WHERE ID = '".$id."'";
 			$this->ado->query($qry);
 		}
+		
+		$dir = 'uploads/org/claimfund/child/'; //Directory สำหรับ แนบไฟล์
+		
+		
+		//--แนบไฟล์เอกสารโครงการ
+		foreach($_FILES['attach_file']['tmp_name'] as $key => $item) {
+			$file = array('tmp_name' => $item, 'name' => $_FILES['attach_file']['name'][$key]);
+			$data = array(
+				'module' => 'project_support_attach'
+				,'module_id' => $id
+				,'attach_name' => uploadfiles(null, $dir, $file)
+			);
+			
+			$field = $value = null;
+			foreach($data as $key => $item) {
+				$field .= ', '.$key;
+				$value .= ', \''.$item."'";
+			}
+			$this->ado->query("insert into fund_attach (id".$field.") values ((select MAX(id)+1 from fund_attach)".$value.")");
+		}
 
-		//--แนบไฟล์เอกสารประกอบการพิจารณา
-		$dir = 'uploads/org/claimfund/child/'; 
+		//--แนบไฟล์เอกสารประกอบการพิจารณา 
 		for($i=1; $i<6; $i++) {
 			if(!empty($_FILES['fileattach'.$i]['tmp_name'])) {
 				$fileattach['id'] = null;
@@ -330,18 +374,13 @@ class Claimfund extends Public_Controller
 					from fund_attach 
 					where module = '".$fileattach['module']."' and module_id = '".$id."'";
 					$oldfile = $this->ado->GetRow($qry);
-					echo $fileattach['module'];
 					dbConvert($oldfile);
-					var_dump($oldfile);
-					#return false;
 					if(!empty($oldfile['id'])) {
 						$fileattach['id'] = $oldfile['id'];
 						$oldfile = $oldfile['attach_name'];
 					}
 				}
 				
-				echo $fileattach['id'];
-				echo '<hr>';
 				//Data in fund_attach
 				$fileattach['module_id'] = $id;
 				$fileattach['attach_name'] = uploadfiles($oldfile, $dir, $_FILES['fileattach'.$i]);
@@ -364,10 +403,13 @@ class Claimfund extends Public_Controller
 					}	
 				}
 				if(empty($fileattach['id'])) {
-					$qry = "insert into fund_attach (id".$field.") values ((select max(id) from fund_attach)".$values.")";
+					
+					
+					$qry = "insert into fund_attach (id".$field.") values (".($this->ado->GetOne('select max(id) from fund_attach')+1).$values.")";
 				} else {
 					$qry = "update fund_attach set ".$set." where id = '".$fileattach['id']."'";
 				}
+				echo $qry.'<hr>';
 				$this->ado->query($qry);
 			}
 		}
