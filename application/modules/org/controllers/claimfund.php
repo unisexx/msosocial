@@ -105,7 +105,8 @@ class Claimfund extends Public_Controller
 					$tmp = $this->ado->GetArray($sql);
 					dbConvert($tmp);
 					foreach($tmp as $item) {
-						$data['rs']['fileattach'][$item['module']] = $item['attach_name'];
+						$data['rs']['fileattach'][$item['module']]['id'] = $item['id'];
+						$data['rs']['fileattach'][$item['module']]['file'] = $item['attach_name'];
 					}
 				}
 			//--End : Data for edit
@@ -377,7 +378,22 @@ class Claimfund extends Public_Controller
 
 	//	เซฟกองทุนส่งเสริม
 	public function saveSupport() {
+		echo '<pre>';
+		print_r($_POST);
 
+		if($_POST) {
+			$error = 0;
+			$input = array('project_system','project_name','project_type_id');
+			
+			foreach ($input as $value) {
+				if(!@$_POST[$value]) {
+					echo $value.'<br />';
+					$error = 1;
+				}
+			}
+
+			echo $error;
+		}
 	}
 
 	public function getTarget($id) {
@@ -397,5 +413,8 @@ class Claimfund extends Public_Controller
 		dbConvert($data['variable']);
 		$this->load->view('claimfund/getSupportTarget',$data);
 	}
+
+	public function getOtherTarget() {
+		$this->load->view('claimfund/getOtherTarget');
+	}
 }
-?>
