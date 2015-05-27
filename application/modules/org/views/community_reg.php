@@ -407,7 +407,7 @@ body {
         <div class="col-md-12">
           <h3> Step 3</h3>
           
-          <h4 style="margin-top:0; color:#393">ลักษณะข้อมูลทั่วไปขององค์กร (3/5)</h4>
+          <h4 style="margin-top:0; color:#393">ลักษณะข้อมูลทั่วไปขององค์กร (3)</h4>
           <div class="form-group">
 		    <label class="col-sm-2 control-label">รูปแบบวิธีการดำเนินงานจัดสวัสดิการชุมชน<span class="vald">*</span></label>
 		    <div class="col-sm-8">
