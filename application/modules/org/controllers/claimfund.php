@@ -33,7 +33,7 @@ class Claimfund extends Public_Controller
 				)
 			)";//
 		} else {
-			$qry = "SELECT * from FUND_WELFARE";
+			$qry = "SELECT * from FUND_WELFARE WHERE ACT_USER_ID IS NOT NULL AND ACT_USER_ID = ".$this->session->userdata('id');
 		}
 		
 		
@@ -477,6 +477,7 @@ class Claimfund extends Public_Controller
 				//	เรียกค่าองค์กร
 				if($this->session->userdata('act_welfare_benefit_id'))  {
 					//	องค์กรสาธารณประโยชน์
+					$welfare["act_welfare_benefit_id"] = $this->session->userdata('act_welfare_benefit_id');
 					$agency = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_BENEFIT WHERE id = ".$this->session->userdata('act_welfare_benefit_id'));
 					dbConvert($agency);
 					$agency_type_id = 1;
@@ -498,6 +499,7 @@ class Claimfund extends Public_Controller
 					}
 				} else {
 					//	องค์กรสวัสดิการชุมชน
+					$welfare["act_welfare_comm_id"] = $this->session->userdata('act_welfare_comm_id');
 					$agency = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE id = ".$this->session->userdata('act_welfare_comm_id'));
 					dbConvert($agency);
 					$agency_type_id = 2;
@@ -523,6 +525,7 @@ class Claimfund extends Public_Controller
 					$temp = $this->ado->GetOne("SELECT * FROM FUND_WELFARE WHERE ID = $id");
 					dbConvert($temp);
 				} else {
+					$welfare["act_user_id"] = $this->session->userdata('id');
 					$welfare["created"] = date("Y-m-d H:i:s");
 					$welfare["pre_status"] = 0;																			//	ผลพิจารณาเบื้องต้นของเจ้าหน้าที่	
 					$welfare["status"] = 0;																				//	สถานะ default
