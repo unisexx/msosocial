@@ -18,6 +18,7 @@
             <td class="form-inline">
               <?php echo (date('Y')+543).' / '.$value['province_name']?>
               <input type="hidden" name='year_budget' value='<?php echo (date('Y')+543)?>' >
+              <input type="hidden" name='province_id' value='<?php echo $value['province_code']?>' >
             </td>
         </tr>
         <tr>
@@ -144,7 +145,7 @@
                 <?php foreach ($sectors as $num => $sector):?>
                 <span style="display:inline-block; width:280px;"><input type="checkbox" class="checkbox-inline" name="project_sector_<?php echo $sector['id']?>" value="1" /> <?php echo $sector['title_normal']?> </span>
                 <?php endforeach?>
-                <span style="display:inline-block;"><input type="checkbox" class="checkbox-inline" name="checkbox6" /> ด้านอื่นๆ ระบุ <input type="text" class="form-control" name="" style="display: inline; width: 200px;" /> </span></td>
+                <span style="display:inline-block;"><input type="checkbox" class="checkbox-inline" name="project_sector_other" value="1" /> ด้านอื่นๆ ระบุ <input type="text" class="form-control" name="project_sector_other_title" style="display: inline; width: 200px;" /> </span></td>
         </tr>
         <tr>
             <th>กลุ่มเป้าหมาย <span class="Txt_red_12">*</span></th>
@@ -230,7 +231,7 @@
 
           </td>
         </tr>
-        <tr>
+        <tr style="display: none;" >
             <th>แนบไฟล์โครงการ</th>
             <td>
                 <input type="file" name="file_path" />
@@ -257,6 +258,23 @@
   }
 </style>
 <script type="text/javascript">
+
+  function getOtherTarget() {
+    var c = $("input[name=project_target_other]");
+    
+    $.get("org/claimfund/getOtherTarget", function(data) {
+      $(data).insertBefore($("#last-project-target"));
+    
+      if(c.is(":checked")) {
+        $(".project_target_other").attr("disabled",false);
+      } else {
+        $(".project_target_other").attr("disabled",true);
+      }
+    });
+    
+    formValidate();
+    return false;
+  }
 
   function formValidate() {
 
@@ -328,23 +346,6 @@
       } else {
         inp.attr("disabled",true);
       }
-      
-      formValidate();
-    });
-    
-    //  คลิกเพิ่มกลุ่มเป้าหมายอื่นๆ (กรณีระบบปกติ)
-    $(".add-target").live("click", function() {
-      var c = $("input[name=project_target_other]");
-      
-      $.get("org/claimfund/getOtherTarget", function(data) {
-        $(data).insertBefore($("#last-project-target"));
-      
-        if(c.is(":checked")) {
-          $(".project_target_other").attr("disabled",false);
-        } else {
-          $(".project_target_other").attr("disabled",true);
-        }
-      });
       
       formValidate();
     });

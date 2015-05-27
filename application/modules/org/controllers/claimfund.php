@@ -27,10 +27,11 @@ class Claimfund extends Public_Controller
 						WHERE FUND_PROJECT_SUPPORT_ID = FPSID
 					) FTIME
 				FROM (
-					SELECT ID FPSID, FPS.PROJECT_CODE, FPS.PROJECT_NAME, FPS.PROJECT_STATUS, FPS.RECEIVE_DATE
+					SELECT FPS.ID FPSID, FPS.PROJECT_CODE, FPS.PROJECT_NAME, FPS.PROJECT_STATUS, FPS.RECEIVE_DATE
 					FROM FUND_PROJECT_SUPPORT FPS
+					WHERE FPS.ACT_WELFARE_BENEFIT_ID = '".$this->session->userdata('act_welfare_benefit_id')."'
 				)
-			)";
+			)";//
 		} else {
 			$qry = "SELECT * from FUND_WELFARE";
 		}
@@ -85,15 +86,37 @@ class Claimfund extends Public_Controller
 			dbConvert($data['value']);
 			
 			//--Data for edit
-				if(!empty($id)) {
-					$data['rs'] = $this->ado->GetRow("select * from fund_project_support where id = '".$id."'");
-					dbConvert($data['rs']);
+				//--Data form fund_project_support
+				$data['rs'] = $this->ado->GetRow("select fps.*, awb.organ_name
+					from fund_project_support fps
+						join ACT_WELFARE_BENEFIT awb on FPS.ACT_WELFARE_BENEFIT_ID = AWB.id
+					where FPS.id = '".$id."'");
+				dbConvert($data['rs']);
+				
+				if(!empty($data['rs']['id'])) {
+					//--แนบไฟล์เอกสารโครงการ
+					$data['rs']['attach_file'] = $this->ado->GetArray("select * from fund_attach where module = 'project_support_attach' and module_id = '".$data['rs']['id']."'");
+					dbConvert($data['rs']['attach_file']);
+					
+					//--แนบไฟล์เอกสารรายละเอียดค่าใช้จ่ายของโครงการ
+					$data['rs']['attach_file_pay'] = $this->ado->GetArray("select * from fund_attach where module = 'project_support_attach_pay' and module_id = '".$data['rs']['id']."'");
+					dbConvert($data['rs']['attach_file_pay']);
 					
 					//--งบประมาณทั้งโครงการ
 					$data['rs']['project_budget'] = (@$data['rs']['budget_request'] + @$data['rs']['budget_other']);
 					
 					//--กลุ่มเป้าหมายของโครงการ
-					$data['rs']['ptsd'] = $this->ado->GetArray("select * from fund_project_target_set where project_support_id = '".@$data['rs']['id']."'");
+					$data['rs']['fund_project_target_set_data'] = $this->ado->GetArray("select * from fund_project_target_set_data where project_support_id = '".@$data['rs']['id']."'");
+					dbConvert($data['rs']['fund_project_target_set_data']);
+					if(!empty($data['rs']['fund_project_target_set_data'])) {
+						foreach($data['rs']['fund_project_target_set_data'] as $key => $item) {
+							$tmp[$item['project_target_set_id']] = $item['value'];
+						}
+						$data['rs']['fund_project_target_set_data'] = $tmp;
+					} else {
+						$data['rs']['fund_project_target_set_data'] = null;
+					}
+						
 					
 					//--แนบไฟล์เอกสารประกอบการพิจารณา
 					$where = null;
@@ -108,6 +131,7 @@ class Claimfund extends Public_Controller
 						$data['rs']['fileattach'][$item['module']]['id'] = $item['id'];
 						$data['rs']['fileattach'][$item['module']]['file'] = $item['attach_name'];
 					}
+					
 				}
 			//--End : Data for edit
 			
@@ -253,10 +277,22 @@ class Claimfund extends Public_Controller
 		else { return $code; }
 	}
 	
+	public function deleteFile($id = null) {
+		if($id) {
+			$this->load->library('adodb');
+			$data = $this->ado->GetRow("select * from fund_attach where id = '".$id."'");
+			dbConvert($data);
+			
+			if(!empty($data['id'])) {
+				if(file_exists($data['attach_name'])) {
+					unlink($data['attach_name']);
+				}
+				$this->ado->query("delete from fund_attach where id = '".$id."'");
+			}
+		}	
+		return false;
+	}
 	public function saveChild($id = null) {
-		//--Call adodb
-		#var_dump($id);
-		#var_dump($_POST);
 		//gen project_code
 		$_POST['project_code'] = $this->gen_projectcode($_POST['budget_year'], @$id, @$_POST['province_id'], @$_POST['central_check']);
 		//-- งบประมาณที่ได้รับสมทบจากแหล่งอื่น*(ถ้ามี) : Budget_other_type
@@ -281,9 +317,16 @@ class Claimfund extends Public_Controller
 			, 'budget_request_'
 			, 'budget_other_'
 		);
+		$_POST['budget_request'] = str_replace(',',null,$_POST['budget_request']);
+		$_POST['budget_other'] = str_replace(',',null,$_POST['budget_other']);
+		$_POST['project_budget'] = $_POST['budget_request']+$_POST['budget_other'];
+		
 		if(empty($id)) {
 			//Get new id 
 			$_POST['id'] = $id = $this->ado->GetOne("select MAX(id) id from fund_project_support")+1;
+			
+			//Act_welfare_benefit_id
+			$_POST['act_welfare_benefit_id'] = $this->session->userdata('act_welfare_benefit_id');
 			
 			$field = $val = null;	
 			$i=0;
@@ -309,20 +352,76 @@ class Claimfund extends Public_Controller
 					$i++;
 					
 					$set .= ''.$key.' = '."'".iconv('utf-8', 'tis-620', $item)."'";
-					#$set .= ''.$key.' = '."'".$item."'";
 				}	
 			}
 			$qry = "UPDATE FUND_PROJECT_SUPPORT SET ".$set." WHERE ID = '".$id."'";
 			$this->ado->query($qry);
 		}
+		//--กลุ่มเป้าหมายของโครงการ
+		$this->ado->query("delete from fund_project_target_set_data where project_support_id = '".$id."'");
+		foreach($_POST['project_target_set_id'] as $item) {
+			$data = array(
+				'project_support_id' => $id
+				,'project_target_set_id' => $item
+				,'value' => $_POST['project_target_set_val'][$item] 
+			);
+			
+			$field = $value = null;
+			foreach($data as $key => $item) {
+				$field .= ', '.$key;
+				$value .= ", '".$item."'";
+			}
+			
+			$this->ado->query("insert into fund_project_target_set_data (id".$field.") values ((select max(id)+1 from fund_project_target_set_data)".$value.")");
+		}
+		
 
-		//--แนบไฟล์เอกสารประกอบการพิจารณา
-		$dir = 'uploads/org/claimfund/child/'; 
+		$dir = 'uploads/org/claimfund/child/'; //Directory สำหรับ แนบไฟล์
+		
+		//--แนบไฟล์เอกสารโครงการ
+		if(!empty($_FILES['attach_file']['tmp_name'])) {
+			foreach($_FILES['attach_file']['tmp_name'] as $key => $item) {
+				$file = array('tmp_name' => $item, 'name' => $_FILES['attach_file']['name'][$key]);
+				$data = array(
+					'module' => 'project_support_attach'
+					,'module_id' => $id
+					,'attach_name' => base_url().uploadfiles(null, $dir, $file)
+				);
+				
+				$field = $value = null;
+				foreach($data as $key => $item) {
+					$field .= ', '.$key;
+					$value .= ', \''.$item."'";
+				}
+				$this->ado->query("insert into fund_attach (id".$field.") values ((select MAX(id)+1 from fund_attach)".$value.")");
+			}
+		}
+			
+		
+		//--แนบไฟล์เอกสารรายละเอียดค่าใช้จ่ายของโครงการ
+		if(!empty($_FILES['attach_file_pay']['tmp_name'])) {
+			foreach($_FILES['attach_file_pay']['tmp_name'] as $key => $item) {
+				$file = array('tmp_name' => $item, 'name' => $_FILES['attach_file_pay']['name'][$key]);
+				$data = array(
+					'module' => 'project_support_attach_pay'
+					,'module_id' => $id
+					,'attach_name' => base_url().uploadfiles(null, $dir, $file)
+				);
+				
+				$field = $value = null;
+				foreach($data as $key => $item) {
+					$field .= ', '.$key;
+					$value .= ', \''.$item."'";
+				}
+				$this->ado->query("insert into fund_attach (id".$field.") values ((select MAX(id)+1 from fund_attach)".$value.")");
+			}
+		} 
+			
+
+		//--แนบไฟล์เอกสารประกอบการพิจารณา 
 		for($i=1; $i<6; $i++) {
 			if(!empty($_FILES['fileattach'.$i]['tmp_name'])) {
-				$fileattach['id'] = null;
 				$fileattach['module'] = 'project_support_attach'.$i;
-				
 				
 				//Find old data - Table:Fund_attach
 				if(!empty($id)) {
@@ -330,44 +429,24 @@ class Claimfund extends Public_Controller
 					from fund_attach 
 					where module = '".$fileattach['module']."' and module_id = '".$id."'";
 					$oldfile = $this->ado->GetRow($qry);
-					echo $fileattach['module'];
 					dbConvert($oldfile);
-					var_dump($oldfile);
-					#return false;
 					if(!empty($oldfile['id'])) {
 						$fileattach['id'] = $oldfile['id'];
 						$oldfile = $oldfile['attach_name'];
 					}
 				}
 				
-				echo $fileattach['id'];
-				echo '<hr>';
 				//Data in fund_attach
 				$fileattach['module_id'] = $id;
-				$fileattach['attach_name'] = uploadfiles($oldfile, $dir, $_FILES['fileattach'.$i]);
+				$fileattach['attach_name'] = base_url().uploadfiles($oldfile, $dir, $_FILES['fileattach'.$i]);
 				
 				$j = 0; $set = $field = $values = null;
 				foreach($fileattach as $key=> $item) {
-					if($key != 'id') {
-						if(empty($fileattach['id'])) {
-							$field .= ', '; $values .= ', ';
-							$field .= $key;
-							$values .= "'".$item."'";
-						} else {
-							if($j != 0) {
-								$set .= ', ';
-							}
-							$j++;
-							$set .= $key." = '".$item."'";
-						}
-							
-					}	
+					$field .= ', '; $values .= ', ';
+					$field .= $key;
+					$values .= "'".$item."'";
 				}
-				if(empty($fileattach['id'])) {
-					$qry = "insert into fund_attach (id".$field.") values ((select max(id) from fund_attach)".$values.")";
-				} else {
-					$qry = "update fund_attach set ".$set." where id = '".$fileattach['id']."'";
-				}
+				$qry = "insert into fund_attach (id".$field.") values (".($this->ado->GetOne('select max(id) from fund_attach')+1).$values.")";
 				$this->ado->query($qry);
 			}
 		}
@@ -377,9 +456,9 @@ class Claimfund extends Public_Controller
 	}
 
 	//	เซฟกองทุนส่งเสริม
-	public function saveSupport() {
-		echo '<pre>';
-		print_r($_POST);
+	public function saveSupport($id=null) {
+		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
+		$this->load->library('adodb');
 
 		if($_POST) {
 			$error = 0;
@@ -387,13 +466,338 @@ class Claimfund extends Public_Controller
 			
 			foreach ($input as $value) {
 				if(!@$_POST[$value]) {
-					echo $value.'<br />';
 					$error = 1;
 				}
 			}
 
-			echo $error;
+			if($error==1) {
+				set_notify('error', "ไม่สามารถบันทึกได้ กรุณาตรวจสอบข้อมูลให้ถูกต้อง");
+			} else {
+
+				//	เรียกค่าองค์กร
+				if($this->session->userdata('act_welfare_benefit_id'))  {
+					//	องค์กรสาธารณประโยชน์
+					$agency = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_BENEFIT WHERE id = ".$this->session->userdata('act_welfare_benefit_id'));
+					dbConvert($agency);
+					$agency_type_id = 1;
+					$agency_type_title = 'องค์กรสาธารณประโยชน์';
+
+                  	switch ($agency['under_type_sub']) {
+                    	case 'มูลนิธิ':
+                      		$agency_sub_type_id = 1;
+							$agency_sub_type_title = 'มูลนิธิ';
+                      		break;
+                    	case 'สมาคม':
+                      		$agency_sub_type_id = 2;
+							$agency_sub_type_title = 'สมาคม';
+                      		break;
+                    	case 'องค์กรภาคเอกชน':
+                      		$agency_sub_type_id = 3;
+							$agency_sub_type_title = 'องค์กรภาคเอกชน';
+                    		break;
+					}
+				} else {
+					//	องค์กรสวัสดิการชุมชน
+					$agency = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE id = ".$this->session->userdata('act_welfare_comm_id'));
+					dbConvert($agency);
+					$agency_type_id = 2;
+					$agency_type_title = 'องค์กรสวัสดิการชุมชน';
+					$agency_sub_type_id = 1;
+					$agency_sub_type_title = 'text';
+
+                  	switch ($agency['under_type_sub']) {
+                    	case 'องค์กรสวัสดิการชุมชน':
+                      		$agency_sub_type_id = 5;
+							$agency_sub_type_title = 'องค์กรสวัสดิการชุมชน';
+                      		break;
+                    	case 'เครือข่าย':
+                      		$agency_sub_type_id = 4;
+							$agency_sub_type_title = 'เครือข่าย';
+                      		break;
+					}
+				}
+
+				$welfare['updated'] = date("Y-m-d H:i:s");
+
+				if(@$id) {
+					$temp = $this->ado->GetOne("SELECT * FROM FUND_WELFARE WHERE ID = $id");
+					dbConvert($temp);
+				} else {
+					$welfare["created"] = date("Y-m-d H:i:s");
+					$welfare["pre_status"] = 0;																			//	ผลพิจารณาเบื้องต้นของเจ้าหน้าที่	
+					$welfare["status"] = 0;																				//	สถานะ default
+					$welfare["edit_time"] = 1;																			//	แสดงว่าเป็นการส่งครั้งแรก
+					$welfare["send_central"] = 0;																		//	checkbox ส่วนกลาง
+					$welfare["budget_total"] = 0;																		//	งบประมาณทั้งโครงการ
+					$welfare["year_budget"] = (@$_POST["year_budget"]) ? $_POST["year_budget"] : (date("Y")+543);		//	ปีงบประมาณ
+						
+					//	- รหัสโครงการ
+					$welfare["project_name"] = $_POST["project_name"];
+
+					$max = $this->ado->GetOne("SELECT NVL(MAX(PROJECT_NUMBER),0) max_id FROM FUND_WELFARE WHERE YEAR_BUDGET = ".$_POST["year_budget"]);
+					dbConvert($max);
+
+					$welfare["project_id"] = substr($_POST["year_budget"], -2,2)."/".($max+1);
+					$welfare["project_number"] = $max+1;
+					//	รหัสโครงการ --------------------------------------------------------------------------------------------------
+
+				}
+
+				//	ระบบการขอรับเงินสนับสนุน
+				if(@$_POST["project_system"]==1) {
+					$welfare["project_system"] = 1;	
+					$welfare["project_system_name"] = "ปกติ (ส่งเข้าส่วนกลาง)";
+				} else {
+					$welfare["project_system"] = 2;
+					$welfare["project_system_name"] = "กระจาย (พิจารณาในจังหวัด)";
+					$welfare["is_project_system_2"] = (@$_POST["is_project_system_2"]) ? $_POST["is_project_system_2"] : 0;
+					
+					if(@$welfare["is_project_system_2"]>0) {
+						$welfare["is_project_system_2_name"] = "เชิงประเด็น";
+					} else {
+						$welfare["is_project_system_2_name"] = "เชิงพื้นที่";
+					}
+				}
+				//	ระบบการขอรับเงินสนับสนุน --------------------------------------------------------------------------------------------------	
+		
+				//	จังหวัด
+				if(@$_POST["province_id"]==true) {
+					$welfare["central_check"] = 0;
+
+					$province = $this->ado->GetRow("SELECT * FROM FUND_PROVINCE WHERE province_code = ".$_POST['province_id']);
+					dbConvert($province);
+
+					$welfare["province_id"] = $province["id"];
+					$welfare["province_title"] = $province['title'];
+				}
+				//	จังหวัด --------------------------------------------------------------------------------------------------
+
+				//	ชื่อองค์กรที่เสนอขอรับเงินกองทุน
+				$welfare["agency_name"] = $agency['organ_name'];
+				$welfare["agency_number"] = @$_POST["agency_number"]; 
+				$welfare["agency_year"] = @$_POST["agency_year"];
+				//	ชื่อองค์กรที่เสนอขอรับเงินกองทุน --------------------------------------------------------------------------------------------------
+				
+				//	ประเภทองค์กร
+				$welfare["agency_type_id"] = $agency_type_id;
+				$welfare["agency_type_title"] = $agency_type_title;
+				//	ประเภทองค์กร --------------------------------------------------------------------------------------------------
+				
+				//	ประเภทองค์กรย่อย				
+				$welfare["agency_sub_type_id"] = $agency_sub_type_id;
+				$welfare["agency_sub_type_title"] = $agency_sub_type_title;
+				//	ประเภทองค์กรย่อย --------------------------------------------------------------------------------------------------
+								
+				//	ลักษณะโครงการ
+				$welfare["project_type_id"] = $_POST["project_type_id"];
+				switch ($welfare["project_type_id"]) {
+					case 1:
+						$welfare["project_type_title"] = "โครงการใหม่ (โครงการที่ไม่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้น มาก่อน)";
+						break;
+					case 2:
+						$welfare["project_type_title"] = "โครงการที่ดำเนินงานมาแล้ว (โครงการที่ได้ดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นแล้ว โดยต้องมีทุนเพื่อใช้ในการดำเนินงานตามโครงการนี้อยู่แล้วบางส่วน ซึ่งต้องไม่น้อยกว่า 25%)";
+						break;
+					case 3:
+						$welfare["project_type_title"] = "ไม่ได้รับการสนับสนุนงบประมาณจากส่วนราชการและแหล่งทุนอื่นๆ  หรือได้รับแต่ไม่เพียงพอ";
+						break;
+				}
+				//	ลักษณะโครงการ --------------------------------------------------------------------------------------------------
+			
+				//	งบประมาณโครงการและแหล่งสนับสนุน(เฉพาะปีปัจจุบัน) --------------------------------------------------------------------------------------------------
+			
+				//	งบประมาณที่ขอรับการสนับสนุน
+				$welfare["budget_request"] = cleanformat($_POST["budget_request"]) ? $_POST["budget_request"] : 0;
+				$welfare["budget_total"] += $welfare["budget_request"];
+				
+				//	งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> หน่วยงานรัฐ
+				if(@$_POST["has_budget_other_1"]==1) {
+					$welfare["has_budget_other_1"] = 1;
+					$welfare["budget_other_1"] = cleanformat($_POST["budget_other_1"]) ? $_POST["budget_other_1"] : 0;
+					$welfare["budget_total"] += $welfare["budget_other_1"];
+				}
+				
+				//	งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> หน่วยงานภาคเอกชน
+				if(@$_POST["has_budget_other_2"]==1) {
+					$welfare["has_budget_other_2"] = 1;
+					$welfare["budget_other_2"] = cleanformat($_POST["budget_other_2"]) ? $_POST["budget_other_2"] : 0;
+					$welfare["budget_total"] += $welfare["budget_other_2"];
+				}
+				
+				//	งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> ท้องถิ่น
+				if(@$_POST["has_budget_other_3"]==1) {
+					$welfare["has_budget_other_3"] = 1;
+					
+					//	องค์การบริหารส่วนจังหวัด
+					if(@$_POST["has_budget_other_3_1"]==1) {
+						$welfare["has_budget_other_3_1"] = 1;
+						$welfare["budget_other_3_1"] = cleanformat($_POST["budget_other_3_1"]) ? $_POST["budget_other_3_1"] : 0;
+						$welfare["budget_total"] += $welfare["budget_other_3_1"];
+					}
+					
+					//	องค์การบริหารส่วนตำบล
+					if(@$_POST["has_budget_other_3_2"]==1) {
+						$welfare["has_budget_other_3_2"] = 1;
+						$welfare["budget_other_3_2"] = cleanformat($_POST["budget_other_3_2"]) ? $_POST["budget_other_3_2"] : 0;
+						$welfare["budget_total"] += $welfare["budget_other_3_2"];
+					}
+					
+					//	องค์กรปกครองส่วนท้องถิ่น
+					if(@$_POST["has_budget_other_3_3"]==1) {
+						$welfare["has_budget_other_3_3"] = 1;
+						$welfare["budget_other_3_3"] = cleanformat($_POST["budget_other_3_3"]) ? $_POST["budget_other_3_3"] : 0;
+						$welfare["budget_total"] += $welfare["budget_other_3_3"];
+					}
+					
+					//	องค์การบริหารส่วนจังหวัด
+					if(@$_POST["has_budget_other_3_4"]==1) {
+						$welfare["has_budget_other_3_4"] = 1;
+						$welfare["budget_other_3_4"] = cleanformat($_POST["budget_other_3_4"]) ? $_POST["budget_other_3_4"] : 0;
+						$welfare["budget_total"] += $welfare["budget_other_3_4"];
+					}
+				}
+					
+				$welfare["organization_budget"] = cleanformat($_POST["organization_budget"]) ? $_POST["organization_budget"] : 0;
+				$welfare["budget_total"] += $welfare["organization_budget"];
+			
+				//	งบประมาณโครงการและแหล่งสนับสนุน(เฉพาะปีปัจจุบัน) --------------------------------------------------------------------------------------------------
+
+				if($_POST["budget_total"]==$welfare["budget_total"]) {
+						
+					//	ขนาดโครงการ
+					if($welfare["budget_request"]>3000000) {
+						$welfare["project_size"] = 4;
+						$welfare["project_size_name"] = "ขนาดพิเศษ (3,000,000 บาทขึ้นไป)"; 
+					}
+					
+					if($welfare["budget_request"]<=3000000) {
+						$welfare["project_size"] = 3;
+						$welfare["project_size_name"] = "ขนาดใหญ่ (300,001 - 3,000,000 บาท)";
+					}
+					
+					if($welfare["budget_request"]<=300000) {
+						$welfare["project_size"] = 2;
+						$welfare["project_size_name"] = "ขนาดกลาง (50,001 - 300,000 บาท)";
+					}
+					
+					if($welfare["budget_request"]<=5000) {
+						$welfare["project_size"] = 1;
+						$welfare["project_size_name"] = "ขนาดเล็ก (ไม่เกิน 50,000 บาท)";
+					}
+
+					$col = null;
+					$values = null;
+					$i = 0;
+					foreach ($welfare as $key => $value) {
+						$col .= ",$key";
+						$values .= ",'$value'";
+						$i++;
+					}
+
+					$this->ado->debug = true;
+					$welfare['id'] = $this->ado->GetOne("SELECT (MAX(ID)+1) FROM FUND_WELFARE");
+					array_walk($welfare,'dbConvert','TIS-620');
+					$this->ado->AutoExecute('FUND_WELFARE',$welfare,'INSERT');
+
+					$id = $welfare['id'];
+
+					//	กลุ่มเป้าหมาย
+					$queryTarget = 'SELECT * FROM FUND_WELFARE_TARGET WHERE STATUS = 1 ORDER BY ID ASC';
+					$targets = $this->ado->GetArray($queryTarget);
+					dbConvert($targets);
+					foreach ($targets as $key => $target) {
+						if(@$_POST["project_target_".$target["id"]]==1) {
+		
+							if(@$_POST["project_target_number_".$target["id"]]) {
+								$max_id = $this->ado->GetOne("SELECT (MAX(ID)+1) FROM FUND_WELFARE_TARGET_NUMBER");
+
+								$data = array(
+									"id"							=> $max_id,
+									"fund_welfare_id"				=> $id,
+									"fund_welfare_target_id"		=> $target["id"],
+									"fund_welfare_target_title"		=> $target["title"],
+									"target_number"					=> $_POST["project_target_number_".$target["id"]],
+									"edit_time"						=> $welfare["edit_time"]
+								);
+								
+								array_walk($data, 'dbConvert','TIS-620');
+								$this->ado->AutoExecute('FUND_WELFARE_TARGET_NUMBER',$data,'INSERT');
+							}
+							
+						}
+					}
+					
+					//	กลุ่มเป้าหมายอื่นๆ
+					if(@$_POST["project_target_other"]==1) {
+							
+						// นับจำนวนที่เพิ่ม input มา
+						foreach ($_POST["project_target_other_title"] as $key => $value) {
+								
+							//	ตรวจสอบว่าต้องมีทั้งชื่อกลุ่มเป้าหมาย และจำนวน
+							if(@$_POST["project_target_other_title"][$key] && @$_POST["project_target_other_number"][$key]) {
+								$max_id = $this->ado->GetOne("SELECT (MAX(ID)+1) FROM FUND_WELFARE_TARGET_NUMBER");
+								
+								$data = array(
+									"id"							=> $max_id,
+									"fund_welfare_id"				=> $id,
+									"target_other"					=> 1,
+									"fund_welfare_target_title"		=> $value,
+									"target_number"					=> $_POST["project_target_other_number"][$key],
+									"edit_time"						=> $welfare["edit_time"]
+								);
+								
+								array_walk($data, 'dbConvert','TIS-620');
+								$this->ado->AutoExecute('FUND_WELFARE_TARGET_NUMBER',$data,'INSERT');
+							}
+							 
+						}
+					}
+					//	กลุ่มเป้าหมาย --------------------------------------------------------------------------------------------------
+					
+					//	สาขาของโครงการที่ขอรับสนับสนุน
+					$querySector = 'SELECT * FROM FUND_WELFARE_SECTOR WHERE STATUS = 1 ORDER BY ID ASC';
+					$sectors = $this->ado->GetArray($querySector);
+					dbConvert($sectors);
+					foreach ($sectors as $key => $sector) {
+						if(@$_POST["project_sector_".$sector["id"]]==1) {
+							$max_id = $this->ado->GetOne("SELECT (MAX(ID)+1) FROM FUND_WELFARE_SECTOR_SELECT");
+
+							$data = array(
+								"id"							=> $max_id,
+								"fund_welfare_id"				=> $id,
+								"fund_welfare_sector_id"		=> $sector["id"],
+								"fund_welfare_sector_title"		=> $sector["title"],
+								"edit_time"						=> $welfare["edit_time"]
+							);
+								
+							array_walk($data, 'dbConvert','TIS-620');
+							$this->ado->AutoExecute('FUND_WELFARE_SECTOR_SELECT',$data,'INSERT');
+						}
+					}
+					
+					//	สาขาอื่นๆ
+					if(@$_POST["project_sector_other"]==1) {
+						$max_id = $this->ado->GetOne("SELECT (MAX(ID)+1) FROM FUND_WELFARE_SECTOR_SELECT");
+
+						$data = array(
+							"id"				=> $max_id,
+							"fund_welfare_id"	=> $id,
+							"others"			=> 1,
+							"other_title"		=> @$_POST["project_sector_other_title"],
+							"edit_time"			=> $welfare["edit_time"]
+						);
+								
+						array_walk($data, 'dbConvert','TIS-620');
+						$this->ado->AutoExecute('FUND_WELFARE_SECTOR_SELECT',$data,'INSERT');
+					}
+					//	สาขาของโครงการที่ขอรับสนับสนุน --------------------------------------------------------------------------------------------------
+					
+					set_notify('success', 'ยื่นแบบฟอร์มการขอรับเงินสนับสนุนโครงการกองทุนส่งเสริมการจัดสวัสดิการสังคมสำเร็จ');
+				} else {
+					set_notify('error', "ไม่สามารถบันทึกได้ กรุณาตรวจสอบข้อมูลให้ถูกต้อง");
+				}	//	งบประมาณโครงการและแหล่งสนับสนุน(เฉพาะปีปัจจุบัน) --------------------------------------------------------------------------------------------------
+			}//	close else $error
 		}
+		redirect("org/member");
 	}
 
 	public function getTarget($id) {

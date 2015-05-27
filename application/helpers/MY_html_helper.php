@@ -260,4 +260,10 @@ function dbConvert(&$value,$key = null,$output='UTF-8')
 		@$value = iconv($encode[$output],$output,$value);
 	}
 }
+
+function cleanformat($value)
+{
+    $clean = intval(str_replace(',', '', $value));
+    return $clean;
+}
 ?>

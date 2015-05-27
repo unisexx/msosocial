@@ -978,6 +978,7 @@
   		}
   		
   		$(function(){ 
+  			
   			$('.pagination_claimfund .pagination a').live('click', function(){
   				var href = $(this).attr('href');
   				var page = href.split("page=");
