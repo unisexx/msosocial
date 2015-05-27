@@ -1,6 +1,21 @@
 <div class="sidebar" id="sidebar">
 
 	<ul class="nav nav-list">
+		<?if(permission('user','full')):?>
+		<li <?php echo menu_active('users','users',false,'active open')?><?php echo menu_active('permissions','permissions',FALSE,'active open')?>>
+          <a href="#" class="dropdown-toggle" >
+            <i class="icon-user"></i>
+            <span>ผู้ใช้งาน</span>
+            <b class="arrow icon-angle-down"></b>
+          </a>
+          <ul class="submenu">
+            <li <?php echo menu_active('users','users')?>><a href="users/admin/users"><i class="icon-double-angle-right"></i> สมาชิก</a></li>
+            <li <?php echo menu_active('permissions','permissions')?>><a href="permissions/admin/permissions"><i class="icon-double-angle-right"></i> สิทธ์การใช้งาน</a></li>
+          </ul>
+        </li>
+        <?endif;?>
+        
+        <?if(permission('about','full')):?>
 		<li <?=@$_GET['module'] == 'เกี่ยวกับเรา'?'class="active open"':'';?>>
 			<a href="#" class="dropdown-toggle">
 				<i class="fa fa-users"></i>
@@ -54,8 +69,9 @@
                 
 			</ul>
 		</li>
+		<?endif;?>
         
-        
+        <?if(permission('policy','full')):?>
        <li <?=@$_GET['module'] == 'นโยบาย/แผนงาน'?'class="active open"':'';?>>
 			<a href="contents/admin/contents/form?module=นโยบาย/แผนงาน&category=นโยบาย/แผนงาน" >
 				<i class="icon-star"></i>
@@ -64,7 +80,9 @@
 				<b class="arrow icon-angle-down"></b>
 			</a>
 		</li>
+		<?endif;?>
     
+    <?if(permission('measure','full')):?>
            <li <?=@$_GET['module'] == 'มาตรการ/กลไก'?'class="active open"':'';?>>
 			<a href="contents/admin/contents/form?module=มาตรการ/กลไก&category=มาตรการ/กลไก" >
 				<i class="icon-star"></i>
@@ -73,7 +91,9 @@
 				<b class="arrow icon-angle-down"></b>
 			</a>
 		</li>
+		<?endif;?>
         
+        <?if(permission('pr','full')):?>
                <li <?=@$_GET['module'] == 'ส่งเสริม/ประสานงาน'?'class="active open"':'';?>>
 			<a href="contents/admin/contents/form?module=ส่งเสริม/ประสานงาน&category=ส่งเสริม/ประสานงาน" >
 				<i class="icon-star"></i>
@@ -82,7 +102,9 @@
 				<b class="arrow icon-angle-down"></b>
 			</a>
 		</li>
+		<?endif;?>
         
+        <?if(permission('standard','full')):?>
                <li <?=@$_GET['module'] == 'พัฒนา/มาตรฐาน'?'class="active open"':'';?>>
 			<a href="contents/admin/contents/form?module=พัฒนา/มาตรฐาน&category=พัฒนา/มาตรฐาน" >
 				<i class="icon-star"></i>
@@ -91,7 +113,9 @@
 				<b class="arrow icon-angle-down"></b>
 			</a>
 		</li>
+		<?endif;?>
         
+        <?if(permission('fund','full')):?>
                <li <?=@$_GET['module'] == 'บริหารกองทุน'?'class="active open"':'';?>>
 			<a href="contents/admin/contents/form?module=บริหารกองทุน&category=บริหารกองทุน" >
 				<i class="icon-star"></i>
@@ -100,7 +124,9 @@
 				<b class="arrow icon-angle-down"></b>
 			</a>
 		</li>
+		<?endif;?>
         
+        <?if(permission('asian','full')):?>
                <li <?=@$_GET['module'] == 'อาเซียน'?'class="active open"':'';?>>
 			<a href="contents/admin/contents/form?module=อาเซียน&category=อาเซียน" >
 				<i class="icon-star"></i>
@@ -108,9 +134,10 @@
 
 				<b class="arrow icon-angle-down"></b>
 			</a>
-		</li>    
+		</li> 
+		<?endif;?>   
         
-		
+		<?if(permission('news','full')):?>
 		<li <?=@$_GET['module'] == 'กิจกรรม' || @$_GET['module'] == 'กิจกรรม' ?'class="active open"':'';?>>
 			<a href="#" class="dropdown-toggle">
 				<i class="fa fa-file-text-o"></i>
@@ -137,8 +164,10 @@
                 
 			</ul>
 		</li>
+		<?endif;?>  
 		
             
+        <?if(permission('download','full')):?>
 		<li <?=@$_GET['module'] == 'คู่มือ'?'class="active open"':'';?>>
 			<a href="#" class="dropdown-toggle">
 				<i class="fa fa-download"></i>
@@ -163,7 +192,9 @@
 			</ul>
             
 		</li>
+		<?endif;?>  
 		
+		<?if(permission('calendar','full')):?>
 		<li <?=@$_GET['cmenu'] == 'ปฎิทินกิจกรรม'?'class="active open"':'';?>>
 			<a href="#" class="dropdown-toggle">
 				<i class="fa fa-calendar"></i>
@@ -194,7 +225,9 @@
 			</ul>
             
 		</li>
+		<?endif;?> 
 		
+		<?if(permission('multimedia','full')):?>
 		<li <?=(@$this->uri->segment(1) == 'galleries') || ($this->uri->segment(1) == 'vdos')?'class="active open"':'';?>>
 			<a href="#" class="dropdown-toggle">
 				<i class="fa fa-photo"></i>
@@ -219,8 +252,9 @@
 				</li>
 			</ul>
 		</li>
+		<?endif;?> 
 		
-		
+		<?if(permission('benefit','full')):?>
 		<li <?=@$_GET['module'] == 'องค์กรสาธารณประโยชน์'?'class="active open"':'';?>>
 			<a href="#" class="dropdown-toggle">
 				<i class="fa fa-file-pdf-o"></i>
@@ -248,7 +282,9 @@
 
 			</ul>
 		</li>
+		<?endif;?> 
 		
+		<?if(permission('community','full')):?>
 		<li <?=@$_GET['module'] == 'องค์กรสวัสดิการชุมชน'?'class="active open"':'';?>>
 			<a href="#" class="dropdown-toggle">
 				<i class="icon-star"></i>
@@ -275,7 +311,9 @@
 				
 			</ul>
 		</li>
+		<?endif;?> 
 		
+		<?if(permission('social','full')):?>
 		<li <?=@$_GET['module'] == 'นักสังคมสงเคราะห์'?'class="active open"':'';?>>
 			<a href="contents/admin/contents/form?module=นักสังคมสงเคราะห์&category=นักสังคมสงเคราะห์" >
 				<i class="icon-star"></i>
@@ -285,8 +323,9 @@
 			</a>
 
 		</li>
+		<?endif;?>
         
-		
+		<?if(permission('agency','full')):?>
 		<li <?=@$_GET['module'] == 'หน่วยงานรัฐ'?'class="active open"':'';?>>
 			<a href="contents/admin/contents/form?module=หน่วยงานรัฐ&category=เกี่ยวกับหน่วยงานรัฐ" class="dropdown-toggle">
 				<i class="icon-star"></i>
@@ -312,7 +351,9 @@
 
 			</ul>
 		</li>
+		<?endif;?>
 		
+		<?if(permission('volunteer','full')):?>
 		<li <?=@$_GET['module'] == 'อาสาสมัคร'?'class="active open"':'';?>>
 			<a href="contents/admin/contents/form?module=อาสาสมัคร&category=อาสาสมัคร" >
 				<i class="icon-star"></i>
@@ -321,9 +362,10 @@
 				<b class="arrow icon-angle-down"></b>
 			</a>
 		</li>
+		<?endif;?>
         
         
-        
+        <?if(permission('social_welfare','full')):?>
         <li <?=@$_GET['cmenu'] == 'สวัสดิการสังคมไทย'?'class="active open"':'';?>>
 			<a href="#" class="dropdown-toggle">
 				<i class="icon-star"></i>
@@ -392,7 +434,9 @@
 
 			</ul>
 		</li>
+		<?endif;?>
         
+        <?if(permission('situation','full')):?>
                 <li <?=@$_GET['module'] == 'สถานการณ์และเหตุการณ์ด้านสวัสดิการสังคม'?'class="active open"':'';?>>
 			<a href="#" class="dropdown-toggle">
 				<i class="icon-star"></i>
@@ -455,6 +499,7 @@
 
 			</ul>
 		</li>
+		<?endif;?>
 		
 	</ul><!--/.nav-list-->
 

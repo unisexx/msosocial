@@ -17,20 +17,24 @@ if(!function_exists('cycle'))
 		return 'class="'.$args[($i++ % count($args))].'"';
 	}
 }
+
 if(!function_exists('menu_active'))
 {
-	function menu_active($module,$controller = FALSE,$class='active')
-	{
-		$CI =& get_instance();
-		if($controller)
-		{
-			return ($CI->router->fetch_module() == $module && $CI->router->fetch_class() == $controller) ? 'class='.$class : '';	
-		}
-		else
-		{
-			return ($CI->router->fetch_module() == $module) ? 'class='.$class : '';	
-		}
-	}
+    function menu_active($module,$controller = FALSE,$method = FALSE,$class='active')
+    {
+        $CI =& get_instance();
+        if($controller)
+        {
+            return ($CI->router->fetch_module() == $module && $CI->router->fetch_class() == $controller) ? 'class="'.$class.'"' : '';    
+        }
+        elseif($method){
+            return ($CI->router->fetch_module() == $module && $CI->router->fetch_method() == $method) ? 'class="'.$class.'"' : '';  
+        }
+        else
+        {
+            return ($CI->router->fetch_module() == $module) ? 'class='.$class : ''; 
+        }
+    }
 }
 
 if(!function_exists('menu_active2'))
