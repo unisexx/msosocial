@@ -10,29 +10,7 @@ class Claimfund extends Public_Controller
 		$this->load->library('adodb');
 		$data['type'] = $type;
 		if ($type == '1') {
-			/*$qry = "SELECT
-				FPSID,
-				PROJECT_CODE,
-				PROJECT_NAME,
-				PROJECT_STATUS,
-				RECEIVE_DATE,
-				(SELECT RESULT_TYPE FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) RESULTT,
-				(SELECT DATE_APPOVED FROM FUND_PROJECT_SUPPORT_RESULT WHERE FUND_PROJECT_SUPPORT_ID = FPSID AND TIME = FTIME AND ROWNUM = 1) DATE_APPOVED
-			FROM
-				(
-					SELECT
-						FPSID, PROJECT_CODE, PROJECT_NAME, PROJECT_STATUS, RECEIVE_DATE, (
-							SELECT MAX(TIME) 
-							FROM FUND_PROJECT_SUPPORT_RESULT 
-							WHERE FUND_PROJECT_SUPPORT_ID = FPSID
-						) FTIME
-					FROM (
-						SELECT FPS.ID FPSID, FPS.PROJECT_CODE, FPS.PROJECT_NAME, FPS.PROJECT_STATUS, FPS.RECEIVE_DATE
-						FROM FUND_PROJECT_SUPPORT FPS
-						WHERE FPS.ACT_WELFARE_BENEFIT_ID = '".$this->session->userdata('act_welfare_benefit_id')."'
-					)
-				)";//*/
-			$qry = "select * from fund_projectsupport where list_type = 2";
+			$qry = "select * from fund_projectsupport where web_form = 1 and act_user_id = ".$this->session->userdata('id');
 		} else {
 			$qry = "SELECT * from FUND_WELFARE WHERE ACT_USER_ID IS NOT NULL AND ACT_USER_ID = ".$this->session->userdata('id');
 		}
@@ -87,7 +65,7 @@ class Claimfund extends Public_Controller
 				//--Data form fund_project_support
 				$data['rs'] = $this->ado->GetRow("select fps.*, awb.organ_name
 				from fund_projectsupport fps
-					join ACT_WELFARE_BENEFIT awb on FPS.ACT_WELFARE_BENEFIT_ID = AWB.id
+					join ACT_WELFARE_BENEFIT awb on FPS.ACT_USER_ID = AWB.id
 				where FPS.id = '".$id."'");
 				dbConvert($data['rs']);
 				
@@ -177,7 +155,7 @@ class Claimfund extends Public_Controller
 		} else if($checked == 1) {
 			$code .= 'กบท/';
 		} else {
-			$province_name = $this->ado->GetOne('select province_name from act_province where province_code = \''.$province_id.'\'');
+			$province_name = $this->ado->GetOne('select title from fund_province where id = \''.$province_id.'\'');
 			dbConvert($province_name);
 			$code .= $province_name.'/';
 		}
@@ -309,6 +287,7 @@ class Claimfund extends Public_Controller
 			$fund_ps = $_POST;
 			$ae = array('type' => null, 'where' => null);
 			//--id
+			
 				if(empty($id)) {
 					$fund_ps['id'] = $this->ado->GetOne('select max(id)+1 from fund_projectsupport');
 					$fund_ps['id'] = ($fund_ps['id'] == 0)?1:$fund_ps['id'];
@@ -316,13 +295,14 @@ class Claimfund extends Public_Controller
 					
 					$fund_ps['created'] = date('Y-m-d H:i:s');
 					$fund_ps['created_by'] = $this->session->userdata('id');;
+					$ae['where'] = false;
 				} else {
 					$fund_ps['id'] = $id;
 					
 					$ae['type'] = 'UPDATE';
 					$ae['where'] = " id = '".$fund_ps['id']."' ";
 				}
-					
+		
 			//--Act_welfare_benefit_id
 				$query = "SELECT
 					AWB.id,
@@ -333,7 +313,7 @@ class Claimfund extends Public_Controller
 				$value = $this->ado->GetRow($query);
 				dbConvert($value);
 				
-				$fund_ps['act_welfare_benefit_id'] = $value['id'];
+				$fund_ps['act_user_id'] = $this->session->userdata('id');
 				$fund_ps['welfare_benefit_title'] = $value['organ_name']; 
 			//--gen project_code
 				$fund_ps['project_code'] = $this->gen_projectcode($_POST['year_budget'], @$id, @$_POST['province_id'], @$_POST['central_check']);
@@ -347,7 +327,7 @@ class Claimfund extends Public_Controller
 				$fund_ps['budget_support'] = str_replace(',',null,$fund_ps['budget_support']);
 				$fund_ps['budget_other'] = str_replace(',',null,$fund_ps['budget_other']);
 				$fund_ps['budget_project'] = $fund_ps['budget_support']+$fund_ps['budget_other'];
-				$fund_ps['list_type'] = 2;
+				$fund_ps['web_form'] = 1;
 			//--file attach 1 - 5
 				$dir = 'uploads/org/claimfund/child/';
 				for( $i = 1 ; $i < 6; $i ++ ) {
@@ -358,7 +338,7 @@ class Claimfund extends Public_Controller
 				}
 		//--Save (fund_projecsupport) 
 			$fund_ps['updated'] = date('Y-m-d H:i:s');
-			$fund_ps['updated_by'] = $this->session->userdata('id');;
+			$fund_ps['updated_by'] = $this->session->userdata('id');
 			
 			array_walk($fund_ps, 'dbConvert','TIS-620');
 			$this->ado->AutoExecute('FUND_PROJECTSUPPORT',$fund_ps,$ae['type'], $ae['where']);
