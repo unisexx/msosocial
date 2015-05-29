@@ -9,7 +9,7 @@ class Admin_Controller extends Master_Controller
 		ini_set("memory_limit","512M");	
 		
 		// check login
-		if(!is_login('Administrator')) redirect('users/admin/auth/login');
+		// if(!is_login('Administrator')) redirect('users/admin/auth/login');
 		
 		$this->template->set_theme('ace_admin');
 		

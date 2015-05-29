@@ -12,7 +12,7 @@ class Users extends Admin_Controller
 	{
 		$data['users'] = new User;
 		if(!empty($_POST['search']))$data['users']->where("username like '%".$_POST['search']."%'");
-		$data['users']->where('level_id',2);
+		$data['users']->where('level_id',2)->get();
 		$this->template->build('admin/users/index',$data);
 	}
 	
