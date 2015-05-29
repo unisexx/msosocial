@@ -129,5 +129,36 @@ function uploadfiles($oldPath = null, $dirPath = null, $fileInput = null) {
 	return $rs;
 }
 
+function headerDownload($dir = false, $title = false) {
+	//Help
+	if(strtolower($dir) == 'help') {
+		$help = "<pre>
+			Dir : helper/authen_helper
+			headerDownload(dir, title);
+			input--dir : directory files.
+			input--title : title files. (is \"no_title\" is null).
+		</pre>";
+		return $help;
+	}
+
+	//Clear space
+	$title = str_replace(' ', null, $title);
+
+	
+	$filedir = $dir;
+	$filetype = pathinfo($filedir, PATHINFO_EXTENSION);
+	#$filename = (empty($title))?basename('no_title.'.$filetype):basename($title.'.'.$filetype);
+	$filename = (empty($title))?('no_title.'.$filetype):($title.'.'.$filetype);
+	
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename='.$filename);
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    #header('Content-Length: ' . filesize($filedir));
+    readfile($filedir);
+}
+
 
 ?>

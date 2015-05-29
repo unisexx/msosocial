@@ -128,7 +128,7 @@
 			    <td><?php echo @$result; ?></td>
 			    <td><?php echo (empty($item['date_appoved']))?'-':$date_appoved; ?></td>
 			    <!-- <td><img src="media/images/view.png" width="24" height="23" /></td> -->
-			    <td><img src="media/images/edit.png" width="16" height="16" style="cursor: pointer;" onclick="memberForm(<?php echo $type; ?>, <? echo $item['fpsid']; ?>);"/></td>
+			    <td><img src="media/images/edit.png" width="16" height="16" style="cursor: pointer;" onclick="memberForm(<?php echo $type; ?>, <? echo $item['id']; ?>);"/></td>
 			    <!-- <td><img src="media/images/edit.png" width="16" height="16" /></td> -->
 		    </tr>
 	    <?php } ?>
