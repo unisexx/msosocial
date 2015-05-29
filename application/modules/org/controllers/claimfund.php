@@ -168,7 +168,7 @@ class Claimfund extends Public_Controller
 		if($status && empty($id)) {
 			$code .= 'XXXX';
 		} else {
-			$qry = "select project_code from fund_project_support where project_code like '".iconv('utf-8', 'tis-620', $code)."%'";
+			$qry = "select project_code from fund_projectsupport where project_code like '".iconv('utf-8', 'tis-620', $code)."%'";
 			$qry .= (empty($id))?null:" and id = '".@$id."'";
 			$qry .= " order by id desc";
 			$current = $this->ado->GetOne($qry);
@@ -178,7 +178,7 @@ class Claimfund extends Public_Controller
 			if(!empty($current) && !empty($id)) {
 				$code = $current;
 			} else if((!empty($current) && empty($id)) || (empty($current) && !empty($id))) {
-				$current = $this->ado->GetOne("select project_code from fund_project_support where project_code like '".iconv('utf-8', 'tis-620', $code)."%'");
+				$current = $this->ado->GetOne("select project_code from fund_projectsupport where project_code like '".iconv('utf-8', 'tis-620', $code)."%'");
 				dbConvert($current);
 								
 				$current = explode('/', $current);
@@ -282,6 +282,18 @@ class Claimfund extends Public_Controller
 	public function saveChild($id = null) {
 		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
 		$this->load->library('adodb');
+		
+		//Validate 
+			$error = 0;
+			foreach(array('year_budget', 'project_name', 'project_type', 'project_status', 'project_direction', 'budget_support', 'budget_cause', 'organization_type') as $item) {
+				$error = (empty($_POST[$item]))?1:$error;
+			}
+			if($error == 1) {
+				set_notify('error', "ไม่สามารถบันทึกได้ กรุณาตรวจสอบข้อมูลให้ถูกต้อง");
+				redirect('org/member/');
+			}
+		//End-validate
+		
 		
 		//fund_projecsupport
 			$fund_ps = $_POST;

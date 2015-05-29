@@ -296,8 +296,10 @@
 
 </form>
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+<script>
 
-<script language="JavaScript">
+			
+			
 	function add_input_attach(name, obj_sector) {
 		content = "<div class='div_attach'>";
 			content += "<div>";
