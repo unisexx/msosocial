@@ -12,7 +12,7 @@
                     
                           <div class="text-namefooter2">กรมพัฒนาสังคมและสวัสดิการ</div>
             				<p>โทรศัพท์ 0 2202 9083, โทรสาร 0 2202 9073 -4</p>
-                          <div class="copy">Copyright © 2015 http://fund02.m-society.go.th &nbsp;&nbsp;&nbsp;All Rights Reserved. </div>
+                          <div class="copy">Copyright © 2015 http://msosocial.m-society.go.th &nbsp;&nbsp;&nbsp;All Rights Reserved. </div>
             
             </div>
             
