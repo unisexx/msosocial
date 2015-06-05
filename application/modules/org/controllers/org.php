@@ -424,6 +424,7 @@ class Org extends Public_Controller
 		}
 		
 		$data['organ_id'] = $CI->session->userdata('organ_id');
+		$data['organ_id_old'] = $CI->session->userdata('organ_id_old');
 		$data['organ_type'] = $CI->session->userdata('organ_type');
 		$data['organ_name'] = $CI->session->userdata('organ_name');
 		$this->template->build('reg_member',$data);
@@ -488,6 +489,7 @@ class Org extends Public_Controller
 				$CI =& get_instance();
 				$CI->session->set_userdata('organ_type','welfare_community');
 				$CI->session->set_userdata('organ_id',$rs['id']);
+				$CI->session->set_userdata('organ_id_old',$rs['organ_id']);
 				$CI->session->set_userdata('organ_name',$rs['organ_name']);
 				echo 'success';
 			}
@@ -497,6 +499,7 @@ class Org extends Public_Controller
 			$CI =& get_instance();
 			$CI->session->set_userdata('organ_type','welfare_benefit');
 			$CI->session->set_userdata('organ_id',$rs['id']);
+			$CI->session->set_userdata('organ_id_old',$rs['organ_id']);
 			$CI->session->set_userdata('organ_name',$rs['organ_name']);
 			echo 'success';
 		}

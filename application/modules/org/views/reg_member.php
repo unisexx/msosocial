@@ -1,5 +1,5 @@
 <div id="title-blank"> ยืนยันความเป็นองค์กร เพื่อสมัครสมาชิกออนไลน์</div><br>
-<h2 style="margin-top:0; color:#CC075F"><?=$organ_name?></h2>
+<h2 style="margin-top:0; color:#CC075F"><?=$organ_name?> (<?=$organ_id_old?>)</h2>
 
 <form action="org/reg_member_save" method="post" enctype="multipart/form-data" class="form-horizontal">
 	<div class="form-group">
