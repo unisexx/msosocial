@@ -52,9 +52,8 @@
 
 <link href="media/css/org/claimfundForm.css" rel="stylesheet" type="text/css"/>
 
-<div style="text-align:right;"><button class="btn" id="btn2list" onclick="memberList(1);">กลับไปหน้ารายการ</button>
-	<span onclick='memberForm(1,1);'>TESTTTTTTTTTTTTTT</span>
-	
+<div style="text-align:right;">
+	<button class="btn" id="btn2list" onclick="memberList(1);">กลับไปหน้ารายการ</button>
 </div>
 <h4 style="margin-top:0; color:#393;" class="form-inline ">
 	แบบฟอร์มการขอรับเงินสนับสนุนโครงการ 
@@ -169,7 +168,9 @@
 	<tr>
 		<th>ชื่อองค์กรที่เสนอขอรับ <span class="textRed">*</span></th>
 		<td>
-			<?php if($status == 'edit') { ?>
+			<?php if($status == 'edit') { 
+				echo form_hidden('welfare_benefit_id', @$rs['welfare_benefit_id']); 
+				?>
 				<input type="text"  class="form-control" style="width:550px;" value="<?php echo @$rs['welfare_benefit_title']; ?>" readonly="readonly"/>
 			<? } else {
 				 echo @$rs['welfare_benefit_title'];
@@ -369,10 +370,12 @@
 			?>
 		</td>
 	</tr>
-	<tr>
-		<th>สถานะ</th>
-		<td><? echo @$formInput['status'][$rs['status']]; ?></td>
-	</tr>
+	<? if(!empty($rs['id'])) { ?> 
+		<tr>
+			<th>สถานะ</th>
+			<td><? echo @$formInput['status'][$rs['status']]; ?></td>
+		</tr>
+	<? } ?>
 </table>
 
 
