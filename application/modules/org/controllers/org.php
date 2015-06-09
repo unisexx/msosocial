@@ -613,8 +613,13 @@ class Org extends Public_Controller
 		// ถ้าเป็นองค์กรสวัสดิการสังคม
 		}elseif($CI->session->userdata('act_welfare_comm_id') > 0){
 			
-			$data['rs'] = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ID='".$CI->session->userdata('act_welfare_comm_id')."'");
+			$data['rs'] = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ID='".@$CI->session->userdata('act_welfare_comm_id')."'");
 			dbConvert($data['rs']);
+			
+			if(empty($data['rs']['id'])) {
+				set_notify('error', 'ไม่พบข้อมูลองค์กรของผู้ใช้งานนี้ กรุณาติดต่อผู้ดูแลระบบ');
+				redirect('');
+			}
 			
 			// เอกสารหลักฐาน มาเพื่อประกอบการพิจารณา
 			$data['doc'] = $this->ado->GetArray("SELECT * FROM ACT_WELFARE_COMM_DOC WHERE ACT_WELFARE_COMM_ID = ".$data['rs']['id']);
