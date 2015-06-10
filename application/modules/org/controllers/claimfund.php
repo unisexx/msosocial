@@ -46,15 +46,26 @@ class Claimfund extends Public_Controller
 		$this->load->library('adodb');
 
 		$data = null;
+		$welfare_table = null;
+		$welfare_id = null;
+
+		if($this->session->userdata('act_welfare_type')==1) {
+			$welfare_table = 'ACT_WELFARE_BENEFIT';
+			$welfare_id = $this->session->userdata('act_welfare_benefit_id');
+		} else {
+			$welfare_table = 'ACT_WELFARE_COMM';
+			$welfare_id = $this->session->userdata('act_welfare_comm_id');
+		}
 
 		$query = "SELECT
 			AP.PROVINCE_NAME,
 			AP.PROVINCE_CODE,
-			AWB.*
-		FROM ACT_WELFARE_BENEFIT AWB
-		JOIN ACT_PROVINCE AP ON AP.PROVINCE_CODE = AWB.PROVINCE_CODE
-		WHERE ID = ".$this->session->userdata('act_welfare_benefit_id');
-			
+			AW.*
+		FROM $welfare_table AW
+		JOIN ACT_PROVINCE AP ON AP.PROVINCE_CODE = AW.PROVINCE_CODE
+		WHERE ID = $welfare_id";
+		echo $query;
+
 		//-- Set default $_GET['type']
 		$_GET['type'] = (empty($_GET['type']))?1:$_GET['type'];
 		if($_GET['type'] == 1){

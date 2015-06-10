@@ -86,6 +86,8 @@ class Org extends Public_Controller
 		$this->load->library('adodb');
 		// $this->ado->debug = true;
 		if($_POST){
+			$_POST['agency_type_id'] = 1;
+			$_POST['agency_type_title'] = 1;
 			
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
@@ -517,8 +519,9 @@ class Org extends Public_Controller
 		{
 			$CI =& get_instance();
 			$CI->session->set_userdata('id',$rs['id']);
-			$CI->session->set_userdata('act_welfare_benefit_id',$rs['act_welfare_benefit_id']);
-			$CI->session->set_userdata('act_welfare_comm_id',$rs['act_welfare_comm_id']);
+			$CI->session->set_userdata('act_welfare_type',@$rs['act_welfare_type']);
+			$CI->session->set_userdata('act_welfare_benefit_id',@$rs['act_welfare_benefit_id']);
+			$CI->session->set_userdata('act_welfare_comm_id',@$rs['act_welfare_comm_id']);
 			echo 'ล้อกอินสำเร็จ';
 		}
 		else
