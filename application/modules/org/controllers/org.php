@@ -89,14 +89,17 @@ class Org extends Public_Controller
 			
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
-			if($_FILES['UploadFile']['name'])
-			{
-				$_POST['filemap'] = $service->upload($_FILES['UploadFile'],'uploads/welfare_benefit/map/');
-			}
+			if($_FILES["UploadFile"]["error"] != 4){
+				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/welfare_benefit/map/') : @$_POST['hdfilemap'];
+				$_POST['filemap'] = base_url().'uploads/welfare_benefit/map/'.$_POST['filemap'];
+		    }else{
+				$_POST['filemap'] = @$_POST['hdfilemap'];
+		    }
 			
 			// แผนที่ตั้งของสำนักงานสาขา
 			if($_FILES["UploadFile2"]["error"] != 4){
 				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/welfare_benefit/map/') : @$_POST['hdfilemap2'];
+				$_POST['b_filemap'] = base_url().'uploads/welfare_benefit/map/'.$_POST['b_filemap'];
 		    }else{
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
@@ -168,7 +171,7 @@ class Org extends Public_Controller
 						$record["id"] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_BENEFIT_DOC)');
 						$record['id'] = $record['id'] == "" ? "1" : $record['id'];
 						$record["act_welfare_benefit_id"] = $_POST['id'];
-						$record["files"] = $files;
+						$record["files"] = base_url().'uploads/welfare_benefit/doc/'.$files;
 						$record["storage"] = 'fund02';
 						
 						$this->ado->AutoExecute('ACT_WELFARE_BENEFIT_DOC',$record,'INSERT');
@@ -249,6 +252,7 @@ class Org extends Public_Controller
 			// แผนที่ตั้งของสำนักงานใหญ่
 			if($_FILES["UploadFile"]["error"] != 4){
 				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/welfare_community/map/') : @$_POST['hdfilemap'];
+				$_POST['filemap'] = base_url().'uploads/welfare_community/map/'.$_POST['filemap'];
 		    }else{
 				$_POST['filemap'] = @$_POST['hdfilemap'];
 		    }
@@ -256,6 +260,7 @@ class Org extends Public_Controller
 			// แผนที่ตั้งของสำนักงานสาขา
 			if($_FILES["UploadFile2"]["error"] != 4){
 				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/welfare_community/map/') : @$_POST['hdfilemap2'];
+				$_POST['b_filemap'] = base_url().'uploads/welfare_community/map/'.$_POST['b_filemap'];
 		    }else{
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
@@ -349,7 +354,7 @@ class Org extends Public_Controller
 						$record["id"] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_COMM_DOC)');
 						$record['id'] = $record['id'] == "" ? "1" : $record['id'];
 						$record["act_welfare_comm_id"] = $_POST['id'];
-						$record["files"] = $files;
+						$record["files"] = base_url().'uploads/welfare_community/doc/'.$files;
 						$record["storage"] = 'fund02';
 						
 						$this->ado->AutoExecute('ACT_WELFARE_COMM_DOC',$record,'INSERT');
@@ -419,6 +424,7 @@ class Org extends Public_Controller
 		}
 		
 		$data['organ_id'] = $CI->session->userdata('organ_id');
+		$data['organ_id_old'] = $CI->session->userdata('organ_id_old');
 		$data['organ_type'] = $CI->session->userdata('organ_type');
 		$data['organ_name'] = $CI->session->userdata('organ_name');
 		$this->template->build('reg_member',$data);
@@ -449,7 +455,7 @@ class Org extends Public_Controller
 						$record["id"] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_USER_DOC)');
 						$record['id'] = $record['id'] == "" ? "1" : $record['id'];
 						$record["act_user_id"] = $_POST['id'];
-						$record["files"] = $files;
+						$record["files"] = base_url().'uploads/reg_member_doc/'.$files;
 						$record["storage"] = 'fund02';
 						
 						$this->ado->AutoExecute('ACT_USER_DOC',$record,'INSERT');
@@ -483,6 +489,7 @@ class Org extends Public_Controller
 				$CI =& get_instance();
 				$CI->session->set_userdata('organ_type','welfare_community');
 				$CI->session->set_userdata('organ_id',$rs['id']);
+				$CI->session->set_userdata('organ_id_old',$rs['organ_id']);
 				$CI->session->set_userdata('organ_name',$rs['organ_name']);
 				echo 'success';
 			}
@@ -492,6 +499,7 @@ class Org extends Public_Controller
 			$CI =& get_instance();
 			$CI->session->set_userdata('organ_type','welfare_benefit');
 			$CI->session->set_userdata('organ_id',$rs['id']);
+			$CI->session->set_userdata('organ_id_old',$rs['organ_id']);
 			$CI->session->set_userdata('organ_name',$rs['organ_name']);
 			echo 'success';
 		}
@@ -605,8 +613,13 @@ class Org extends Public_Controller
 		// ถ้าเป็นองค์กรสวัสดิการสังคม
 		}elseif($CI->session->userdata('act_welfare_comm_id') > 0){
 			
-			$data['rs'] = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ID='".$CI->session->userdata('act_welfare_comm_id')."'");
+			$data['rs'] = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ID='".@$CI->session->userdata('act_welfare_comm_id')."'");
 			dbConvert($data['rs']);
+			
+			if(empty($data['rs']['id'])) {
+				set_notify('error', 'ไม่พบข้อมูลองค์กรของผู้ใช้งานนี้ กรุณาติดต่อผู้ดูแลระบบ');
+				redirect('');
+			}
 			
 			// เอกสารหลักฐาน มาเพื่อประกอบการพิจารณา
 			$data['doc'] = $this->ado->GetArray("SELECT * FROM ACT_WELFARE_COMM_DOC WHERE ACT_WELFARE_COMM_ID = ".$data['rs']['id']);
@@ -650,6 +663,7 @@ class Org extends Public_Controller
 			// แผนที่ตั้งของสำนักงานใหญ่
 			if($_FILES["UploadFile"]["error"] != 4){
 				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/welfare_community/map/') : @$_POST['hdfilemap'];
+				$_POST['filemap'] = base_url().'uploads/welfare_community/map/'.$_POST['filemap'];
 		    }else{
 				$_POST['filemap'] = @$_POST['hdfilemap'];
 		    }
@@ -657,6 +671,7 @@ class Org extends Public_Controller
 			// แผนที่ตั้งของสำนักงานสาขา
 			if($_FILES["UploadFile2"]["error"] != 4){
 				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/welfare_community/map/') : @$_POST['hdfilemap2'];
+				$_POST['b_filemap'] = base_url().'uploads/welfare_community/map/'.$_POST['b_filemap'];
 		    }else{
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
@@ -750,7 +765,7 @@ class Org extends Public_Controller
 						$record["id"] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_COMM_DOC)');
 						$record['id'] = $record['id'] == "" ? "1" : $record['id'];
 						$record["act_welfare_comm_id"] = $_POST['id'];
-						$record["files"] = $files;
+						$record["files"] = base_url().'uploads/welfare_community/doc/'.$files;
 						$record["storage"] = 'fund02';
 						
 						$this->ado->AutoExecute('ACT_WELFARE_COMM_DOC',$record,'INSERT');
@@ -787,14 +802,17 @@ class Org extends Public_Controller
 			
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
-			if($_FILES['UploadFile']['name'])
-			{
-				$_POST['filemap'] = $service->upload($_FILES['UploadFile'],'uploads/welfare_benefit/map/');
-			}
+			if($_FILES["UploadFile"]["error"] != 4){
+				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/welfare_benefit/map/') : @$_POST['hdfilemap'];
+				$_POST['filemap'] = base_url().'uploads/welfare_benefit/map/'.$_POST['filemap'];
+		    }else{
+				$_POST['filemap'] = @$_POST['hdfilemap'];
+		    }
 			
 			// แผนที่ตั้งของสำนักงานสาขา
 			if($_FILES["UploadFile2"]["error"] != 4){
 				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/welfare_benefit/map/') : @$_POST['hdfilemap2'];
+				$_POST['b_filemap'] = base_url().'uploads/welfare_benefit/map/'.$_POST['b_filemap'];
 		    }else{
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
@@ -866,7 +884,7 @@ class Org extends Public_Controller
 						$record["id"] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_BENEFIT_DOC)');
 						$record['id'] = $record['id'] == "" ? "1" : $record['id'];
 						$record["act_welfare_benefit_id"] = $_POST['id'];
-						$record["files"] = $files;
+						$record["files"] = base_url().'uploads/welfare_benefit/doc/'.$files;
 						$record["storage"] = 'fund02';
 						
 						$this->ado->AutoExecute('ACT_WELFARE_BENEFIT_DOC',$record,'INSERT');

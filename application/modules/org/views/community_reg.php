@@ -214,8 +214,21 @@ body {
 		    <p>(๖) ผลการดำเนินงานในระยะเวลาไม่น้อยกว่าหนึ่งปี</p>
 		    <p>(๗) เอกสารตามแบบท้ายคำขอรับรองเป็นองค์กรสวัสดิการชุมชน</p>
 		    </div>
-		    <input class="form-control" type="file" name="filesToUpload[]" multiple="multiple">
+		    <script type="text/javascript">
+		    	updateList = function() {
+				  var input = document.getElementById('multifileInput');
+				  var output = document.getElementById('fileList');
+				
+				  output.innerHTML = 'ไฟล์ที่เลือก:<br><ul>';
+				  for (var i = 0; i < input.files.length; ++i) {
+				    output.innerHTML += '<li>' + input.files.item(i).name + '</li>';
+				  }
+				  output.innerHTML += '</ul>';
+				}
+		    </script>
+		    <input class="form-control" type="file" id="multifileInput" name="filesToUpload[]" multiple="multiple" onchange="javascript:updateList()">
 		    <br>
+		    <div id="fileList"></div>
 	    	<?if(@is_array($doc)):?>
 		    	<?foreach($doc as $key=>$row):?>
 		    	<?=$key+1?>. <a href="uploads/welfare_community/doc/<?=$row['files']?>" target="_blank"><?=$row['files']?></a><br>

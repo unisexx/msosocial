@@ -11,7 +11,7 @@
 		    <th>#</th>
 		    <th style="width: 10%;">รหัสโครงการ</th>
 		    <th style="width: 30%;">ชื่อโครงการ</th>
-		    <th style="width: 10%;">สถานะ</th>
+		    <th style="width: 15%;">สถานะ</th>
 		    <th>วันที่รับ</th>
 		    <th>ผลพิจาราณาล่าสุด</th>
 		    <th>วันที่ส่ง</th>
@@ -29,7 +29,7 @@
 	        foreach($rs as $item) { $no++; 
 	    		$item['resultt'] = (empty($item['resultt']))?'-':$item['resultt'];
 			
-				$receive_date = date('d/m/', @strtotime($item['receive_date'])).(date('Y', @strtotime($item['receive_date']))+543);
+				$receive_date = (empty($item['receive_date']))?'-':date('d/m/', @strtotime($item['receive_date'])).(date('Y', @strtotime($item['receive_date']))+543);
 				$date_appoved = date('d/m/', @strtotime($item['date_appoved'])).(date('Y', @strtotime($item['date_appoved']))+543);
 	    	?>
 	    	<tr>
@@ -47,23 +47,12 @@
 			    <td><?php echo @$item['project_name']; ?></td>
 			    <?php 
 			      	  if ($type == '1') {
-			      	  		switch ($item['project_status']) {
-								case '1':
-									$status_title = '<span title="(โครงการที่มีแนวคิดหรือนโยบายใหม่ไม่เคยทำมาก่อน)">โครงการริเริ่มใหม่ </span>';
-									break;
-								
-								case '2':
-									$status_title = '<span title="(โครงการที่ไม่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นมาก่อน)">โครงการใหม่ </span>';
-									break;
-								
-								case '3':
-									$status_title = '<span title="(โครงการที่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นแล้ว และต้องการดำเนินการต่อ โดยจะต้องมีทุนเพื่อใช้ในการดำเนินงานตามโครงการนี้อยู่แล้วบางส่วน)">โครงการเดิม</span>';
-									break;
-																	
-								default:
-									$status_title = 'รอผล';
-									break;
-							}
+			      	  		$statusText = array(
+			      	  			1 => '<span title="รายการใหม่" style="background:#f90; padding:2px 10px; font-weight:bold; border-radius:4px;">รายการใหม่ </span>'
+			      	  			,2 => '<span title="กลับไปแก้ไข" style="background:#999; padding:2px 10px ;font-weight:bold; border-radius:4px;">กลับไปแก้ไข </span>'
+			      	  			,3 =>'<span title="รอผลพิจารณา" style="background:#0C0; padding:2px 10px ;font-weight:bold; border-radius:4px;">รอผลพิจารณา</span>'
+							);
+							$status_title = (empty($statusText[$item['status']]))?'-':$statusText[$item['status']];
 			     	  } else {
 			    			$status_title = '';
 			    			if ($item['status'] == '1') {
@@ -128,7 +117,13 @@
 			    <td><?php echo @$result; ?></td>
 			    <td><?php echo (empty($item['date_appoved']))?'-':$date_appoved; ?></td>
 			    <!-- <td><img src="media/images/view.png" width="24" height="23" /></td> -->
-			    <td><img src="media/images/edit.png" width="16" height="16" style="cursor: pointer;" onclick="memberForm(<?php echo $type; ?>, <? echo $item['fpsid']; ?>);"/></td>
+			    <td>
+			    	<?php if($item['status'] == 2) { ?>
+			    		<img src="media/images/edit.png" width="16" height="16" style="cursor: pointer;" onclick="memberForm(<?php echo $type; ?>, <? echo $item['id']; ?>);"/>
+			    	<?php } else { ?>
+			    		<img src="media/images/view.png" width="16" height="16" style="cursor: pointer;" onclick="memberForm(<?php echo $type; ?>, <? echo $item['id']; ?>);"/>
+			    	<?php } ?>
+			    </td>
 			    <!-- <td><img src="media/images/edit.png" width="16" height="16" /></td> -->
 		    </tr>
 	    <?php } ?>

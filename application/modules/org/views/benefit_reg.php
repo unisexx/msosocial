@@ -243,7 +243,20 @@ body {
 		    <p>(๖) ผลการดำเนินงานในระยะเวลาไม่น้อยกว่าหนึ่งปี</p>
 		    <p>(๗) หนังสือรับรองผลการดำเนินงานด้านการจัดสวัสดิการสังคมในกรณีองค์กรภาคเอกชนมิได้เป็นนิติบุคคล</p>
 		    </div>
-		    <input type="file" name="filesToUpload[]" multiple="multiple" class="form-control"><br>
+		    <script type="text/javascript">
+		    	updateList = function() {
+				  var input = document.getElementById('multifileInput');
+				  var output = document.getElementById('fileList');
+				
+				  output.innerHTML = 'ไฟล์ที่เลือก:<br><ul>';
+				  for (var i = 0; i < input.files.length; ++i) {
+				    output.innerHTML += '<li>' + input.files.item(i).name + '</li>';
+				  }
+				  output.innerHTML += '</ul>';
+				}
+		    </script>
+		    <input type="file" name="filesToUpload[]" id="multifileInput" multiple="multiple" class="form-control" onchange="javascript:updateList()"><br>
+			<div id="fileList"></div>
 		    <?if(@is_array($doc)):?>
 		    	<?foreach($doc as $key=>$row):?>
 		    	<?=$key+1?>. <a href="uploads/welfare_benefit/doc/<?=$row['files']?>" target="_blank"><?=$row['files']?></a><br>
