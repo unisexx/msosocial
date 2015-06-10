@@ -525,6 +525,7 @@ class Claimfund extends Public_Controller
 					$temp = $this->ado->GetOne("SELECT * FROM FUND_WELFARE WHERE ID = $id");
 					dbConvert($temp);
 				} else {
+					$welfare['web_form'] = 1;
 					$welfare["act_user_id"] = $this->session->userdata('id');
 					$welfare["created"] = date("Y-m-d H:i:s");
 					$welfare["pre_status"] = 0;																			//	ผลพิจารณาเบื้องต้นของเจ้าหน้าที่	
