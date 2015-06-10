@@ -87,7 +87,22 @@ class Org extends Public_Controller
 		// $this->ado->debug = true;
 		if($_POST){
 			$_POST['agency_type_id'] = 1;
-			$_POST['agency_type_title'] = 1;
+			$_POST['agency_type_title'] = 'องค์กรสาธารณประโยชน์';
+
+			switch ($_POST['under_type_sub']) {
+				case 'มูลนิธิ':
+					$_POST['agency_sub_type_id'] = 1;
+					$_POST['agency_sub_type_title'] = 'มูลนิธิ'
+					break;
+				case 'สมาคม':
+					$_POST['agency_sub_type_id'] = 2;
+					$_POST['agency_sub_type_title'] = 'สมาคม'
+					break;
+				case 'องค์กรภาคเอกชน':
+					$_POST['agency_sub_type_id'] = 3;
+					$_POST['agency_sub_type_title'] = 'องค์กรภาคเอกชน'
+					break;
+			}
 			
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
@@ -250,6 +265,20 @@ class Org extends Public_Controller
 		$this->load->library('adodb');
 		// $this->ado->debug = true;
 		if($_POST){
+			$_POST['agency_type_id'] = 2;
+			$_POST['agency_type_title'] = 'องค์กรสวัสดิการชุมชน';
+
+			switch ($_POST['under_type_sub']) {
+				case 'องค์กรสวัสดิการชุมชน':
+					$_POST['agency_sub_type_id'] = 4;
+					$_POST['agency_sub_type_title'] = 'องค์กรสวัสดิการชุมชน'
+					break;
+				case 'เครือข่ายองค์กรสวัสดิการชุมชน':
+					$_POST['agency_sub_type_id'] = 5;
+					$_POST['agency_sub_type_title'] = 'เครือข่ายองค์กรสวัสดิการชุมชน'
+					break;
+			}
+
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
 			if($_FILES["UploadFile"]["error"] != 4){

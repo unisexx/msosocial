@@ -64,7 +64,6 @@ class Claimfund extends Public_Controller
 		FROM $welfare_table AW
 		JOIN ACT_PROVINCE AP ON AP.PROVINCE_CODE = AW.PROVINCE_CODE
 		WHERE ID = $welfare_id";
-		echo $query;
 
 		//-- Set default $_GET['type']
 		$_GET['type'] = (empty($_GET['type']))?1:$_GET['type'];
