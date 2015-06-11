@@ -25,42 +25,9 @@
             <th>ชื่อองค์กรที่เสนอขอรับเงินกองทุน</th>
             <td>
               <?php
-                //  act_welfare_benefit_id = องค์กรสาธารณประโยชน์
-                //  act_welfare_comm_id = องค์กรสวัสดิการชุมชน
-                //  under_type_sub ประเภทหน่วยงาน
-                //    1 = มูลนิธิ   
-                //    2 = สมาคม
-                //    3 = องค์กรภาคเอกชน
-                $under_type_sub = $value['under_type_sub'];
-
-                if(@$this->session->userdata('act_welfare_benefit_id')==true) {
-                  $agency_type_id = 1;
-                  switch ($under_type_sub) {
-                    case 'มูลนิธิ':
-                      $agency_sub_type = 1;
-                      break;
-                    case 'สมาคม':
-                      $agency_sub_type = 2;
-                      break;
-                    case 'องค์กรภาคเอกชน':
-                      $agency_sub_type = 3;
-                      break;
-                  }
-                } else {
-                  $agency_type_id = 2;
-                    switch ($under_type_sub) {
-                    case 'องค์กรสวัสดิการชุมชน':
-                      $agency_sub_type = 4;
-                      break;
-                    case 'เครือข่าย':
-                      $agency_sub_type = 5;
-                      break;
-                    }
-                }
-
-                echo $value['organ_name'].' ('.$value['under_type_sub'].')';
-                echo form_hidden('agency_type_id',$agency_type_id);
-                echo form_hidden('agency_sub_type',$agency_sub_type);
+                echo $value['agency_type_title'].' ('.$value['agency_sub_type_title'].')';
+                echo form_hidden('agency_type_id',$value['agency_type_id']);
+                echo form_hidden('agency_sub_type',$value['agency_sub_type_id']);
               ?>
             </td>
         </tr>

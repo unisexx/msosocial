@@ -86,6 +86,23 @@ class Org extends Public_Controller
 		$this->load->library('adodb');
 		// $this->ado->debug = true;
 		if($_POST){
+			$_POST['agency_type_id'] = 1;
+			$_POST['agency_type_title'] = 'องค์กรสาธารณประโยชน์';
+
+			switch ($_POST['under_type_sub']) {
+				case 'มูลนิธิ':
+					$_POST['agency_sub_type_id'] = 1;
+					$_POST['agency_sub_type_title'] = 'มูลนิธิ';
+					break;
+				case 'สมาคม':
+					$_POST['agency_sub_type_id'] = 2;
+					$_POST['agency_sub_type_title'] = 'สมาคม';
+					break;
+				case 'องค์กรภาคเอกชน':
+					$_POST['agency_sub_type_id'] = 3;
+					$_POST['agency_sub_type_title'] = 'องค์กรภาคเอกชน';
+					break;
+			}
 			
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
@@ -253,6 +270,20 @@ class Org extends Public_Controller
 		$this->load->library('adodb');
 		// $this->ado->debug = true;
 		if($_POST){
+			$_POST['agency_type_id'] = 2;
+			$_POST['agency_type_title'] = 'องค์กรสวัสดิการชุมชน';
+
+			switch ($_POST['under_type_sub']) {
+				case 'องค์กรสวัสดิการชุมชน':
+					$_POST['agency_sub_type_id'] = 4;
+					$_POST['agency_sub_type_title'] = 'องค์กรสวัสดิการชุมชน';
+					break;
+				case 'เครือข่ายองค์กรสวัสดิการชุมชน':
+					$_POST['agency_sub_type_id'] = 5;
+					$_POST['agency_sub_type_title'] = 'เครือข่ายองค์กรสวัสดิการชุมชน';
+					break;
+			}
+
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
 			if($_FILES["UploadFile"]["error"] != 4){
@@ -527,8 +558,9 @@ class Org extends Public_Controller
 		{
 			$CI =& get_instance();
 			$CI->session->set_userdata('id',$rs['id']);
-			$CI->session->set_userdata('act_welfare_benefit_id',$rs['act_welfare_benefit_id']);
-			$CI->session->set_userdata('act_welfare_comm_id',$rs['act_welfare_comm_id']);
+			$CI->session->set_userdata('act_welfare_type',@$rs['act_welfare_type']);
+			$CI->session->set_userdata('act_welfare_benefit_id',@$rs['act_welfare_benefit_id']);
+			$CI->session->set_userdata('act_welfare_comm_id',@$rs['act_welfare_comm_id']);
 			echo 'ล้อกอินสำเร็จ';
 		}
 		else
@@ -623,8 +655,13 @@ class Org extends Public_Controller
 		// ถ้าเป็นองค์กรสวัสดิการสังคม
 		}elseif($CI->session->userdata('act_welfare_comm_id') > 0){
 			
-			$data['rs'] = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ID='".$CI->session->userdata('act_welfare_comm_id')."'");
+			$data['rs'] = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ID='".@$CI->session->userdata('act_welfare_comm_id')."'");
 			dbConvert($data['rs']);
+			
+			if(empty($data['rs']['id'])) {
+				set_notify('error', 'ไม่พบข้อมูลองค์กรของผู้ใช้งานนี้ กรุณาติดต่อผู้ดูแลระบบ');
+				redirect('');
+			}
 			
 			// เอกสารหลักฐาน มาเพื่อประกอบการพิจารณา
 			$data['doc'] = $this->ado->GetArray("SELECT * FROM ACT_WELFARE_COMM_DOC WHERE ACT_WELFARE_COMM_ID = ".$data['rs']['id']);
