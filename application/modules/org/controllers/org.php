@@ -92,15 +92,15 @@ class Org extends Public_Controller
 			switch ($_POST['under_type_sub']) {
 				case 'มูลนิธิ':
 					$_POST['agency_sub_type_id'] = 1;
-					$_POST['agency_sub_type_title'] = 'มูลนิธิ'
+					$_POST['agency_sub_type_title'] = 'มูลนิธิ';
 					break;
 				case 'สมาคม':
 					$_POST['agency_sub_type_id'] = 2;
-					$_POST['agency_sub_type_title'] = 'สมาคม'
+					$_POST['agency_sub_type_title'] = 'สมาคม';
 					break;
 				case 'องค์กรภาคเอกชน':
 					$_POST['agency_sub_type_id'] = 3;
-					$_POST['agency_sub_type_title'] = 'องค์กรภาคเอกชน'
+					$_POST['agency_sub_type_title'] = 'องค์กรภาคเอกชน';
 					break;
 			}
 			
@@ -271,11 +271,11 @@ class Org extends Public_Controller
 			switch ($_POST['under_type_sub']) {
 				case 'องค์กรสวัสดิการชุมชน':
 					$_POST['agency_sub_type_id'] = 4;
-					$_POST['agency_sub_type_title'] = 'องค์กรสวัสดิการชุมชน'
+					$_POST['agency_sub_type_title'] = 'องค์กรสวัสดิการชุมชน';
 					break;
 				case 'เครือข่ายองค์กรสวัสดิการชุมชน':
 					$_POST['agency_sub_type_id'] = 5;
-					$_POST['agency_sub_type_title'] = 'เครือข่ายองค์กรสวัสดิการชุมชน'
+					$_POST['agency_sub_type_title'] = 'เครือข่ายองค์กรสวัสดิการชุมชน';
 					break;
 			}
 

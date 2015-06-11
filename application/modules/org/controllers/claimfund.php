@@ -108,7 +108,7 @@ class Claimfund extends Public_Controller
 				}
 
 				//--Status
-				$data['status'] = (@$data['rs']['status'] == 2)?'edit':'view';
+				$data['status'] = (empty($data['rs']['id']) || @$data['rs']['status'] == 2)?'edit':'view';
 			//--End : Data for edit
 			
 			

@@ -1,4 +1,3 @@
-<? $status = 'edit'; ?>
 <style type='text/css'>
 	.div_attach {
 		margin:5px;
@@ -136,7 +135,7 @@
 	<td>
   		<? $filelist = @$rs['attach_set_2'];
 	  	if($status == 'edit') { ?> 
-		  	<button name="" type="button" class="btn btn-success" id="btn_add_files1">+ เพิ่มไฟล์แนบ</button>
+		  	<button name="" type="button" class="btn btn-success" id="btn_add_files2">+ เพิ่มไฟล์แนบ</button>
 		  	<div id='file_sector2'>
 		  		<?php
 					if(!empty($filelist)) {
@@ -432,9 +431,10 @@
 			
 			project_budget = 0;
 			for(i=0; i<$('.cal_project_budget').length; i++) {
-				project_budget += ($('.cal_project_budget').eq(i).val().replace(/,/gi, "")*1);
+				//project_budget += ($('.cal_project_budget').eq(i).val().replace(/,/gi, "")*1);
+				project_budget += ($('.cal_project_budget').eq(i).val() == '')?0:numeral().unformat($('.cal_project_budget').eq(i).val());
 			}
-			$('[name=project_budget]').val(numeral(project_budget).format('0,0.00'));
+			$('[name=budget_project]').val(numeral(project_budget).format('0,0.00'));
 		});
 	});
 </script>
