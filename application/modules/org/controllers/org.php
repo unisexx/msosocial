@@ -121,7 +121,11 @@ class Org extends Public_Controller
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
 			
+			$_POST['establish_date'] = th_to_stamp($_POST['establish_date']);
+			$_POST['last_updated'] = th_to_stamp(date("d-m-Y H:i:s"),TRUE);
+			
 			if(@$_POST['id'] == ''){
+				$_POST['input_date'] = th_to_stamp(date("d-m-Y H:i:s"),TRUE);
 				$_POST['id'] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_BENEFIT)');
 				$_POST['id'] = $_POST['id'] == "" ? "1" : $_POST['id'];
 				$this->ado->AutoExecute('ACT_WELFARE_BENEFIT',$_POST,'INSERT');
@@ -213,9 +217,10 @@ class Org extends Public_Controller
 
 			// อัพเดทสถานะยื่นใหม่
 			$status['id'] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_BENEFIT_STATUS)');
-			$status['id'] = $status['id'] == "" ? "1" : $_POST['id'];
+			$status['id'] = $status['id'] == "" ? "1" : $status['id'];
 			$status['act_welfare_benefit_id'] = $_POST['id'];
-			$status['status_type'] = "ยื่นใหม่";
+			$status['status_date'] = $_POST['input_date'] != "" ? $_POST['input_date'] : $_POST['last_updated'] ;
+			$status['status_type'] = $_POST['current_status'];
 			$this->ado->AutoExecute('ACT_BENEFIT_STATUS',$status,'INSERT');
 			
 			set_notify('success', 'ยื่นจดทะเบียนสำเร็จ รอการติดต่อกลับจากเจ้าหน้าที่');
@@ -296,7 +301,11 @@ class Org extends Public_Controller
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
 			
+			$_POST['establish_date'] = th_to_stamp($_POST['establish_date']);
+			$_POST['last_updated'] = th_to_stamp(date("d-m-Y H:i:s"),TRUE);
+			
 			if(@$_POST['id'] == ''){
+				$_POST['input_date'] = th_to_stamp(date("d-m-Y H:i:s"),TRUE);
 				$_POST['id'] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_COMM)');
 				$_POST['id'] = $_POST['id'] == "" ? "1" : $_POST['id'];
 				$this->ado->AutoExecute('ACT_WELFARE_COMM',$_POST,'INSERT');
@@ -410,9 +419,10 @@ class Org extends Public_Controller
 
 			// อัพเดทสถานะยื่นใหม่
 			$status['id'] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_COMM_STATUS)');
-			$status['id'] = $status['id'] == "" ? "1" : $_POST['id'];
+			$status['id'] = $status['id'] == "" ? "1" : $status['id'];
 			$status['act_welfare_comm_id'] = $_POST['id'];
-			$status['status_type'] = "ยื่นใหม่";
+			$status['status_date'] = $_POST['input_date'] != "" ? $_POST['input_date'] : $_POST['last_updated'] ;
+			$status['status_type'] = $_POST['current_status'];
 			$this->ado->AutoExecute('ACT_COMM_STATUS',$status,'INSERT');
 			
 			set_notify('success', 'ยื่นจดทะเบียนสำเร็จ รอการติดต่อกลับจากเจ้าหน้าที่');
@@ -713,8 +723,12 @@ class Org extends Public_Controller
 		    }else{
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
+		    
+		    $_POST['establish_date'] = th_to_stamp($_POST['establish_date']);
+			$_POST['last_updated'] = th_to_stamp(date("d-m-Y H:i:s"),TRUE);
 			
 			if(@$_POST['id'] == ''){
+				$_POST['input_date'] = th_to_stamp(date("d-m-Y H:i:s"),TRUE);
 				$_POST['id'] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_COMM)');
 				$_POST['id'] = $_POST['id'] == "" ? "1" : $_POST['id'];
 				$this->ado->AutoExecute('ACT_WELFARE_COMM',$_POST,'INSERT');
@@ -855,7 +869,11 @@ class Org extends Public_Controller
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
 			
+			$_POST['establish_date'] = th_to_stamp($_POST['establish_date']);
+			$_POST['last_updated'] = th_to_stamp(date("d-m-Y H:i:s"),TRUE);
+			
 			if(@$_POST['id'] == ''){
+				$_POST['input_date'] = th_to_stamp(date("d-m-Y H:i:s"),TRUE);
 				$_POST['id'] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_BENEFIT)');
 				$_POST['id'] = $_POST['id'] == "" ? "1" : $_POST['id'];
 				$this->ado->AutoExecute('ACT_WELFARE_BENEFIT',$_POST,'INSERT');
