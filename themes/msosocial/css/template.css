@@ -27,7 +27,7 @@ p { word-break: break-all;}
 	#icon-social{position: absolute; right:0; text-align:right; top:43px;}
 	#searchbox{position: absolute; right:0; top:35px; z-index:1;}
 	#searchbox textarea,	#searchbox{ width:191px; height:27px; font-size:10pt; background-color:white; border:0px;  color:#626262; padding-left:7px; padding-top:3px;  padding-right:22px; border:1px solid #d3d3d1;}
-	#login{position: absolute; width:200px;  right:0; top:75px; z-index:1;}
+	#login{position: absolute; width:240px;  right:0; top:75px; z-index:1;}
 		#userlogin a{color:#a21665; font-size:11pt; padding-left:3px; padding-right:10px; }
 		#userregis a{color:#cf035e; font-size:11pt; padding-left:10px;}
 

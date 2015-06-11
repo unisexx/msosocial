@@ -3,7 +3,14 @@
       <a href="https://www.facebook.com/SWsocialwelfare?ref=hL" target="_blank"><img src="themes/msosocial/images/icon-twitter.jpg" width="23" height="22" /></a>
       <input name="searchbox" id="searchbox" maxlength="50" value="ค้นหา..." type="text" /><br>
       <span id="login">
-        <img src="themes/msosocial/images/icon-key.png" width="14" height="14" /><span id="userlogin"><a class="inline" href="#loginform">เข้าสู่ระบบ</a></span> 
+        <img src="themes/msosocial/images/icon-key.png" width="14" height="14" />
+        	<span id="userlogin">
+        		<?php if($this->session->userdata('id')==true):?>
+        			<a class="inline" href="org/logout">ออกจากระบบ</a>
+        		<?php else:?>
+        			<a class="inline" href="#loginform">เข้าสู่ระบบ</a>
+        		<?php endif?>
+        	</span> 
         <img src="themes/msosocial/images/icon-user.png" width="13" height="14" /><span id="userregis"><a class="inline" href="#register">สมัครสมาชิก</a></span>
 <!--                <img src="themes/msosocial/images/icon-key.png" width="14" height="14" /><span id="userlogin"><a href="#">เข้าสู่ระบบ</a></span> 
         <img src="themes/msosocial/images/icon-user.png" width="13" height="14" /><span id="userregis"><a href="#">สมัครสมาชิก</a></span>-->

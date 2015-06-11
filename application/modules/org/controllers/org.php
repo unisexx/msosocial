@@ -558,6 +558,12 @@ class Org extends Public_Controller
 			echo ' <font color="#CC075F">ยูสเซอร์เนมหรือรหัสผ่านไม่ถูกต้อง</font>';
 		}
 	}
+
+	function logout()
+	{
+		logout();
+		redirect('');
+	}
 	
 	function member(){
 		$CI =& get_instance();
