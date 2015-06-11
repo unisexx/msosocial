@@ -59,8 +59,10 @@
 	    <div class="col-sm-offset-2 col-sm-10">
 		  <?if($organ_type == 'welfare_benefit'):?>
 	      	<input type="hidden" name="act_welfare_benefit_id" value="<?=$organ_id?>">
+	      	<input type="hidden" name="act_welfare_type" value="1">
 	      <?else:?>
 	      	<input type="hidden" name="act_welfare_comm_id" value="<?=$organ_id?>">
+	      	<input type="hidden" name="act_welfare_type" value="2">
 	      <?endif;?>
 	      <input type="hidden" name="status" value="สมัครใหม่">
 	      <button class="btn btn-success btn-lg pull-right" type="submit">ส่งข้อมูลยืนยัน</button>
