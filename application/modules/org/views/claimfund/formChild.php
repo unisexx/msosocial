@@ -1,3 +1,4 @@
+<? $status = 'edit'; ?>
 <style type='text/css'>
 	.div_attach {
 		margin:5px;
@@ -70,7 +71,7 @@
 <? if($status == 'edit') { ?>  <form action="org/claimfund/saveChild/<?php echo @$rs['id']; ?>" method='post' enctype="multipart/form-data"> <? } ?>
 <?php
 	$year_budget = (empty($rs['year_budget']))?(date('Y')+543):$rs['year_budget'];
-	$project_code = (empty($rs['project_code']))?'คคด/'.(date('Y')+543).'/'.$value['province_name'].'/XXXX':$rs['project_code'];
+	$project_code = (empty($rs['project_code']))?'คคด/'.(date('Y')+543).'/'.@$value['province_name'].'/XXXX':@$rs['project_code'];
 	
 	
 	echo form_hidden('year_budget', $year_budget); 
@@ -390,10 +391,10 @@
 			
 	function add_input_attach(name, obj_sector) {
 		content = "<div class='div_attach'>";
-			content += "<div>";
+			content += '<div style="background:#95c9dd; border:solid 1px #688c9a;">';
 				content += "<strong>แนบไฟล์ : </strong>";
 					content += "<input type='file' style='display:inline-block;' name='"+name+"[]'>";
-					content += "<input type='button' value='Delete' class='btn btn-danger btn-delete_input btnDelfile'>";
+					content += "<input type='button' value='Delete' class='btn btn-danger btn-delete_input' onclick='if(!confirm(\"กรุณายืนยันการลบไฟล์แนบ\")) return false; $(this).parent().parent().remove();'>";
 			content += "</div>";
 		content += "</div>";
 		
