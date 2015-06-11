@@ -99,7 +99,7 @@ body {
 		  <div class="form-group">
 		    <label class="col-sm-2 control-label">วันเดือนปีที่ก่อตั้ง <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-4">
-		      <input type="text" class="form-control fdate dateInput" name="establish_date" value="<?=@$rs['establish_date']?>" placeholder="" style="width:100px;margin-right:5px;" required>
+		      <input type="text" class="form-control fdate dateInput" name="establish_date" value="<?=@stamp_to_th($rs['establish_date'])?>" placeholder="" style="width:100px;margin-right:5px;" required>
 			</div>
 		  </div>
 		  
@@ -718,6 +718,11 @@ $(function(){
 			$(this).remove(); 
 			service_count();
 		});
+	});
+	
+	// disable button on submit
+	$('form').submit(function() {
+	  $('button[type=submit]', this).attr('disabled', 'disabled');
 	});
 	
 });

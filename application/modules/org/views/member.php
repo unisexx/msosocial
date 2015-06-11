@@ -5,7 +5,9 @@
   <ul>
     <li><a href="#tabs-1">ข้อมูลองค์กร</a></li>
     <li><a href="#tabs-2">สถานะการจดทะเบียน</a></li>
+    <?if(@$rs['current_status']=='อนุรับรอง' || @$rs['current_status']=='ส่งใบสำคัญ'):?>
     <li><a href="#tabs-3" onclick="memberList(1);">ขอรับเงินสนับสนุน/ติดตามโครงการ</a></li>
+    <?endif;?>
   </ul>
   <div id="tabs-1">
     <h3 style="margin-top:0; color:#393">ข้อมูลองค์กร</h3>
@@ -36,9 +38,16 @@
 		  </div>
 		  
 		  <div class="form-group">
+		    <label class="col-sm-2 control-label">เลขทะเบียนองค์กร <span class="vald">*</span></label>
+		    <div class="col-sm-6">
+		      <input type="text" class="form-control" name="organ_name" value="<?php echo @$rs['organ_id']?>" placeholder="เลขทะเบียนองค์กร" readonly>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
 		    <label class="col-sm-2 control-label">วันเดือนปีที่ก่อตั้ง <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-4">
-		      <input type="text" class="form-control fdate dateInput" name="establish_date" value="<?php echo @$rs['establish_date']?>" placeholder="" style="width:100px;margin-right:5px;" required>
+		      <input type="text" class="form-control fdate dateInput" name="establish_date" value="<?php echo @stamp_to_th($rs['establish_date'])?>" placeholder="" style="width:100px;margin-right:5px;" required>
 		    </div>
 		  </div>
 		  
@@ -546,9 +555,16 @@
 		  </div>
 		  
 		  <div class="form-group">
+		    <label class="col-sm-2 control-label">เลขทะเบียนองค์กร <span class="vald">*</span></label>
+		    <div class="col-sm-6">
+		      <input type="text" class="form-control" name="organ_name" value="<?php echo @$rs['organ_id']?>" placeholder="เลขทะเบียนองค์กร" readonly>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
 		    <label class="col-sm-2 control-label">วันเดือนปีที่ก่อตั้ง <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-4">
-		      <input type="text" class="form-control fdate dateInput" name="establish_date" value="<?php echo @$rs['establish_date']?>" placeholder="" style="width:100px;margin-right:5px;" required>
+		      <input type="text" class="form-control fdate dateInput" name="establish_date" value="<?php echo @stamp_to_th($rs['establish_date'])?>" placeholder="" style="width:100px;margin-right:5px;" required>
 			</div>
 		  </div>
 		  
@@ -952,7 +968,7 @@
   </div>
   
   
-  
+<?if(@$rs['current_status']=='อนุรับรอง' || @$rs['current_status']=='ส่งใบสำคัญ'):?>
 <div id="tabs-3">
   	<script language="JavaScript">
   		function memberList(fund_type) {
@@ -1012,6 +1028,7 @@
 	  </div>
 	</div>
 </div>
+<?endif;?>
 
 <link rel="stylesheet" type="text/css" href="media/css/jquery-ui-1.7.2.custom.css">
 <style type="text/css">

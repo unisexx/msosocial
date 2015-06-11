@@ -26,6 +26,81 @@ if ( ! function_exists('mysql_to_th'))
 	}
 }
 
+if(!function_exists('stamp_to_th'))
+{
+	function stamp_to_th($timestamp,$incl_time=FALSE)
+	{
+		if($timestamp > 0 )
+		{
+		$engdate = date('Y-m-d H:i:s', $timestamp);
+		$thaidate = db_to_th($engdate,$incl_time,'');
+		}
+		else
+		{
+			$thaidate="";
+		}
+		return $thaidate;
+	}
+}
+
+if(!function_exists('th_to_stamp'))
+{
+	function th_to_stamp($thaidate,$includeTime = FALSE)
+	{
+		if($thaidate=="")
+		{
+			$timestamp = 0;
+		}
+		else
+		{
+			if($includeTime!= TRUE)
+			{
+				list($d, $m, $y) = explode("-", $thaidate);
+				$y = ($y + 543) > 3000 ? $y - 543 : $y;
+				$timestamp = strtotime($d . "-" . $m . "-" . $y);
+			}else{
+				$date = explode(" ",$thaidate);
+				list($d, $m, $y) = explode("-", $date[0]);
+				$y = ($y + 543) > 3000 ? $y - 543 : $y;
+				$timestamp = strtotime($d . "-" . $m . "-" . $y." ".$date[1]);
+			}
+		}
+		return $timestamp;
+	}
+}
+
+
+if ( ! function_exists('db_to_th'))
+{
+function db_to_th($datetime = '', $time = TRUE ,$format = 'F')
+	{
+		if($format == 'F')
+		{
+			$month_th = array( 1 =>'มกราคม',2 => 'กุมภาพันธ์',3=>'มีนาคม',4=>'เมษายน',5=>'พฤษภาคม',6=>'มิถุนายน',7=>'กรกฏาคม',8=>'สิงหาคม',9=>'กันยายน',10=>'ตุลาคม',11=>'พฤศจิกายน',12=>'ธันวาคม');
+		}
+		else
+		{
+			$month_th = array( 1 =>'ม.ค.',2 => 'ก.พ.',3=>'มี.ค.',4=>'เม.ย',5=>'พ.ค.',6=>'มิ.ย',7=>'ก.ค.',8=>'ส.ค.',9=>'ก.ย.',10=>'ต.ค.',11=>'พ.ย.',12=>'ธ.ค.');
+		}
+
+		$datetime = human_to_unix($datetime);
+
+		if($format=='F')
+			$r = date('d', $datetime).' '.$month_th[date('n', $datetime)].' '.(date('Y', $datetime) + 543);
+		else if($format=='T')
+			$r = date('d', $datetime).'/'.date('n', $datetime).'/'.(date('Y', $datetime) + 543);
+		else
+		 	$r = date('d', $datetime).'-'.date('n', $datetime).'-'.(date('Y', $datetime) + 543);
+
+		if($time)
+		{
+				$r .= ' - '.date('H', $datetime).':'.date('i', $datetime);
+		}
+
+		return $r;
+	}
+}
+
 function DB2Date($Dt){ 
 	if(($Dt!=NULL)&&($Dt != '0000-00-00')){
 		@list($date,$time) = explode(" ",$Dt);

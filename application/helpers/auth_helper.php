@@ -54,6 +54,9 @@ function logout()
 {
 	$CI =& get_instance();
 	$CI->session->unset_userdata('id');
+	$CI->session->unset_userdata('act_welfare_type');
+	$CI->session->unset_userdata('act_welfare_benefit_id');
+	$CI->session->unset_userdata('act_welfare_comm_id');
 	$CI->session->unset_userdata('level');
 	$CI->session->unset_userdata('user_type');
 }
