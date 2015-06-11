@@ -262,7 +262,7 @@
 				</div>
 				<div style='margin-top:5px;'>
 					<span style="display:inline-block; width:240px;">งบประมาณที่ได้รับสมทบจากแหล่งอื่น*(ถ้ามี) </span>
-					<?php echo (empty($rs['budget_other']))?'0.00':number_format($rs['budget_other'], 2); ?>" บาท
+					<?php echo (empty($rs['budget_other']))?'0.00':number_format($rs['budget_other'], 2); ?> บาท
 				</div>
 				<div style='margin-top:5px;'>
 					<? foreach($formInput['has_budget_other'] as $key => $item) { ?>
@@ -393,7 +393,7 @@
 			content += "<div>";
 				content += "<strong>แนบไฟล์ : </strong>";
 					content += "<input type='file' style='display:inline-block;' name='"+name+"[]'>";
-					content += "<input type='button' value='Delete' class='btn btn-danger btn-delete_input'>";
+					content += "<input type='button' value='Delete' class='btn btn-danger btn-delete_input btnDelfile'>";
 			content += "</div>";
 		content += "</div>";
 		
