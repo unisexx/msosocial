@@ -81,9 +81,9 @@ class Claimfund extends Public_Controller
 				
 				if(empty($data['rs']['id'])) { // Add
 					$fund_province = $this->ado->GetRow("select id, title from fund_province where province_code = '".@$data['value']['province_code']."'"); dbConvert($fund_province);
-					$data['rs']['province_id'] = $fund_province['id'];
-					$data['rs']['province_name'] = $fund_province['title'];
-					$data['rs']['welfare_benefit_title'] = $data['value']['organ_name'];
+					$data['rs']['province_id'] = @$fund_province['id'];
+					$data['rs']['province_name'] = @$fund_province['title'];
+					$data['rs']['welfare_benefit_title'] = @$data['value']['organ_name'];
 					$data['rs']['welfare_benefit_id'] = $this->session->userdata('act_welfare_benefit_id');
 				} else { //Edit
 					$fund_province = $this->ado->GetRow("select id, title from fund_province where id = '".$data['rs']['province_id']."'"); dbConvert($fund_province);

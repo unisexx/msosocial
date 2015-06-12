@@ -1,3 +1,4 @@
+<? $status = 'edit'; ?>
 <style type='text/css'>
 	.div_attach {
 		margin:5px;
@@ -70,7 +71,7 @@
 <? if($status == 'edit') { ?>  <form action="org/claimfund/saveChild/<?php echo @$rs['id']; ?>" method='post' enctype="multipart/form-data"> <? } ?>
 <?php
 	$year_budget = (empty($rs['year_budget']))?(date('Y')+543):$rs['year_budget'];
-	$project_code = (empty($rs['project_code']))?'คคด/'.(date('Y')+543).'/'.$value['province_name'].'/XXXX':$rs['project_code'];
+	$project_code = (empty($rs['project_code']))?'คคด/'.(date('Y')+543).'/'.@$value['province_name'].'/XXXX':@$rs['project_code'];
 	
 	
 	echo form_hidden('year_budget', $year_budget); 
@@ -262,7 +263,7 @@
 				</div>
 				<div style='margin-top:5px;'>
 					<span style="display:inline-block; width:240px;">งบประมาณที่ได้รับสมทบจากแหล่งอื่น*(ถ้ามี) </span>
-					<?php echo (empty($rs['budget_other']))?'0.00':number_format($rs['budget_other'], 2); ?>" บาท
+					<?php echo (empty($rs['budget_other']))?'0.00':number_format($rs['budget_other'], 2); ?> บาท
 				</div>
 				<div style='margin-top:5px;'>
 					<? foreach($formInput['has_budget_other'] as $key => $item) { ?>
@@ -390,10 +391,10 @@
 			
 	function add_input_attach(name, obj_sector) {
 		content = "<div class='div_attach'>";
-			content += "<div>";
+			content += '<div style="background:#95c9dd; border:solid 1px #688c9a;">';
 				content += "<strong>แนบไฟล์ : </strong>";
 					content += "<input type='file' style='display:inline-block;' name='"+name+"[]'>";
-					content += "<input type='button' value='Delete' class='btn btn-danger btn-delete_input'>";
+					content += "<input type='button' value='Delete' class='btn btn-danger btn-delete_input' onclick='if(!confirm(\"กรุณายืนยันการลบไฟล์แนบ\")) return false; $(this).parent().parent().remove();'>";
 			content += "</div>";
 		content += "</div>";
 		
