@@ -25,7 +25,8 @@
             <th>ชื่อองค์กรที่เสนอขอรับเงินกองทุน</th>
             <td>
               <?php
-                echo $value['agency_type_title'].' ('.$value['agency_sub_type_title'].')';
+                //  echo $value['agency_type_title'].' ('.$value['agency_sub_type_title'].')';
+                echo $value['organ_name'].' ('.$value['agency_type_title'].')';
                 echo form_hidden('agency_type_id',$value['agency_type_id']);
                 echo form_hidden('agency_sub_type',$value['agency_sub_type_id']);
               ?>

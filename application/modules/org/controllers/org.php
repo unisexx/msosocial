@@ -103,6 +103,13 @@ class Org extends Public_Controller
 					$_POST['agency_sub_type_title'] = 'องค์กรภาคเอกชน';
 					break;
 			}
+
+			echo 'agency_type_id: '.$_POST['agency_type_id'].'<br />';
+			echo 'agency_type_title: '.$_POST['agency_type_title'].'<br />';
+			echo 'under_type_sub: '.$_POST['under_type_sub'].'<br />';
+			echo 'agency_sub_type_id: '.$_POST['agency_sub_type_id'].'<br />';
+			echo 'agency_sub_type_title: '.$_POST['agency_sub_type_title'].'<br />';
+			exit();
 			
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
@@ -283,6 +290,13 @@ class Org extends Public_Controller
 					$_POST['agency_sub_type_title'] = 'เครือข่ายองค์กรสวัสดิการชุมชน';
 					break;
 			}
+
+			echo 'agency_type_id: '.$_POST['agency_type_id'].'<br />';
+			echo 'agency_type_title: '.$_POST['agency_type_title'].'<br />';
+			echo 'under_type_sub: '.$_POST['under_type_sub'].'<br />';
+			echo 'agency_sub_type_id: '.$_POST['agency_sub_type_id'].'<br />';
+			echo 'agency_sub_type_title: '.$_POST['agency_sub_type_title'].'<br />';
+			exit();
 
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
