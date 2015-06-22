@@ -1,4 +1,3 @@
-<? $status = 'edit'; ?>
 <style type='text/css'>
 	.div_attach {
 		margin:5px;
