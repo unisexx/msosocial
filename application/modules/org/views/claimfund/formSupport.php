@@ -16,19 +16,19 @@
         <tr>
             <th style="width: 250px;" >ปีงบประมาณ / จังหวัด</th>
             <td class="form-inline">
-              <?php echo (date('Y')+543).' / '.$value['province_name']?>
+              <?php echo (date('Y')+543).' / '.$agency['province_name']?>
               <input type="hidden" name='year_budget' value='<?php echo (date('Y')+543)?>' >
-              <input type="hidden" name='province_id' value='<?php echo $value['province_code']?>' >
+              <input type="hidden" name='province_id' value='<?php echo $agency['province_code']?>' >
             </td>
         </tr>
         <tr>
             <th>ชื่อองค์กรที่เสนอขอรับเงินกองทุน</th>
             <td>
               <?php
-                //  echo $value['agency_type_title'].' ('.$value['agency_sub_type_title'].')';
-                echo $value['organ_name'].' ('.$value['agency_type_title'].')';
-                echo form_hidden('agency_type_id',$value['agency_type_id']);
-                echo form_hidden('agency_sub_type',$value['agency_sub_type_id']);
+                //  echo $agency['agency_type_title'].' ('.$agency['agency_sub_type_title'].')';
+                echo $agency['organ_name'].' ('.$agency['agency_type_title'].')';
+                echo form_hidden('agency_type_id',$agency['agency_type_id']);
+                echo form_hidden('agency_sub_type',$agency['agency_sub_type_id']);
               ?>
             </td>
         </tr>
@@ -41,10 +41,8 @@
         <tr id="is_project_system_2" style="display: none;">
             <th>รูปแบบการขอรับการสนับสนุน</th>
             <td>
-                <div>
-                    <input type="radio" name="is_project_system_2" value="1"> เชิงประเด็น</div>
-                <div>
-                    <input type="radio" name="is_project_system_2" value="2"> เชิงพื้นที่</div>
+                <div><input type="radio" name="is_project_system_2" value="1"> เชิงประเด็น</div>
+                <div><input type="radio" name="is_project_system_2" value="2"> เชิงพื้นที่</div>
             </td>
         </tr>
         <tr>

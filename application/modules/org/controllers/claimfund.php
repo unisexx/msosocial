@@ -200,10 +200,14 @@ class Claimfund extends Public_Controller
 			$queryTarget = 'SELECT * FROM FUND_WELFARE_TARGET WHERE STATUS = 1 ORDER BY ID ASC';
 			$data["targets"] = $this->ado->GetArray($queryTarget);
 
+			$data['agency'] = $this->ado->GetRow($query);
+
+			$query = "SELECT * FROM FUND_WELFARE WHERE ID = $id";
 			$data['value'] = $this->ado->GetRow($query);
 
 			dbConvert($data['sectors']);
 			dbConvert($data['targets']);
+			dbConvert($data['agency']);
 			dbConvert($data['value']);
 
 			$form = 'formSupport';
