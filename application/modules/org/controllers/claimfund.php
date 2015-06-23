@@ -34,7 +34,6 @@ class Claimfund extends Public_Controller
 		$data['pagination'] = $page->show();
 		$data['rs'] = $rs->GetArray();
 		dbConvert($data['rs']);
-	
 		$this->load->view('claimfund/list', @$data);
 	}
 
@@ -440,26 +439,27 @@ class Claimfund extends Public_Controller
 		
 		//--attach_set_1-2
 		$attach_set = array('attach_set_1', 'attach_set_2');
+		
 		foreach($attach_set as $item) {
 			foreach($_FILES[$item]['tmp_name'] as $key => $item2) {
-				//--Filename
-				$ftype = explode('.', $_FILES[$item]['name'][$key]);
-				$filename = str_replace('.'.end($ftype), null, $_FILES[$item]['name'][$key]);
-
-				$data = array(
-					'id' => $this->ado->GetOne("select max(id)+1 from fund_projectsupport_attach")
-					,'module_name' => $item
-					,'module_id' => $fund_ps['id']
-					,'file_name' => $filename
-					,'file_path' => base_url().uploadfiles(null, $dir, array('tmp_name' => $_FILES[$item]['tmp_name'][$key], 'name' => $_FILES[$item]['name'][$key]))
-					,'base_path' => base_url()
-				);
-				$data['id'] = ($data['id'] == 0)?1:$data['id']; 
-				array_walk($data, 'dbConvert','TIS-620');
-				$this->ado->AutoExecute('FUND_PROJECTSUPPORT_ATTACH', $data, 'INSERT');
+				if(!empty($item2)) {
+					//--Filename
+					$ftype = explode('.', $_FILES[$item]['name'][$key]);
+					$filename = str_replace('.'.end($ftype), null, $_FILES[$item]['name'][$key]);
+					$data = array(
+						'id' => $this->ado->GetOne("select max(id)+1 from fund_projectsupport_attach")
+						,'module_name' => $item
+						,'module_id' => $fund_ps['id']
+						,'file_name' => $filename
+						,'file_path' => base_url().uploadfiles(null, $dir, array('tmp_name' => $_FILES[$item]['tmp_name'][$key], 'name' => $_FILES[$item]['name'][$key]))
+						,'base_path' => base_url()
+					);
+					$data['id'] = ($data['id'] == 0)?1:$data['id']; 
+					array_walk($data, 'dbConvert','TIS-620');
+					$this->ado->AutoExecute('FUND_PROJECTSUPPORT_ATTACH', $data, 'INSERT');
+				}	
 			}	
 		}
-		
 		
 		//--project_target_set_data
 		$this->ado->query("delete from fund_project_target_set_data where project_support_id = '".$fund_ps['id']."'");
