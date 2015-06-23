@@ -35,20 +35,20 @@
         <tr>
           <th>ระบบ / รูปแบบ<br />การขอรับเงินสนับสนุน</th>
           <td>
-            <input type="radio" name="project_system" value="1"> ระบบปกติ
-            <input type="radio" id="project_system_2" name="project_system" value="2"> ระบบกระจาย
+            <input type="radio" name="project_system" value="1" <?php if(@$value['project_system']==1) echo 'checked';?>> ระบบปกติ
+            <input type="radio" id="project_system_2" name="project_system" value="2" <?php if(@$value['project_system']==2) echo 'checked';?>> ระบบกระจาย
         </td>
-        <tr id="is_project_system_2" style="display: none;">
+        <tr id="is_project_system_2" <?php if(@$value['project_system']!=2) echo "style=\"display: none;\"";?> >
             <th>รูปแบบการขอรับการสนับสนุน</th>
             <td>
-                <div><input type="radio" name="is_project_system_2" value="1"> เชิงประเด็น</div>
-                <div><input type="radio" name="is_project_system_2" value="2"> เชิงพื้นที่</div>
+                <div><input type="radio" name="is_project_system_2" value="1" <?php if(@$value['is_project_system_2']==1) echo 'checked';?>> เชิงประเด็น</div>
+                <div><input type="radio" name="is_project_system_2" value="2" <?php if(@$value['is_project_system_2']==2) echo 'checked';?>> เชิงพื้นที่</div>
             </td>
         </tr>
         <tr>
             <th>ชื่อโครงการ (ภาษาไทย)<span class="Txt_red_12"> *</span></th>
             <td>
-                <input type="text" name="project_name" style="width:550px;" class="form-control" />
+                <input type="text" class="form-control" name="project_name" value="<?php echo @$value['project_name'];?>" style="width:550px;" />
             </td>
         </tr>
         <tr>
@@ -56,15 +56,15 @@
             <td>
                 <div class="boxOrgType1">
                     <div style="margin-bottom:10px;">
-                        <input type="radio" class="radio-inline" name="project_type_id" value="1" /> โครงการใหม่ (โครงการที่ไม่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้น มาก่อน)
+                        <input type="radio" class="radio-inline" name="project_type_id" value="1" <?php if(@$value['project_type_id']==1) echo 'checked';?> /> โครงการใหม่ (โครงการที่ไม่เคยดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้น มาก่อน)
                     </div>
 
                     <div style="margin-bottom:10px;">
-                        <input type="radio" class="radio-inline" name="project_type_id" value="2" /> โครงการที่ดำเนินงานมาแล้ว (โครงการที่ได้ดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นแล้ว โดยต้องมีทุนเพื่อใช้ในการดำเนินงานตามโครงการนี้อยู่แล้วบางส่วน ซึ่งต้องไม่น้อยกว่า 25%)
+                        <input type="radio" class="radio-inline" name="project_type_id" value="2" <?php if(@$value['project_type_id']==2) echo 'checked';?> /> โครงการที่ดำเนินงานมาแล้ว (โครงการที่ได้ดำเนินการในพื้นที่ หรือกลุ่มเป้าหมายนั้นแล้ว โดยต้องมีทุนเพื่อใช้ในการดำเนินงานตามโครงการนี้อยู่แล้วบางส่วน ซึ่งต้องไม่น้อยกว่า 25%)
                     </div>
 
                     <div>
-                        <input type="radio" class="radio-inline" name="project_type_id" value="3" /> ไม่ได้รับการสนับสนุนงบประมาณจากส่วนราชการและแหล่งทุนอื่นๆ หรือได้รับแต่ไม่เพียงพอ
+                        <input type="radio" class="radio-inline" name="project_type_id" value="3" <?php if(@$value['project_type_id']==3) echo 'checked';?> /> ไม่ได้รับการสนับสนุนงบประมาณจากส่วนราชการและแหล่งทุนอื่นๆ หรือได้รับแต่ไม่เพียงพอ
                     </div>
                 </div>
 
@@ -72,15 +72,15 @@
                 <div class="boxOrgType2" style="display: none;" >
                     
                     <div style="margin-bottom:10px;">
-                        <input type="radio" class="radio-inline" name="radio" value="1" /> โครงการรึเริ่มใหม่ (โครงการที่มีแนวคิดหรือนโยบายใหม่ ไม่เคยทำมาก่อน)
+                        <input type="radio" class="radio-inline" name="radio" value="1" <?php if(@$value['project_type_id']==1) echo 'checked';?> /> โครงการรึเริ่มใหม่ (โครงการที่มีแนวคิดหรือนโยบายใหม่ ไม่เคยทำมาก่อน)
                     </div>
                     
                     <div style="margin-bottom:10px;">
-                        <input type="radio" class="radio-inline" name="radio" value="1" /> ไม่สามารถของบประมาณปกติได้
+                        <input type="radio" class="radio-inline" name="radio" value="1" <?php if(@$value['project_type_id']==1) echo 'checked';?> /> ไม่สามารถของบประมาณปกติได้
                     </div>
                     
                     <div>
-                        <input type="radio" class="radio-inline" name="radio" value="1" /> ได้รับแต่ไม่เพียงพอ (ได้รับงบประมาณปกติ
+                        <input type="radio" class="radio-inline" name="radio" value="1" <?php if(@$value['project_type_id']==1) echo 'checked';?> /> ได้รับแต่ไม่เพียงพอ (ได้รับงบประมาณปกติ
                         <input type="text" class="form-control" style="display: inline; width: 250px;" /> บาท)
                     </div>
 
@@ -88,18 +88,18 @@
 
                 <div style="margin-top:15px; margin-left:30px; display:none">
                     <p><span style="margin-right:20px;">
-        <input name="input8" type="text" style="width:400px;" placeholder="ชื่อโครงการ (เดิม)" />
-        <select name="select3">
-          <option>ปีที่ดำเนินการ (เดิม)</option>
-          <option>2557</option>
-          <option>2556</option>
-          </select>
-        </span></p>
-                    <p>แหล่งเงินสนับสนุน (เดิม) <span style="margin-right:20px; margin-left:10px;">
-        <input type="radio" name="radio" id="radio16" value="radio" />
-        จากกองทุน กสค. </span> <span>
-          <input type="radio" name="radio" id="radio20" value="radio" />
-          แหล่งอื่นๆ</span>
+                    <input name="input8" type="text" style="width:400px;" placeholder="ชื่อโครงการ (เดิม)" />
+                    <select name="select3">
+                      <option>ปีที่ดำเนินการ (เดิม)</option>
+                      <option>2557</option>
+                      <option>2556</option>
+                      </select>
+                    </span></p>
+                                <p>แหล่งเงินสนับสนุน (เดิม) <span style="margin-right:20px; margin-left:10px;">
+                    <input type="radio" name="radio" id="radio16" value="radio" />
+                    จากกองทุน กสค. </span> <span>
+                      <input type="radio" name="radio" id="radio20" value="radio" />
+                      แหล่งอื่นๆ</span>
                         <input name="input8" type="text" style="width:250px;" placeholder="ระบุ" />
                     </p>
                 </div>
@@ -108,8 +108,23 @@
         <tr>
             <th>สาขาของโครงการที่ขอรับสนับสนุน <span class="Txt_red_12">*</span></th>
             <td>
-                <?php foreach ($sectors as $num => $sector):?>
-                <span style="display:inline-block; width:280px;"><input type="checkbox" class="checkbox-inline" name="project_sector_<?php echo $sector['id']?>" value="1" /> <?php echo $sector['title_normal']?> </span>
+                <?php
+
+        
+                  if(@$csectors) {
+                    foreach ($csectors as $key => $csector) {
+                      if(@$csector["others"]==1) {
+                        @$xsector["other"] = 1;
+                        @$xsector["other_title"] = $csector["other_title"];
+                      } else {
+                        @$xsector[$csector["fund_welfare_sector_id"]]["fund_welfare_sector_id"]= @$csector["fund_welfare_sector_id"]; 
+                      }
+                    }
+                  }
+
+                  foreach ($sectors as $num => $sector):
+                ?>
+                <span style="display:inline-block; width:280px;"><input type="checkbox" class="checkbox-inline" name="project_sector_<?php echo $sector['id']?>" value="1" <?php if(@$xsector[$sector["id"]]) echo "checked"?> /> <?php echo $sector['title_normal']?> </span>
                 <?php endforeach?>
                 <span style="display:inline-block;"><input type="checkbox" class="checkbox-inline" name="project_sector_other" value="1" /> ด้านอื่นๆ ระบุ <input type="text" class="form-control" name="project_sector_other_title" style="display: inline; width: 200px;" /> </span></td>
         </tr>
@@ -125,14 +140,14 @@
                   <div style="display: inline-block; width: 310px;">
                       งบประมาณทั้งโครงการ (เฉพาะปีปัจจุบัน)
                   </div>
-                  <input type="number" id="budget_total" name="budget_total" class="num-format form-control" value="" readonly style="display:inline;width: 250px;" > บาท
+                  <input type="number" id="budget_total" class="num-format form-control" name="budget_total" value="<?php echo @$value['budget_total'];?>" readonly style="display:inline;width: 250px;" > บาท
               </div>
 
               <div>
                   <div style="display: inline-block; width: 310px;">
                       งบประมาณที่ขอรับการสนับสนุน
                   </div>
-                  <input type="number" id="budget_request" class="num-format calculate-budget form-control" name="budget_request" value="" style="display:inline;width: 250px;" > บาท
+                  <input type="number" id="budget_request" class="num-format calculate-budget form-control" name="budget_request" value="<?php echo @$value['budget_request'];?>" style="display:inline;width: 250px;" > บาท
                   <span class="note">* จะคำนวณเป็นขนาดโครงการ</span>
               </div>
 
@@ -141,48 +156,48 @@
 
                   <div style="padding-left: 20px;">
                       <div style="display: inline-block; width: 240px;">
-                          <input type="checkbox" id="budget_other_1" class="budget_other" name="has_budget_other_1" data-target="1" value="1"> หน่วยงานรัฐ
+                          <input type="checkbox" id="budget_other_1" class="budget_other" name="has_budget_other_1" data-target="1" value="1" <?php if(@$value['has_budget_other_1']==1) echo 'checked'?> /> หน่วยงานรัฐ
                       </div>
-                      <input type="number" class="calculate-budget form-control" name="budget_other_1" value="" style="display: inline; width: 250px;" disabled > บาท
+                      <input type="number" class="calculate-budget form-control" name="budget_other_1" value="<?php echo @$value['budget_other_1'];?>" style="display: inline; width: 250px;" <?php if(@$value['has_budget_other_1']!=1) echo 'disabled'?>  > บาท
                   </div>
 
                   <div style="padding-left: 20px;">
                       <div style="display: inline-block; width: 240px;">
-                          <input type="checkbox" id="budget_other_2" class="budget_other" name="has_budget_other_2" data-target="2" value="1"> หน่วยงานภาคเอกชน
+                          <input type="checkbox" id="budget_other_2" class="budget_other" name="has_budget_other_2" data-target="2" value="1" <?php if(@$value['has_budget_other_2']==1) echo 'checked'?> /> หน่วยงานภาคเอกชน
                       </div>
-                      <input type="number" class="calculate-budget form-control" name="budget_other_2" value="" style="display: inline; width: 250px;" disabled > บาท
+                      <input type="number" class="calculate-budget form-control" name="budget_other_2" value="<?php echo @$value['budget_other_2'];?>" style="display: inline; width: 250px;" <?php if(@$value['has_budget_other_2']!=1) echo 'disabled'?>  > บาท
                   </div>
 
                   <div style="padding-left: 20px;">
-                      <input type="checkbox" id="has_budget_other_3" name="has_budget_other_3" value="1"> ท้องถิ่น
+                      <input type="checkbox" id="has_budget_other_3" name="has_budget_other_3" value="1" <?php if(@$value['has_budget_other_3']==1) echo 'checked'?> /> ท้องถิ่น
 
-                      <div id="div_has_budget_other_3" style="padding-left: 40px;display:none;">
+                      <div id="div_has_budget_other_3" style="padding-left: 40px;<?php if(@$value['has_budget_other_3']!=1) echo 'display: none;'?>" >
                           <div>
                               <div style="display: inline-block; width: 200px;">
-                                  <input type="checkbox" id="has_budget_other_3_1" class="has_budget_other_3" name="has_budget_other_3_1" data-target="1" value="1"> องค์การบริหารส่วนจังหวัด
+                                  <input type="checkbox" id="has_budget_other_3_1" class="has_budget_other_3" name="has_budget_other_3_1" data-target="1" value="1" <?php if(@$value['has_budget_other_3_1']==1) echo 'checked'?> > องค์การบริหารส่วนจังหวัด
                               </div>
-                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_1" value="" style="display: inline; width: 250px;" disabled > บาท
+                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_1" value="<?php echo @$value['budget_other_3_1'];?>" style="display: inline; width: 250px;" <?php if(@$value['has_budget_other_3_1']!=1) echo 'disabled'?> > บาท
                           </div>
 
                           <div>
                               <div style="display: inline-block; width: 200px;">
-                                  <input type="checkbox" id="has_budget_other_3_2" class="has_budget_other_3" name="has_budget_other_3_2" data-target="2" value="1"> องค์การบริหารส่วนตำบล
+                                  <input type="checkbox" id="has_budget_other_3_2" class="has_budget_other_3" name="has_budget_other_3_2" data-target="2" value="1" <?php if(@$value['has_budget_other_3_2']==1) echo 'checked'?> > องค์การบริหารส่วนตำบล
                               </div>
-                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_2" value="" style="display: inline; width: 250px;" disabled > บาท
+                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_2" value="<?php echo @$value['budget_other_3_2'];?>" style="display: inline; width: 250px;" <?php if(@$value['has_budget_other_3_2']!=1) echo 'disabled'?> > บาท
                           </div>
 
                           <div>
                               <div style="display: inline-block; width: 200px;">
-                                  <input type="checkbox" id="has_budget_other_3_3" class="has_budget_other_3" name="has_budget_other_3_3" data-target="3" value="1"> องค์กรปกครองส่วนท้องถิ่น
+                                  <input type="checkbox" id="has_budget_other_3_3" class="has_budget_other_3" name="has_budget_other_3_3" data-target="3" value="1" <?php if(@$value['has_budget_other_3_3']==1) echo 'checked'?> > องค์กรปกครองส่วนท้องถิ่น
                               </div>
-                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_3" value="" style="display: inline; width: 250px;" disabled > บาท
+                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_3" value="<?php echo @$value['budget_other_3_3'];?>" style="display: inline; width: 250px;" <?php if(@$value['has_budget_other_3_3']!=1) echo 'disabled'?> > บาท
                           </div>
 
                           <div>
                               <div style="display: inline-block; width: 200px;">
-                                  <input type="checkbox" id="has_budget_other_3_4" class="has_budget_other_3" name="has_budget_other_3_4" data-target="4" value="1"> เทศบาล
+                                  <input type="checkbox" id="has_budget_other_3_4" class="has_budget_other_3" name="has_budget_other_3_4" data-target="4" value="1" <?php if(@$value['has_budget_other_3_4']==1) echo 'checked'?> > เทศบาล
                               </div>
-                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_4" value="" style="display: inline; width: 250px;" disabled > บาท
+                              <input type="number" class="has_budget_other_3 calculate-budget form-control" name="budget_other_3_4" value="<?php echo @$value['budget_other_3_4'];?>" style="display: inline; width: 250px;" <?php if(@$value['has_budget_other_3_4']!=1) echo 'disabled'?> > บาท
                           </div>
                       </div>
                   </div>
@@ -192,7 +207,7 @@
                   <div style="display: inline-block; width: 310px;">
                       งบประมาณที่องค์กรสมทบเอง
                   </div>
-                  <input type="text" class="calculate-budget form-control" name="organization_budget" value="" style="display: inline; width: 250px;" > บาท
+                  <input type="text" class="calculate-budget form-control" name="organization_budget" value="<?php echo @$value['organization_budget'];?>" style="display: inline; width: 250px;" > บาท
               </div>
 
           </td>
