@@ -214,7 +214,7 @@ class Claimfund extends Public_Controller
 				dbConvert($data['value']);
 				dbConvert($data['csectors']);
 
-				if(@$data['value']['web_status']!=2) {
+				if(@$data['value']['web_status']!=2 && @$data['value']['id']==true) {
 					$edit_time = $data['value']['edit_time'];
 
 					$query = "SELECT * FROM FUND_WELFARE_TARGET_NUMBER WHERE FUND_WELFARE_ID = $id AND EDIT_TIME = $edit_time ORDER BY FUND_WELFARE_TARGET_ID ASC";

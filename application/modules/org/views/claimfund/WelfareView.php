@@ -89,7 +89,6 @@
                       งบประมาณที่ขอรับการสนับสนุน
                   </div>
                   <?php echo number_format($value['budget_request'],0);?> บาท
-                  <span class="note">* จะคำนวณเป็นขนาดโครงการ</span>
               </div>
 
               <div style="padding-left: 50px;">
@@ -97,7 +96,7 @@
 
                   <div style="padding-left: 20px;">
                       <div style="display: inline-block; width: 240px;">
-                          <input type="checkbox" id="budget_other_1" class="budget_other" name="has_budget_other_1" data-target="1" value="1" <?php if(@$value['has_budget_other_1']==1) echo 'checked'?> /> หน่วยงานรัฐ
+                          หน่วยงานรัฐ
                       </div>
                       <?php echo number_format($value['budget_other_1'],0);?> บาท
                   </div>
@@ -105,43 +104,54 @@
                   <?php if($value['has_budget_other_2']==1):?>
                   <div style="padding-left: 20px;">
                       <div style="display: inline-block; width: 240px;">
-                          <?php echo number_format($value['budget_other_2'],0);?> บาท
+                          หน่วยงานภาคเอกชน
                       </div>
+                      <?php echo number_format($value['budget_other_2'],0);?> บาท
                   </div>
                   <?php endif?>
 
                   <?php if($value['has_budget_other_3_1']==1 || $value['has_budget_other_3_2']==1 || $value['has_budget_other_3_3']==1 || $value['has_budget_other_3_4']==1):?>
                   <div style="padding-left: 20px;">
-                      <input type="checkbox" id="has_budget_other_3" name="has_budget_other_3" value="1" <?php if(@$value['has_budget_other_3']==1) echo 'checked'?> /> ท้องถิ่น
+                      ท้องถิ่น
 
                       <div id="div_has_budget_other_3" style="padding-left: 40px;<?php if(@$value['has_budget_other_3']!=1) echo 'display: none;'?>" >
+
+                          <?php if($value['has_budget_other_3_1']==1):?>
                           <div>
                               <div style="display: inline-block; width: 200px;">
-                                  <input type="checkbox" id="has_budget_other_3_1" class="has_budget_other_3" name="has_budget_other_3_1" data-target="1" value="1" <?php if(@$value['has_budget_other_3_1']==1) echo 'checked'?> > องค์การบริหารส่วนจังหวัด
+                                  องค์การบริหารส่วนจังหวัด
                               </div>
                               <?php echo number_format($value['budget_other_3_1'],0);?> บาท
                           </div>
+                          <?php endif?>
 
+                          <?php if($value['has_budget_other_3_2']==1):?>
                           <div>
                               <div style="display: inline-block; width: 200px;">
-                                  <input type="checkbox" id="has_budget_other_3_2" class="has_budget_other_3" name="has_budget_other_3_2" data-target="2" value="1" <?php if(@$value['has_budget_other_3_2']==1) echo 'checked'?> > องค์การบริหารส่วนตำบล
+                                  องค์การบริหารส่วนตำบล
                               </div>
                               <?php echo number_format($value['budget_other_3_2'],0);?> บาท
                           </div>
+                          <?php endif?>
 
+                          <?php if($value['has_budget_other_3_3']==1):?>
                           <div>
                               <div style="display: inline-block; width: 200px;">
-                                  <input type="checkbox" id="has_budget_other_3_3" class="has_budget_other_3" name="has_budget_other_3_3" data-target="3" value="1" <?php if(@$value['has_budget_other_3_3']==1) echo 'checked'?> > องค์กรปกครองส่วนท้องถิ่น
+                                  องค์กรปกครองส่วนท้องถิ่น
                               </div>
                               <?php echo number_format($value['budget_other_3_3'],0);?> บาท
                           </div>
+                          <?php endif?>
 
+                          <?php if($value['has_budget_other_3_4']==1):?>
                           <div>
                               <div style="display: inline-block; width: 200px;">
-                                  <input type="checkbox" id="has_budget_other_3_4" class="has_budget_other_3" name="has_budget_other_3_4" data-target="4" value="1" <?php if(@$value['has_budget_other_3_4']==1) echo 'checked'?> > เทศบาล
+                                  เทศบาล
                               </div>
                               <?php echo number_format($value['budget_other_3_4'],0);?> บาท
                           </div>
+                          <?php endif?>
+
                       </div>
                   </div>
               </div>
