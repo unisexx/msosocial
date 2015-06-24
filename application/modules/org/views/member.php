@@ -959,7 +959,7 @@
     <tr>
 	    <td><?php echo $key+1?></td>
 	    <td><?php echo $row['status_type']?></td>
-	    <td><?php echo $row['status_date']?></td>
+	    <td><?php echo @stamp_to_th($row['status_date'])?></td>
     </tr>
     <?php endforeach;?>
     </table>

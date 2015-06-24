@@ -200,11 +200,22 @@ class Claimfund extends Public_Controller
 			$queryTarget = 'SELECT * FROM FUND_WELFARE_TARGET WHERE STATUS = 1 ORDER BY ID ASC';
 			$data["targets"] = $this->ado->GetArray($queryTarget);
 
-			$data['value'] = $this->ado->GetRow($query);
+			$data['agency'] = $this->ado->GetRow($query);
+
+			if($id) {
+				$query = "SELECT * FROM FUND_WELFARE WHERE ID = $id";
+				$data['value'] = $this->ado->GetRow($query);
+
+				$query = "SELECT * FROM FUND_WELFARE_SECTOR_SELECT WHERE FUND_WELFARE_ID = $id ORDER BY ID ASC";
+				$data["csectors"] = $this->ado->GetRow($query);
+
+				dbConvert($data['value']);
+				dbConvert($data['csectors']);
+			}
 
 			dbConvert($data['sectors']);
 			dbConvert($data['targets']);
-			dbConvert($data['value']);
+			dbConvert($data['agency']);
 
 			$form = 'formSupport';
 		} else if($_GET['type'] == 3) {
@@ -746,7 +757,7 @@ class Claimfund extends Public_Controller
 					}
 
 					$this->ado->debug = true;
-					$welfare['id'] = $this->ado->GetOne("SELECT (MAX(ID)+1) FROM FUND_WELFARE");
+					$welfare['id'] = $this->ado->GetOne("SELECT (NVL(MAX(ID),0)+1) FROM FUND_WELFARE");
 					array_walk($welfare,'dbConvert','TIS-620');
 					$this->ado->AutoExecute('FUND_WELFARE',$welfare,'INSERT');
 
@@ -760,7 +771,7 @@ class Claimfund extends Public_Controller
 						if(@$_POST["project_target_".$target["id"]]==1) {
 		
 							if(@$_POST["project_target_number_".$target["id"]]) {
-								$max_id = $this->ado->GetOne("SELECT (MAX(ID)+1) FROM FUND_WELFARE_TARGET_NUMBER");
+								$max_id = $this->ado->GetOne("SELECT (NVL(MAX(ID),0)+1) FROM FUND_WELFARE_TARGET_NUMBER");
 
 								$data = array(
 									"id"							=> $max_id,
@@ -786,7 +797,7 @@ class Claimfund extends Public_Controller
 								
 							//	ตรวจสอบว่าต้องมีทั้งชื่อกลุ่มเป้าหมาย และจำนวน
 							if(@$_POST["project_target_other_title"][$key] && @$_POST["project_target_other_number"][$key]) {
-								$max_id = $this->ado->GetOne("SELECT (MAX(ID)+1) FROM FUND_WELFARE_TARGET_NUMBER");
+								$max_id = $this->ado->GetOne("SELECT (NVL(MAX(ID),0)+1) FROM FUND_WELFARE_TARGET_NUMBER");
 								
 								$data = array(
 									"id"							=> $max_id,
@@ -811,7 +822,7 @@ class Claimfund extends Public_Controller
 					dbConvert($sectors);
 					foreach ($sectors as $key => $sector) {
 						if(@$_POST["project_sector_".$sector["id"]]==1) {
-							$max_id = $this->ado->GetOne("SELECT (MAX(ID)+1) FROM FUND_WELFARE_SECTOR_SELECT");
+							$max_id = $this->ado->GetOne("SELECT (NVL(MAX(ID),0)+1) FROM FUND_WELFARE_SECTOR_SELECT");
 
 							$data = array(
 								"id"							=> $max_id,
@@ -828,7 +839,7 @@ class Claimfund extends Public_Controller
 					
 					//	สาขาอื่นๆ
 					if(@$_POST["project_sector_other"]==1) {
-						$max_id = $this->ado->GetOne("SELECT (MAX(ID)+1) FROM FUND_WELFARE_SECTOR_SELECT");
+						$max_id = $this->ado->GetOne("SELECT (NVL(MAX(ID),0)+1) FROM FUND_WELFARE_SECTOR_SELECT");
 
 						$data = array(
 							"id"				=> $max_id,
