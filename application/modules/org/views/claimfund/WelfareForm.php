@@ -207,7 +207,7 @@
                   <div style="display: inline-block; width: 310px;">
                       งบประมาณที่องค์กรสมทบเอง
                   </div>
-                  <input type="text" class="calculate-budget form-control" name="organization_budget" value="<?php echo @$value['organization_budget'];?>" style="display: inline; width: 250px;" > บาท
+                  <input type="number" class="calculate-budget form-control" name="organization_budget" value="<?php echo @$value['organization_budget'];?>" style="display: inline; width: 250px;" > บาท
               </div>
 
           </td>
@@ -237,8 +237,21 @@
     -webkit-appearance: none; 
     margin: 0;
   }
+  #project_target span {
+    margin: 2px 0;
+  }
 </style>
 <script type="text/javascript">
+
+  var ajaxLoader = "<img src='images/ajax-loader.gif' />";
+
+  function getTarget() {
+    <?php if(@$value['id']):?>
+      $.get("org/claimfund/getTarget/<?php echo $value['project_system']?>/<?php echo $value['id']?>", function(data) {
+        $("#project_target").html(data);
+      });
+    <?php endif?>
+  }
 
   function getOtherTarget() {
     var c = $("input[name=project_target_other]");
@@ -274,6 +287,7 @@
   }
 
   $(document).ready(function(){
+    getTarget();
 
     //  คลิกเลือก ระบบการขอรับเงินสนับสนุน 1= ระบบปกติ,2 = ระบบกระจาย
     $("input[name=project_system]").click(function() {

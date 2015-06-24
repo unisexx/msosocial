@@ -192,6 +192,8 @@ class Claimfund extends Public_Controller
 			
 			$form = 'formChild';
 		} else if($_GET['type'] == 2) {
+			$form = 'WelfareForm';
+
 			//	สาขาของโครงการที่ขอรับสนับสนุน
 			$querySector = 'SELECT * FROM FUND_WELFARE_SECTOR WHERE STATUS = 1 ORDER BY ID ASC';
 			$data["sectors"] = $this->ado->GetArray($querySector);
@@ -207,17 +209,26 @@ class Claimfund extends Public_Controller
 				$data['value'] = $this->ado->GetRow($query);
 
 				$query = "SELECT * FROM FUND_WELFARE_SECTOR_SELECT WHERE FUND_WELFARE_ID = $id ORDER BY ID ASC";
-				$data["csectors"] = $this->ado->GetRow($query);
+				$data["csectors"] = $this->ado->GetArray($query);
 
 				dbConvert($data['value']);
 				dbConvert($data['csectors']);
+
+				if(@$data['value']['web_status']!=2) {
+					$edit_time = $data['value']['edit_time'];
+
+					$query = "SELECT * FROM FUND_WELFARE_TARGET_NUMBER WHERE FUND_WELFARE_ID = $id AND EDIT_TIME = $edit_time ORDER BY FUND_WELFARE_TARGET_ID ASC";
+					$data['ctargets'] = $this->ado->GetArray($query);
+
+					dbConvert($data['ctargets']);
+
+					$form = 'WelfareView';
+				}
 			}
 
 			dbConvert($data['sectors']);
 			dbConvert($data['targets']);
 			dbConvert($data['agency']);
-
-			$form = 'formSupport';
 		} else if($_GET['type'] == 3) {
 			$form = 'formTraffick';
 		}
@@ -841,7 +852,7 @@ class Claimfund extends Public_Controller
 		redirect("org/member");
 	}
 
-	public function getTarget($id) {
+	public function getTarget($id,$welfare=null) {
 		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
 		$this->load->library('adodb');
 		$data['other'] = 0;
@@ -852,10 +863,25 @@ class Claimfund extends Public_Controller
 		} else {
 			$where = " AND SYSTEM_DISTRIBUTE = 1";
 		}
-		$queryTarget = "SELECT * FROM FUND_WELFARE_TARGET WHERE STATUS = 1 $where ORDER BY ID ASC";
 
-		$data["variable"] = $this->ado->GetArray($queryTarget);
+		if($welfare) {
+			$query = "SELECT * FROM FUND_WELFARE WHERE ID = $welfare";
+			$data['fund'] = $this->ado->GetRow($query);
+
+			$edit_time = $data['fund']['EDIT_TIME'];
+
+			$query = "SELECT * FROM FUND_WELFARE_TARGET_NUMBER WHERE FUND_WELFARE_ID = $welfare AND EDIT_TIME = $edit_time ORDER BY ID ASC";
+			$data["ctargets"] = $this->ado->GetArray($query);
+
+			dbConvert($data['fund']);
+			dbConvert($data['ctargets']);
+		}
+
+		$query = "SELECT * FROM FUND_WELFARE_TARGET WHERE STATUS = 1 $where ORDER BY ID ASC";
+		$data["variable"] = $this->ado->GetArray($query);
+
 		dbConvert($data['variable']);
+
 		$this->load->view('claimfund/getSupportTarget',$data);
 	}
 
