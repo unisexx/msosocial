@@ -388,8 +388,8 @@ class Claimfund extends Public_Controller
 				$error = (empty($_POST[$item]))?1:$error;
 			}
 			if($error == 1) {
-				set_notify('error', "ไม่สามารถบันทึกได้ กรุณาตรวจสอบข้อมูลให้ถูกต้อง");
-				redirect('org/member/');
+				#set_notify('error', "ไม่สามารถบันทึกได้ กรุณาตรวจสอบข้อมูลให้ถูกต้อง");
+				#redirect('org/member/');
 			}
 		//End-validate
 		
@@ -430,8 +430,29 @@ class Claimfund extends Public_Controller
 				$fund_ps['act_user_id'] = $this->session->userdata('id');
 				$fund_ps['welfare_benefit_title'] = $value['organ_name']; 
 			//--gen project_code
-				$fund_ps['project_code'] = $this->gen_projectcode($_POST['year_budget'], @$id, @$_POST['province_id'], @$_POST['central_check']);
+				#$fund_ps['project_code'] = $this->gen_projectcode($_POST['year_budget'], @$id, @$_POST['province_id'], @$_POST['central_check']);
+				//project_code_text
+				$project_title = $this->ado->GetOne('select title from fund_province where id = \''.$_POST['province_id'].'\'');
+				dbConvert($project_title);
+				$fund_ps['project_code_text'] = 'คคด/'.$_POST['year_budget'].'/'.$project_title;
+				
+				//project_code_number
+				$chk_self = $this->ado->GetOne("select project_code_number from fund_projectsupport where id = '".$fund_ps['id']."' and project_code_text = '".iconv('utf-8', 'tis-620', $fund_ps['project_code_text'])."' order by project_code_number desc");
+				dbConvert($chk_self);
+				if(empty($chk_self) || empty($fund_ps['id'])) {
+					$fund_ps['project_code_number'] = $this->ado->GetOne("select project_code_number from fund_projectsupport where project_code_text = '".iconv('utf-8', 'tis-620', $fund_ps['project_code_text'])."' order by project_code_number desc");
+					dbConvert($fund_ps['project_code_number']);
+					@$fund_ps['project_code_number'] += 1;
+				} else {
+					$fund_ps['project_code_number'] = $chk_self;	
+				}
+				
+				//project_code 
+				$fund_ps['project_code'] = $fund_ps['project_code_text'].'/'.substr('000'.$fund_ps['project_code_number'], -3, 3);
+				
 				unset($fund_ps['project_target_set_val']);
+				
+								
 			//--has_budget_other_n
 				for($i=1; $i<4; $i++) {
 					$fund_ps['has_budget_other_'.$i] = (empty($fund_ps['has_budget_other'][$i]))?0:1;
@@ -456,6 +477,7 @@ class Claimfund extends Public_Controller
 			$fund_ps['receive_date'] = $fund_ps['updated'];
 			
 			array_walk($fund_ps, 'dbConvert','TIS-620');
+
 			$this->ado->AutoExecute('FUND_PROJECTSUPPORT',$fund_ps,$ae['type'], $ae['where']);
 		//fund_projecsupport
 		

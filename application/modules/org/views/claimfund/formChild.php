@@ -70,7 +70,7 @@
 <? if($status == 'edit') { ?>  <form action="org/claimfund/saveChild/<?php echo @$rs['id']; ?>" method='post' enctype="multipart/form-data"> <? } ?>
 <?php
 	$year_budget = (empty($rs['year_budget']))?(date('Y')+543):$rs['year_budget'];
-	$project_code = (empty($rs['project_code']))?'คคด/'.(date('Y')+543).'/'.@$value['province_name'].'/XXXX':@$rs['project_code'];
+	$project_code = (empty($rs['project_code']))?'คคด/'.(date('Y')+543).'/'.@$value['province_name'].'/XXXX':$rs['project_code'];
 	
 	
 	echo form_hidden('year_budget', $year_budget); 

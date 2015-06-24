@@ -981,7 +981,7 @@
   		
   		function memberForm(type, id) {
   			type = (type == '')?1:type;
-  			id = (!id)?null:id;
+  			id = (!id)?'':id;
   			$('#sector-3--fps_'+type).html('<div style="text-align:center;">Loading...</div>');
   			$.get(
   				'org/claimfund/form/'+id
