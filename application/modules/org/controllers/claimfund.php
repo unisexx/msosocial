@@ -73,10 +73,10 @@ class Claimfund extends Public_Controller
 				//--Data form fund_project_support
 				$data['rs'] = $this->ado->GetRow("select fps.*, awb.organ_name
 				from fund_projectsupport fps
-					join ACT_WELFARE_BENEFIT awb on FPS.ACT_USER_ID = AWB.id
+					left join ACT_WELFARE_BENEFIT awb on FPS.welfare_benefit_id = AWB.id
 				where FPS.id = '".$id."'");
 				dbConvert($data['rs']);
-				
+
 				
 				if(empty($data['rs']['id'])) { // Add
 					$fund_province = $this->ado->GetRow("select id, title from fund_province where province_code = '".@$data['value']['province_code']."'"); dbConvert($fund_province);

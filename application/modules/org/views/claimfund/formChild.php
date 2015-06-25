@@ -172,13 +172,15 @@
 				?>
 				<input type="text"  class="form-control" style="width:550px;" value="<?php echo @$rs['welfare_benefit_title']; ?>" readonly="readonly"/>
 			<? } else {
-				$query = "SELECT ORGAN_NAME
+				/*$query = "SELECT ORGAN_NAME
 				FROM ACT_WELFARE_BENEFIT WHERE ID = '".$rs['welfare_benefit_id']."'";
 				$benefit_title = $this->ado->GetOne($query);
 				dbConvert($benefit_title);
 				
 				#echo @$rs['welfare_benefit_title'];
 				echo $benefit_title;
+				*/
+				echo $rs['organ_name'];
 			} ?>
 		</td>
 	</tr>

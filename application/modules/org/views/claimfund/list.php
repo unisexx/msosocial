@@ -37,7 +37,7 @@
 			    <td>
 			    	<?php 
 			    		 if ($type == '1') {
-			    	  		echo @$item['project_code']; 
+			    	  		echo @$item['project_code_text'].'/'.substr('000'.$item['project_code_number'], -3, 3); 
 			     	  	 } else {
 			     	  	 	$item['fpsid'] = $item['id'];
 			     	  	 	echo @$item['project_id']; 
