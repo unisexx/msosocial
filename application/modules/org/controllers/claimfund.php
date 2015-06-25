@@ -105,6 +105,8 @@ class Claimfund extends Public_Controller
 						$data['rs']['project_target_set'][$item['id']] = $item['amount'];
 					}
 				}
+				#var_dump($data['rs']);
+				#exit;
 
 				//--Status
 				$data['status'] = (empty($data['rs']['id']) || @$data['rs']['status'] == 2)?'edit':'view';
@@ -477,7 +479,8 @@ class Claimfund extends Public_Controller
 			$fund_ps['receive_date'] = $fund_ps['updated'];
 			
 			array_walk($fund_ps, 'dbConvert','TIS-620');
-
+#var_dump($fund_ps);
+#exit;
 			$this->ado->AutoExecute('FUND_PROJECTSUPPORT',$fund_ps,$ae['type'], $ae['where']);
 		//fund_projecsupport
 		
