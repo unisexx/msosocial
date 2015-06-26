@@ -20,6 +20,9 @@
    </thead>
    <tbody>
 	    <?php 
+	    	if(empty($rs)) {
+	    		echo '<tr><td colspan="8" style="text-align:center; color:#aaa;"> ไม่พบข้อมูล </td></tr>';
+	    	}
 	    	/*
 			   $type 
 			   1 = กองทุนเด็กฯ

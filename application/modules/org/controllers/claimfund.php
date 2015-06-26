@@ -71,12 +71,17 @@ class Claimfund extends Public_Controller
 			
 			//--Data for edit
 				//--Data form fund_project_support
-				$data['rs'] = $this->ado->GetRow("select fps.*, awb.organ_name
+				$data['rs'] = $this->ado->GetRow("select 
+					fps.*
+					,CASE WHEN fps.welfare_type = 1 THEN AWB.organ_name
+						WHEN fps.welfare_type = 2 THEN awc.organ_name
+						END welfare_tog_title
 				from fund_projectsupport fps
-					left join ACT_WELFARE_BENEFIT awb on FPS.welfare_benefit_id = AWB.id
+					left join act_welfare_benefit awb on fps.welfare_id = awb.id
+					left join ACT_WELFARE_COMM awc on fps.welfare_id = awc.id
 				where FPS.id = '".$id."'");
 				dbConvert($data['rs']);
-
+				
 				
 				if(empty($data['rs']['id'])) { // Add
 					$fund_province = $this->ado->GetRow("select id, title from fund_province where province_code = '".@$data['value']['province_code']."'"); dbConvert($fund_province);
@@ -237,6 +242,74 @@ class Claimfund extends Public_Controller
 		
 		$this->load->view('claimfund/'.$form,$data);
 	}
+		public function cbox_list_benefit() {
+			putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
+			$this->load->library('adodb');
+
+			//Key search 
+			if(!empty($_GET['title'])) {
+				$cond_awb = " and awb.organ_name like '%".iconv('utf-8', 'tis-620', $_GET['title'])."%' ";
+				$cond_awc = " and awc.organ_name like '%".iconv('utf-8', 'tis-620', $_GET['title'])."%' ";
+			}
+
+			if(empty($_GET['b_type'])) {
+				$sql = "select 
+						1 as b_type,
+						awb.id,
+						AWB.input_date,
+						AWB.UNDER_TYPE_SUB,
+						AWB.organ_name,
+						awb.current_status,
+						AWB.tel,
+						AWB.fax
+					from act_welfare_benefit awb
+					where 1=1 ".@$cond_awb."
+				UNION
+					select 
+						2 as b_type
+						,awc.id
+						,AWC.input_date
+						,AWC.under_type_sub
+						,awc.organ_name
+						,awc.CURRENT_STATUS
+						,AWC.TEL
+						,AWC.fax
+					from ACT_WELFARE_COMM awc
+					where 1=1 ".@$cond_awc."";
+			} else {
+				$tbl_type1 = array(1 => 'benefit', 2 => 'comm');
+				$tbl_type2 = array(1 => 'awb', 2 => 'awc');
+				$sql = "select 
+					".$_GET['b_type']." as b_type,
+					".$tbl_type2[$_GET['b_type']].".id,
+					".$tbl_type2[$_GET['b_type']].".input_date,
+					".$tbl_type2[$_GET['b_type']].".UNDER_TYPE_SUB,
+					".$tbl_type2[$_GET['b_type']].".organ_name,
+					".$tbl_type2[$_GET['b_type']].".current_status,
+					".$tbl_type2[$_GET['b_type']].".tel,
+					".$tbl_type2[$_GET['b_type']].".fax
+				from act_welfare_".$tbl_type1[$_GET['b_type']]." ".$tbl_type2[$_GET['b_type']]."
+				where 1=1 ".${'cond_'.$tbl_type2[$_GET['b_type']]};
+			}
+
+			$limit = '10';
+			#$rs = $this->ado->GetArray($sql);
+			$target = '';
+			$current_page = @$_GET['page'];
+			$this->load->library('pagination');
+			$page = new pagination();
+			$page->target($target);
+			$page->limit($limit);
+			$page->currentPage($current_page);
+			$rs = $this->ado->PageExecute($sql, $limit, $page->page);
+			@$page->Items($rs->_maxRecordCount);
+			$data['pagination'] = $page->show();
+			$data['rs'] = $rs->GetArray();
+			dbConvert($data['rs']);
+			$data['no'] = (empty($_GET['page']))?0:($_GET['page']-1)*10;
+			
+			$this->load->view('org/claimfund/list_welfare', @$data);
+		}
 	
 	function gen_projectcode($year='XXXX', $id=false, $province_id=false, $checked=false, $status=false) {
 		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
