@@ -104,10 +104,11 @@ class Claimfund extends Public_Controller
 					}
 					
 					//--fund_project_target_set_data
-					$pts = $this->ado->GetArray("select project_target_set_id id, amount from fund_project_target_set_data where project_support_id = '".$data['rs']['id']."'");
+					$pts = $this->ado->GetArray("select project_target_set_id id, amount, detail from fund_project_target_set_data where project_support_id = '".$data['rs']['id']."'");
 					dbConvert($pts);
 					foreach($pts as $item) {
 						$data['rs']['project_target_set'][$item['id']] = $item['amount'];
+						$data['rs']['project_target_set_comment'][$item['id']] = $item['detail'];
 					}
 				}
 				#var_dump($data['rs']);
@@ -153,14 +154,13 @@ class Claimfund extends Public_Controller
 				
 				//--กรอบทิศทางในการจัดสรรเงินกองทุนคุ้มครองเด็ก
 				//--project_direction
-				$data['formInput']['project_direction'] = array(
-					4 => 'การส่งเสริมศักยภาพครอบครัวเพื่อการเลี้ยงดูบุตรอย่างเหมาะสม',
-					2 => 'การพัฒนาเด็กและเยาวชน',
-					3 => 'การพัฒนาระบบคุ้มครองเด็ก',
-					5 => 'การส่งเสริมศักยภาพองค์กรปกครองส่วนท้องถิ่นในการคุ้มครองเด็ก',
-					6 => 'สาโรจน์_ชื่อกรอบทิศทางในการจัดสรรเงิน',
-					1 => 'การป้องกันและแก้ไขปัญหาเด็กและเยาวชน'
-				);
+
+				#$this->load->model('fund_project_direction_set_model', 'direction_set');
+				$tmp = $this->ado->GetArray("select * from fund_project_direction_set where status = 1");
+				dbConvert($tmp);
+				foreach($tmp as $item) {
+					$data['formInput']['project_direction'][$item['id']] = $item['title'];
+				}
 				
 				//--งบประมาณที่ได้รับสมทบจากแหล่งอื่น
 				//--has_budget_other
@@ -589,6 +589,7 @@ class Claimfund extends Public_Controller
 				,'project_support_id' => $fund_ps['id']
 				,'project_target_set_id' => $item
 				,'amount' => $_POST['project_target_set_val'][$item]
+				,'detail' => @$_POST['project_target_set_comment'][$item]
 				,'title' => $this->ado->GetOne("select title from fund_project_target_set where id = '".$item."'")
 			);
 			dbConvert($data['title']);
