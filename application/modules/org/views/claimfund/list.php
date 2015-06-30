@@ -61,25 +61,15 @@
 			    			if ($item['status'] == '1') {
 			    				$status_title = 'อนุมัติ';
 			    			} else {
-			    				switch ($item['pre_status']) {
+			    				switch ($item['web_status']) {
 									case '1':
-										$status_title = 'ส่งคืนโครงการ';
-										break;
-									
+										$status_title = 'รอผลพิจารณา';
+										break;									
 									case '2':
-										$status_title = 'ส่งต่อโครงการเนื่องจากกลุ่มเป้าหมายสอดคล้องกับกองทุนอื่น';
-										break;
-									
-									case '3':
-										$status_title = 'เข้าหลักเกณฑ์';
-										break;
-									
-									case '4':
-										$status_title = 'ขอถอนโครงการ';
-										break;
-										
+										$status_title = 'กลับไปแก้ไข';
+										break;								
 									default:
-										$status_title = 'รอผลพิจารณาเบื้องต้นของเจ้าหน้าที่';
+										$status_title = 'รายการใหม่';
 										break;
 								}
 			    			}

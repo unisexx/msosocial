@@ -166,6 +166,24 @@
 
           </td>
         </tr>
+        <tr>
+          <th>สถานะ</th>
+          <td>
+            <?php
+              switch ($value['web_status']) {
+                case '1':
+                  echo 'รอผลพิจารณา';
+                  break;                  
+                case '2':
+                  echo 'กลับไปแก้ไข';
+                  break;                
+                default:
+                  echo 'รายการใหม่';
+                  break;
+              }
+            ?>
+          </td>
+        </tr>
         <tr style="display: none;" >
             <th>แนบไฟล์โครงการ</th>
             <td>
@@ -173,6 +191,8 @@
             </td>
         </tr>
     </table>
+
+    <div class='clearfix' >&nbsp;</div>
 
     <div style="text-align:right;">
         <button type="submit" class="btn btn-primary">บันทึกส่งแบบฟอร์ม</button>

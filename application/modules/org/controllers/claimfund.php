@@ -669,8 +669,13 @@ class Claimfund extends Public_Controller
 				$welfare['updated'] = date("Y-m-d H:i:s");
 
 				if(@$id) {
-					$temp = $this->ado->GetOne("SELECT * FROM FUND_WELFARE WHERE ID = $id");
+					$temp = $this->ado->GetRow("SELECT * FROM FUND_WELFARE WHERE ID = $id");
 					dbConvert($temp);
+
+					$welfare = $temp;
+					$welfare['edit_time'] = ($welfare['edit_time']+1);
+					$welfare['budget_total'] = 0;
+					$welfare['web_status'] = 0;
 				} else {
 					$welfare['web_form'] = 1;
 					$welfare["act_user_id"] = $this->session->userdata('id');
@@ -683,8 +688,6 @@ class Claimfund extends Public_Controller
 					$welfare["year_budget"] = (@$_POST["year_budget"]) ? $_POST["year_budget"] : (date("Y")+543);		//	ปีงบประมาณ
 						
 					//	- รหัสโครงการ
-					$welfare["project_name"] = $_POST["project_name"];
-
 					$max = $this->ado->GetOne("SELECT NVL(MAX(PROJECT_NUMBER),0) max_id FROM FUND_WELFARE WHERE YEAR_BUDGET = ".$_POST["year_budget"]);
 					dbConvert($max);
 
@@ -693,6 +696,7 @@ class Claimfund extends Public_Controller
 					//	รหัสโครงการ --------------------------------------------------------------------------------------------------
 
 				}
+				$welfare["project_name"] = $_POST["project_name"];
 
 				//	ระบบการขอรับเงินสนับสนุน
 				if(@$_POST["project_system"]==1) {
@@ -811,7 +815,6 @@ class Claimfund extends Public_Controller
 				$welfare["budget_total"] += $welfare["organization_budget"];
 			
 				//	งบประมาณโครงการและแหล่งสนับสนุน(เฉพาะปีปัจจุบัน) --------------------------------------------------------------------------------------------------
-
 				if($_POST["budget_total"]==$welfare["budget_total"]) {
 						
 					//	ขนาดโครงการ

@@ -6,11 +6,11 @@
 
 <h4 style="margin-top:0; color:#393;" class="form-inline ">
   แบบฟอร์มการขอรับเงินสนับสนุนโครงการ 
-  <?php echo form_dropdown(false, array(1 => 'กองทุนเด็กฯ', 2 => 'กองทุนส่งเสริมฯ', 3 => 'กองทุนป้องกันค้ามนุษย์ฯ'), $_GET['type'], 'class="form-control" onchange = "memberForm($(this).val());"'); ?>
+  <?php //  echo form_dropdown(false, array(1 => 'กองทุนเด็กฯ', 2 => 'กองทุนส่งเสริมฯ', 3 => 'กองทุนป้องกันค้ามนุษย์ฯ'), $_GET['type'], 'class="form-control" onchange = "memberForm($(this).val());"'); ?>
 </h4>
 
 
-<form action="org/claimfund/saveSupport" method='post' enctype="multipart/form-data" >
+<form action="org/claimfund/saveSupport/<?php echo $value['id'];?>" method='post' enctype="multipart/form-data" >
 <div class="dvSupport">
     <table class="tblForm">
         <tr>
