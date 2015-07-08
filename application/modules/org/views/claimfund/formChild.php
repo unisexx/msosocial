@@ -407,23 +407,42 @@
 		<td>
 			<?php if($status == 'edit') { 
 				foreach($formInput['project_target_set_id'] as $item) {
-					$value = $checked = null;
-					if(!empty($rs['project_target_set'][$item['id']])) {
+					$comment = $value = $checked = null;
+					if(!empty($rs['project_target_set'][$item['id']]) || @$rs['project_target_set'][$item['id']] == '0') {
 						$checked = 'checked = "checked" ';
 						$value = $rs['project_target_set'][$item['id']];
+						$comment = $rs['project_target_set_comment'][$item['id']];
 					}
 					
-					echo '<span style="margin-right:15px;">
-						<input type="checkbox" name="project_target_set_id[]" value="'.$item['id'].'" '.$checked.'> 
-						<input type="text" name="project_target_set_val['.$item['id'].']" value="'.$value.'" class="nformat" style="width:50px;"> '.$item['title'].'
-					</span>';
+					if($item['is_comment'] != 1) {
+						echo '<span style="margin-right:25px;">
+							<input type="checkbox" name="project_target_set_id[]" value="'.$item['id'].'" '.$checked.'> 
+							'.$item['title'].' 
+							<input type="text"  name="project_target_set_val['.$item['id'].']" value="'.$value.'" class="form-control nformat" style="display:inline-block; width:50px;"> คน
+						</span>';	
+					} else {
+						echo '<span style="margin-right:25px;">
+							<input type="checkbox" name="project_target_set_id[]" value="'.$item['id'].'" '.$checked.'> 
+							'.$item['title'].' 
+							<input type="text" class="form-control" style="display:inline-block; width:300px;" name="project_target_set_comment['.$item['id'].']" value="'.$comment.'">
+						</span>';
+					}
+					
 				}
 			} else { 
 				foreach($formInput['project_target_set_id'] as $item) {
-					if(!empty($rs['project_target_set'][$item['id']])) {
-						echo '<span style="margin-right:25px;">
-							'.$item['title'].' '.$rs['project_target_set'][$item['id']].' คน 
-						</span>';
+					if(!empty($rs['project_target_set'][$item['id']]) || @$rs['project_target_set'][$item['id']] == '0') {
+						echo '<img src="media/images/checked.png"> ';
+						if($item['is_comment'] != 1) {
+							echo '<span style="margin-right:25px;">
+								'.$item['title'].' '.$rs['project_target_set'][$item['id']].' คน 
+							</span>';
+						} else {
+							echo '<span style="margin-right:25px;">
+								'.$item['title'].' 
+								"'.$rs['project_target_set_comment'][$item['id']].'"
+							</span>';
+						}
 					}	
 				}
 			} //if($status == 'edit') ?>
