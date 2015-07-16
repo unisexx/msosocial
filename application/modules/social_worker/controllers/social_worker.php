@@ -13,9 +13,11 @@ class Social_worker extends Public_Controller
 		$specifics = $this->ado->GetArray('SELECT ID,SPECIFIC_NAME FROM ACT_SPECIFIC ORDER BY SEQ asc');
 		$target_groups = $this->ado->GetArray('SELECT * FROM ACT_TARGET_GROUP ORDER BY SEQ asc ');
 		$data['specifics'] = $specifics;// dbConvert($specifics);
-		$data['target_groups'] = $target_groups;
+		$data['target_groups'] = $target_groups;		
 		$this->template->build('register', $data);
 	}	
+	
+	
 	
 	function ajax_ampor($type = NULL)
 	{
@@ -35,7 +37,8 @@ class Social_worker extends Public_Controller
 	
 	function organ_select(){
 		// $this->db->debug = true;
-		$condition = @$_GET['search']!='' ? " and L.ORGAN_NAME like '%".$_GET['search']."%'" : "";
+		//if(@$_GET){
+		$condition = @$_GET['search']!='' ? " and L.ORGAN_NAME like '%".iconv('UTF-8','TIS-620',$_GET['search'])."%'" : "";
 		$condition .= @$_GET['budget_year']!='' ? " and F.BUDGET_YEAR = ".$_GET['budget_year'] : "";
 		$condition .= @$_GET['province_code']!='' ? " and L.PROVINCE_CODE = ".$_GET['province_code'] : "";
 		
@@ -60,7 +63,7 @@ class Social_worker extends Public_Controller
 		WHERE 1=1 ".$condition;
 		
 		$data = $this->ado->getarray($sql);
-		$limit = '20';
+		$limit = '10';
 		$target = preg_replace('/([&?]+page=[0-9]+)/i', '',  $_SERVER['REQUEST_URI']);
 		$current_page = @$_GET['page'];
 		$this->load->library('pagination');
@@ -73,7 +76,7 @@ class Social_worker extends Public_Controller
 		$data['pagination'] = $page->show();
 		$data['result'] = $rs->GetArray();
 		dbConvert($data['result']);
-		
+		//}else{$data='';}
 		$this->load->view('social_worker/organ_select',$data);
 	}
 }

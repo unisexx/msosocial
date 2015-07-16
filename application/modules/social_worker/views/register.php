@@ -29,7 +29,7 @@ $(document).ready(function(){
 	    	label: 'text'
 	    });
     });
-    
+    /*
     $("form").validate({
 		rules: {
 			id_card:"required",
@@ -51,7 +51,7 @@ $(document).ready(function(){
 			home_no:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
 			tel:"ฟิลด์นี้ห้ามเป็นค่าว่าง"
 		}
-	});
+	});*/
 	
 	$('.td_chkboxType2 input[type=checkbox]').change(function(){
 		if(this.checked){
@@ -76,7 +76,8 @@ function organ_view_sub() {
   <tr>
     <th>เลขที่บัตรประชาชน <span class="Txt_red_12"> *</span></th>
     <td>
-    	<input name="id_card" type="text" value="" style="width:200px;" />    	
+    	<input name="id_card" id="id_card" type="text" value="" style="width:200px;" required="required" data-error="กรุณาระบุเลขประจำตัวประชาชน" />
+    	<div class="help-block with-errors"></div>    	
     </td>
   </tr>
   <tr>
@@ -294,7 +295,12 @@ function organ_view_sub() {
   </tr>
 </table>
 
-
+<div style="width:200px;margin:0 auto;text-align:center">
+	<img src="social_worker/captcha" ><br>
+	กรุณากรอกตัวอักษรในภาพ
+	<input type="text" name="captcha" value="" class="form-control" required="required">
+</div>
+<br>
 <div id="btnBoxAdd" style="text-align:center;">
   <input type="submit" title="ลงทะเบียน" value="ลงทะเบียน" class="btn btn-primary"/>
   <input type="button" title="ย้อนกลับ" value="ย้อนกลับ"  onclick="history.back(-1)" class="btn btn-default"/>
