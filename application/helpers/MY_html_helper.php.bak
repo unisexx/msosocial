@@ -17,24 +17,20 @@ if(!function_exists('cycle'))
 		return 'class="'.$args[($i++ % count($args))].'"';
 	}
 }
-
 if(!function_exists('menu_active'))
 {
-    function menu_active($module,$controller = FALSE,$method = FALSE,$class='active')
-    {
-        $CI =& get_instance();
-        if($controller)
-        {
-            return ($CI->router->fetch_module() == $module && $CI->router->fetch_class() == $controller) ? 'class="'.$class.'"' : '';    
-        }
-        elseif($method){
-            return ($CI->router->fetch_module() == $module && $CI->router->fetch_method() == $method) ? 'class="'.$class.'"' : '';  
-        }
-        else
-        {
-            return ($CI->router->fetch_module() == $module) ? 'class='.$class : ''; 
-        }
-    }
+	function menu_active($module,$controller = FALSE,$class='active')
+	{
+		$CI =& get_instance();
+		if($controller)
+		{
+			return ($CI->router->fetch_module() == $module && $CI->router->fetch_class() == $controller) ? 'class='.$class : '';	
+		}
+		else
+		{
+			return ($CI->router->fetch_module() == $module) ? 'class='.$class : '';	
+		}
+	}
 }
 
 if(!function_exists('menu_active2'))
@@ -72,27 +68,12 @@ if(!function_exists('option_publish'))
 
 if(!function_exists('get_option'))
 {
-	function get_option($value,$text,$table,$condition = NULL,$lang = NULL, $connection_type= NULL)
+	function get_option($value,$text,$table,$condition = NULL,$lang = NULL)
 	{
-		switch($connection_type):
-			case 'adoDB':
-				$CI =& get_instance();
-				$CI->load->library('adodb');				
-				$sql = "SELECT * FROM $table WHERE $condition ";
-				//echo $sql."<br>";		
-				$query = $CI->ado->GetArray($sql);
-				dbConvert($query);
-				//var_dump($query);
-				foreach($query as $item) $option[$item[$value]] = lang_decode($item[$text],$lang);
-				return $option;
-			break;
-			default:
-				$CI =& get_instance();
-				$query = $CI->db->query("select * from $table $condition");
-				foreach($query->result() as $item) $option[$item->{$value}] = lang_decode($item->{$text},$lang);
-				return $option;
-			break;
-		endswitch;
+		$CI =& get_instance();
+		$query = $CI->db->query("select * from $table $condition");
+		foreach($query->result() as $item) $option[$item->{$value}] = lang_decode($item->{$text},$lang);
+		return $option;
 	}
 }
 
