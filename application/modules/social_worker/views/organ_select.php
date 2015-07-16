@@ -35,7 +35,7 @@ Cufon.replace('h1, h3, h4, h5, ul#navmenu-h');
       <option value="<?php echo $x?>" <?php echo ($x == @$_GET['budget_year'])?'selected':'';?>><?php echo $x?></option>
       <?php endfor;?>
     </select>
-    <?php echo form_dropdown('province_code', get_option('province_code', 'province_name', 'act_province', '1=1 order by province_name asc'), @$_GET['province_code'], '', '- เลือกจังหวัด -'); ?>
+    <?php echo form_dropdown('province_code', get_option('province_code', 'province_name', 'act_province', '1=1 order by province_name asc',null,'adoDB'), @$_GET['province_code'], '', '- เลือกจังหวัด -'); ?>
 <input type="submit" name="button9" id="button9" title="ค้นหา" value=" " class="btn_search" /></div>
 </div>
 </form>
@@ -50,8 +50,7 @@ Cufon.replace('h1, h3, h4, h5, ul#navmenu-h');
 </tr>
 <?php $i=(isset($_GET['page']))? (($_GET['page'] -1)* 10)+1:1; ?>
 <?php
-dbConvert($orgmains); 
-foreach($orgmains as $row):
+foreach($result as $row):
 ?>
 <tr class="cursor" onclick="javascript:ins_name('<?php print $row['organ_id'] ?>','<?php print $row['organ_name']; ?>');">
   <td nowrap="nowrap"><?php echo $row['organ_id']?></td>
