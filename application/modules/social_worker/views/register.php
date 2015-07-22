@@ -1,19 +1,13 @@
-<div id="title-blank"> ลงทะเบียนนักสังคมสงเคราะห์</div>
-<div id="breadcrumb">
-	<a href="home/index">หน้าแรก</a> > <span class="b1">ลงทะเบียนนักสังคมสงเคราะห์</span> 
-</div>
-<div id="page">
+<link type="text/css" href="media/js/jquery.datepick/redmond.datepick.css" rel="stylesheet">
+<script type="text/javascript" src="media/js/jquery.datepick/jquery.datepick.js"></script>
+<script type="text/javascript" src="media/js/jquery.datepick/jquery.datepick-th.js"></script>
+<style>
+	.error{
+		color:red;
+	}
+</style>
 <script>
 $(document).ready(function(){
-	$(".btn_add,.btn_edit").click(function(){
-    	$.get('act/welfare_service/ajax_customer_sub2_form',{
-    		id : $(this).prev('input[name=id]').val(),
-    		id_card : $("input[name=id_card]").val()
-    	},function(data){
-    		$("#csubs2_form").html(data);
-    	});
-    });
-	
 	$('[name=ampor_code]').chainedSelect({
     	parent: '#province',
     	url: 'social_worker/ajax_ampor',
@@ -29,30 +23,7 @@ $(document).ready(function(){
 	    	label: 'text'
 	    });
     });
-    /*
-    $("form").validate({
-		rules: {
-			id_card:"required",
-			title_id:"required",
-			fname:"required",
-			lname:"required",
-			sex:"required",
-			birthday:"required",
-			home_no:"required",
-			tel:"required"
-		},
-		messages:{
-			id_card:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
-			title_id:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
-			fname:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
-			lname:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
-			sex:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
-			birthday:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
-			home_no:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
-			tel:"ฟิลด์นี้ห้ามเป็นค่าว่าง"
-		}
-	});*/
-	
+        
 	$('.td_chkboxType2 input[type=checkbox]').change(function(){
 		if(this.checked){
 			var input_box = $(this).closest('.input-group').find('input');
@@ -64,31 +35,52 @@ $(document).ready(function(){
 		}
 	});
 	$("input[type=text], select, textarea").attr('class','form-control');
+	$("#birthday").attr('class','form-control datepicker hasDatepicker');	
+	
+	$('.datepicker').datepick({
+		showOn: 'focus'
+		/*buttonImageOnly: false, 
+		buttonImage: "?php echo base_url();?>media/js/jquery.datepick/calendar.png"*/
+	});
 });
 
 function organ_view_sub() {
 	window.open("social_worker/organ_select", "", "width=1024,height=768,status=yes,toolbar=no,menubar=no,scrollbars=yes,resizable=yes");
 }
 </script>
-<form id="composeform_sub" method="post" action="social_worker/save" enctype="multipart/form-data" class="form">
+<div id="title-blank"> ลงทะเบียนนักสังคมสงเคราะห์</div>
+<div id="breadcrumb">
+	<a href="home/index">หน้าแรก</a> > <span class="b1">ลงทะเบียนนักสังคมสงเคราะห์</span> 
+</div>
+<div id="page">
+<form id="composeform_sub" method="post" action="social_worker/save" enctype="multipart/form-data" class="form" target="_self" >
 
 <table class="table table-bordered">
   <tr>
-    <th>เลขที่บัตรประชาชน <span class="Txt_red_12"> *</span></th>
+    <th>
+    	<label for="id_card">เลขที่บัตรประชาชน</label> <span class="Txt_red_12"> *</span>
+    </th>
     <td>
-    	<input name="id_card" id="id_card" type="text" value="" style="width:200px;" required="required" data-error="กรุณาระบุเลขประจำตัวประชาชน" />
-    	<div class="help-block with-errors"></div>    	
+		<input id="id_card" name="id_card" maxlength="13" style="width:250px;"  class="form-control">
     </td>
   </tr>
   <tr>
-    <th>ชื่อ - สกุล <span class="Txt_red_12"> *</span></th>
-    <td>
-    <div class="input-group">
-      <?php echo form_dropdown('title_id', get_option('title_id', 'title_name', 'act_title_name', '1=1 order by title_name asc' , null ,'adoDB'), 1, 'style="width:150px;"', '-- คำนำหน้า --'); ?>    
-      <input name="fname" type="text" value="" style="width:150px;" placeholder="ชื่อ"/>
-      <input name="lname" type="text" value="" style="width:250px;" placeholder="นามสกุล"/>
-    </div>
-    </td>
+  	<th>คำนำหน้าชื่อ *</th>
+  	<td>
+  		<?php echo form_dropdown('title_id', get_option('title_id', 'title_name', 'act_title_name', '1=1 order by title_name asc' , null ,'adoDB'), 1, 'style="width:150px;"', '-- คำนำหน้า --'); ?>
+  	</td>
+  </tr>
+  <tr>
+  	<th>ชื่อ *</th>
+  	<td>
+  		<input name="fname" id="fname" type="text" value="" style="width:250px;" placeholder="ชื่อ"/>
+  	</td>
+  </tr>
+  <tr>
+  	<th>นามสกุล *</th>
+  	<td>
+  		<input name="lname" id="lname" type="text" value="" style="width:250px;" placeholder="นามสกุล"/>
+  	</td>
   </tr>
   <tr>
   <th>ไฟล์เอกสาร</th>
@@ -99,18 +91,15 @@ function organ_view_sub() {
   <tr>
     <th>เพศ <span class="Txt_red_12"> *</span></th>
     <td>
-    	<span><input type="radio" name="sex" value="M" checked /> ชาย</span> 
-      	<span><input type="radio" name="sex" value="F"  /> หญิง</span>
+    	<span><input type="radio" name="sex" id="sex" value="M" checked /> ชาย</span> 
+      	<span><input type="radio" name="sex" id="sex" value="F"  /> หญิง</span>
     </td>
   </tr>
   <tr>
     <th>วัน/เดือน/ปี เกิด <span class="Txt_red_12">*</span></th>
     <td>
     		<div class="col-lg-3" style="padding-left: 1px; width: 150px;">
-                <div class="input-group">
-                <input name="birthday" type="text" class="datepicker" value=""  />
-                    <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-                </div>
+                <input name="birthday" id="birthday" type="text" class="datepicker hasDatepicker" value=""  />
             </div>
      </td>
   </tr>
@@ -119,7 +108,7 @@ function organ_view_sub() {
     <td>
 	     <div class="input-group">
 	        <span class="input-group-addon">เลขที่</span>
-	          <input name="home_no" type="text" class="form-control " value="" />
+	          <input name="home_no" id="home_no" type="text" class="form-control " value="" />
 	        <span class="input-group-addon">หมู่ที่</span>
 	        <input name="moo" type="text"  class="form-control"value="" />
 	        <span class="input-group-addon">ตรอก/ซอย</span>
@@ -136,13 +125,13 @@ function organ_view_sub() {
     <span class="input-group-addon">ตำบล</span>
     <?php echo form_dropdown('tumbon_code', array() , null , null, '-- เลือกตำบล --'); ?>
     <span class="input-group-addon">รหัสไปรณีย์</span>
-    <input name="post_code" type="text" value="" style="width:70px;"/>
+    <input name="post_code" type="text" maxlength="5" value="" style="width:70px;"/>
     </div>
   	</td>
   </tr>
   <tr>
     <th>โทรศัพท์<span class="Txt_red_12"> *</span></th>
-    <td><input name="tel" type="text" value="" style="width:200px;"/></td>
+    <td><input name="tel" id="tel" type="text" value="" style="width:200px;"/></td>
   </tr>
   <tr>
     <th>แฟกช์</th>
@@ -196,7 +185,7 @@ function organ_view_sub() {
      </th>
     <td>
     	<a href="javascript:organ_view_sub();" class="btn btn-small btn-info">ค้นหาหน่วยงาน</a>
-    	<input name="organ_name" type="text" value="" >
+    	<input name="organ_name" type="text" value="" readonly="readonly" disabled="disabled" >
     	<input name="organ_id" type="hidden" value=""/>            	                
     </td>
   </tr>
@@ -213,7 +202,7 @@ function organ_view_sub() {
             </span>
             <span class="input-group-addon" style="width:200px;text-align:left;"><?php echo $row['specific_name']?> </span>
 			<input name="other[]" type="text" style="" value="" disabled="disabled"/>
-			<input name="question_name[]" type="hidden" value="specific" disabled="disabled" />
+			<input name="question_name[]" type="hidden" value="specific" />
 		</div>
     	<?php endforeach;?>
 	</td>
@@ -234,7 +223,7 @@ function organ_view_sub() {
 				<?php echo $row['target_name']?> 
              </span>
 			<input name="other[]" type="text" style="" value="" disabled="disabled"/>
-			<input name="question_name[]" type="hidden" value="target" 'disabled="disabled"'/>
+			<input name="question_name[]" type="hidden" value="target" />
         </div>
 	</span>
     </div>
@@ -298,11 +287,67 @@ function organ_view_sub() {
 <div style="width:200px;margin:0 auto;text-align:center">
 	<img src="social_worker/captcha" ><br>
 	กรุณากรอกตัวอักษรในภาพ
-	<input type="text" name="captcha" value="" class="form-control" required="required">
+	<input type="text" name="captcha" id="captcha" value="" class="form-control" >
 </div>
 <br>
+
+
 <div id="btnBoxAdd" style="text-align:center;">
   <input type="submit" title="ลงทะเบียน" value="ลงทะเบียน" class="btn btn-primary"/>
   <input type="button" title="ย้อนกลับ" value="ย้อนกลับ"  onclick="history.back(-1)" class="btn btn-default"/>
 </div>
 </form>
+<script type="text/javascript" src="media/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="media/js/jquery.validate.min.1.14.0.js"></script>
+<script type="text/javascript">
+var jQuery_1_7_2 = $.noConflict(true);
+</script>
+<script>
+// only for demo purposes
+jQuery_1_7_2.validator.setDefaults({
+	submitHandler: function() {
+		return true;
+	}
+});
+
+jQuery_1_7_2().ready(function() {
+	  jQuery_1_7_2("#composeform_sub").validate({
+		rules: {
+			id_card:{
+				required: true,
+				minlength:13,
+				remote: "<?php echo base_url();?>social_worker/check_id_card"
+			},
+			title_id:"required",
+			fname:"required",
+			lname:"required",
+			sex:"required",
+			birthday:"required",
+			tel:"required",
+			captcha:{
+				required: true,
+				remote: "<?php echo base_url();?>social_worker/check_captcha"
+			}
+		},
+		messages:{
+			id_card:{
+				required : "ฟิลด์นี้ห้ามเป็นค่าว่าง",
+				minlength: "กรุณากรอกเลขประจำตัวประชาชน 13 หลัก",
+				remote: "มีข้อมูลแล้วในระบบ"
+			},
+			title_id:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
+			fname:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
+			lname:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
+			sex:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
+			birthday:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
+			tel:"ฟิลด์นี้ห้ามเป็นค่าว่าง",
+			captcha:{
+				required : "กรุณากรอกตัวอักษรตามภาพ",
+				remote : "ไม่ถุกต้อง"
+			}
+		}
+	});
+	
+	
+});
+</script>

@@ -9,16 +9,97 @@ class Social_worker extends Public_Controller
 	
 	function register(){
 		$data = '';
-			
+		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
 		$specifics = $this->ado->GetArray('SELECT ID,SPECIFIC_NAME FROM ACT_SPECIFIC ORDER BY SEQ asc');
 		$target_groups = $this->ado->GetArray('SELECT * FROM ACT_TARGET_GROUP ORDER BY SEQ asc ');
 		$data['specifics'] = $specifics;// dbConvert($specifics);
 		$data['target_groups'] = $target_groups;		
 		$this->template->build('register', $data);
 	}	
+	function check_id_card(){
+		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
+		$id_card = $_GET['id_card'];
+		$result = $this->ado->GetOne("(SELECT ID FROM ACT_SUPPORTER_MAIN WHERE ID_CARD = '".$id_card."')");
+		if($result > 0 ){
+			echo false;	
+		}else{
+			echo 'true';
+		}		
+	}
 	
-	
-	
+	function check_captcha(){
+		$captcha = $this->session->userdata('captcha');
+		if($captcha == @$_GET['captcha']){
+			echo 'true';
+		}else{
+			echo false;
+		}			
+		
+	}
+	function save(){
+		//$this->db->debug = true;
+		//var_dump($_POST);
+		if($_POST){
+			$service = new Act_service();
+			putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
+			array_walk($_POST,'dbConvert','TIS-620');
+			if(@$_POST['birthday']!=''){
+				$tmp = explode('-',$_POST['birthday']);
+				$_POST['birthday'] = $tmp[2].$tmp[1].$tmp[0];
+			}
+			//$this->load->library('adodb');
+			//$this->ado->debug = true;
+			/***** รูปภาพ *****/
+			fix_file($_FILES["UploadFile"]);		    
+		   $_POST['file_data'] = !empty($_FILES['UploadFile']['name']) ? $service->upload($_FILES["UploadFile"],"uploads/file_shares/act/social_worker") : $_POST['hdfilename'];
+		   $_POST['REGISTER_FROM'] = "MSOSOCIAL";
+		   if(@$_POST['id'] == ''){
+			$_POST['input_date'] = th_to_stamp(date("d-m-Y H:i:s"),TRUE);
+			$_POST['id'] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_SUPPORTER_MAIN)');
+			$_POST['id'] = $_POST['id'] == "" ? "1" : $_POST['id'];
+				$this->ado->AutoExecute('ACT_SUPPORTER_MAIN',$_POST,'INSERT');
+			}else{
+				$this->ado->AutoExecute('ACT_SUPPORTER_MAIN',$_POST,'UPDATE','id = '.$_POST['id']);
+			}
+		    $main_id = $_POST['id'];
+			/***** เชพฟอร์มย่อย *****/
+			$this->ado->Execute("DELETE FROM ACT_SUPPORTER_SUB WHERE ID_CARD = '".$_POST['id_card']."'");
+			if(isset($_POST['answer_id'])){
+				foreach($_POST['answer_id'] as $key=>$item){
+					$_POST['sub_id'] = $this->ado->GetOne('(SELECT MAX(SUB_ID)+1 FROM ACT_SUPPORTER_SUB)');
+					$_POST['sub_id'] = $_POST['sub_id'] == "" ? "1" : $_POST['sub_id'];
+						$this->ado->AutoExecute('ACT_SUPPORTER_SUB',array(
+								'sub_id'=>$_POST['sub_id'],
+								'id_card'=>$_POST['id_card'],
+								'question_name'=>@$_POST['question_name'][$key],
+								'answer_id'=>$item,
+								'other'=>$_POST['other'][$key]																
+							), 'INSERT'
+						);
+				}
+			}
+			/*
+			$this->supporter_sub->delete('id_card',$_POST['id_card']);
+			if(isset($_POST['answer_id'])){
+				foreach($_POST['answer_id'] as $key=>$item){
+					$this->supporter_sub->save(array(
+						'id_card'=>$_POST['id_card'],
+						'question_name'=>@$_POST['question_name'][$key],
+						'answer_id'=>$item,
+						'other'=>$_POST['other'][$key]																
+					));
+				}
+			}
+			*/
+			
+			
+			set_notify('success', lang('save_data_complete'));
+		}
+		redirect('social_worker/complete');
+	}
+	function complete(){
+		$this->template->build('complete');
+	}
 	function ajax_ampor($type = NULL)
 	{
 		$text = ($type == 'report') ? '-- ทุกอำเภอ --' : '- เลือกอำเภอ -';
@@ -78,6 +159,9 @@ class Social_worker extends Public_Controller
 		dbConvert($data['result']);
 		//}else{$data='';}
 		$this->load->view('social_worker/organ_select',$data);
+	}
+	function test(){
+		$this->template->build('test');
 	}
 }
 ?>
