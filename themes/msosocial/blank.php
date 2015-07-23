@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $template['title']; ?></title> 
 <link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.ico">
-<link href="themes/msosocial/css/template.css?v=<?php echo filemtime('themes/msosocial/css/template.css'); ?>" type="text/css" rel="stylesheet"/>
+<link href="themes/msosocial/css/template.css" type="text/css" rel="stylesheet"/>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="themes/msosocial/css/bootstrap.min.css">
 

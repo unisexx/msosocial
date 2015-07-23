@@ -13,7 +13,7 @@
         </div>    
       <a href="#"><img src="themes/msosocial/images/banner01.jpg" width="244" height="69" class="banner-link"></a>
       <a href="#"><img src="themes/msosocial/images/banner02.jpg" width="244" height="69" class="banner-link"/></a>
-      <a href="social_worker/login"><img src="themes/msosocial/images/banner03.jpg" width="244" height="69" class="banner-link"/></a>
+      <a href="social_worker/register" target="_blank"><img src="themes/msosocial/images/banner03.jpg" width="244" height="69" class="banner-link"/></a>
       
       <div class="clearfix">&nbsp;</div>
     

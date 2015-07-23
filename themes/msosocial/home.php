@@ -6,7 +6,7 @@
 <link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.ico">
 <title><?php echo $template['title']; ?></title> 
 
-<link href="themes/msosocial/css/template.css?v=<?php echo filemtime('themes/msosocial/css/template.css'); ?>" type="text/css" rel="stylesheet"/>
+<link href="themes/msosocial/css/template.css" type="text/css" rel="stylesheet"/>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="themes/msosocial/css/bootstrap.min.css">
 
@@ -31,16 +31,16 @@
 	
 <div id="col1">
 	
-        <?php echo modules::run('infos/news_relation_mso'); ?>
+       <?=modules::run('infos/news_relation_mso'); ?>
         <!---------------------------------------------END News------------------------------------------>
         
-		<?php echo modules::run('welfare/home_welfare'); ?>
+		<?=modules::run('welfare/home_welfare'); ?>
             <!---------------------------------------------END WELFARE------------------------------------------>
                             
-        <?php echo modules::run('infos/home_situation'); ?>
+        <?=modules::run('infos/home_situation'); ?>
         <!---------------------------------------------END situation------------------------------------------>
         
-        <?php echo modules::run('downloads/home_download'); ?>
+        <?=modules::run('downloads/home_download'); ?>
         
 
         <!---------------------------------------------END DOWNLOAD------------------------------------------>    	
@@ -48,7 +48,13 @@
 
         <div id="download">
                 <div class="download-title">รายงาน</div>
-          
+          <?php
+		  
+/*		  	echo "<br>";
+			echo $_SERVER['HTTP_HOST'];
+			echo "<br>";*/
+		
+		  ?>
 
        </div>
  
