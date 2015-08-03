@@ -1,6 +1,6 @@
  <div id="col2"> 
       	<a class="inline" href="#org_reg"><img src="themes/msosocial/images/banner-register_2.png" width="232" height="103" class="banner-regis"></a>
-        <a href="#"><img src="themes/msosocial/images/banner-list_2.jpg" width="255" height="119" class="banner-list"></a>
+        <a href="board/index" target="_blank"><img src="themes/msosocial/images/banner-list_2.jpg" width="255" height="119" class="banner-list"></a>
         <div class="clearfix">&nbsp;</div>
         <div class="title-social-welfare-organ">องค์การสวัสดิการสังคม</div>
         <div class="list-social-welfare-organ">
@@ -13,18 +13,34 @@
         </div>    
       <a href="#"><img src="themes/msosocial/images/banner01.jpg" width="244" height="69" class="banner-link"></a>
       <a href="#"><img src="themes/msosocial/images/banner02.jpg" width="244" height="69" class="banner-link"/></a>
-      <a href="#"><img src="themes/msosocial/images/banner03.jpg" width="244" height="69" class="banner-link"/></a>
+      <a href="social_worker/register" target="_blank"><img src="themes/msosocial/images/banner03.jpg" width="244" height="69" class="banner-link"/></a>
       
       <div class="clearfix">&nbsp;</div>
     
-        <?php echo modules::run('contents/home_report'); ?>
+        <?=modules::run('contents/home_report'); ?>
         
     <!---------------------------------------------END REPORT------------------------------------------>
     
- 		<?php echo modules::run('vdos/home_vdo'); ?>
+ 		<?=modules::run('vdos/home_vdo'); ?>
     <!---------------------------------------------END VDO------------------------------------------>
  
-        <?php echo modules::run('calendar/home_calendar'); ?>
+        <?php //modules::run('calendar/home_calendar'); ?>
+        
+        <div id="showData"></div>
+        
+        <script type="text/javascript">
+            $(function(){
+                
+                
+                var jMonth = '<?php echo $seMonth; ?>';
+                var jYear = '<?php echo $seYear; ?>';
+                
+                $("#showData").load("<?php echo base_url()?>home/show_calendar/"+jYear+"/"+jMonth);
+        
+        
+                
+            });
+        </script>
     <!---------------------------------------------END CALENDAR------------------------------------------>
 
 <!------------------------------------------------------------END Col2----------------------------------------------------------->  

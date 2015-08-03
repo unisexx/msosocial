@@ -5,9 +5,9 @@
 // $config['adodb']['password'] = 'bo2557';
 // $config['adodb']['database'] = 'BOFFICE';
 
-$config['adodb']['hostname'] = 'localhost';
+$config['adodb']['hostname'] = '192.168.1.225';
 $config['adodb']['username'] = 'BOFFICE';
-$config['adodb']['password'] = '1234';
+$config['adodb']['password'] = 'bo2557';
 $config['adodb']['database'] = 'BOFFICE';
 $config['adodb']['dbdriver'] = 'oci8po';
 $config['adodb']['dbprefix'] = '';

@@ -1,4 +1,92 @@
 <style type='text/css'>
+
+ h3 {
+    font-family: supermarket;
+    font-size: 22px;
+    font-weight: 700;
+    padding-top: 10px;
+    color: #fc7803;
+}
+
+#search {
+    padding: 10px 10px 0 10px;
+    border: 1px dashed #ccc;
+    margin: 10px 0;
+    background-color: #FFC;
+}
+
+
+.odd {
+    background-color: #fff3fc;
+}
+
+.tblist {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 14px;
+    background: #fff;
+    margin: 0;
+    margin-bottom: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tblist th {
+    font-size: 16px;
+    font-weight: normal;
+    padding: 10px 5px 3px 5px;
+    border-top: 0px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    border-left: 0px solid #ccc;
+    border-right: 0px solid #ccc;
+    text-align: left;
+    background-color: #fff;
+    color: #65358f;
+}
+
+.tblist td {
+    color: #333;
+    padding: 5px;
+    height: 30px;
+    border-top: 0px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-left: 0px solid #ccc;
+    border-right: 0px solid #ccc;
+}
+
+.tblist td.B {
+    font-weight: 700;
+}
+
+.tblist td strong {
+    font-weight: 700;
+}
+
+.tblist td.red, span.red {
+    color: #F00;
+}
+
+.tblist tr:hover td,.tblist tr.active td {
+    color: #666;
+}
+
+.tblist .paddL20 {
+    padding-left: 20px;
+}
+
+.tblist .paddL40 {
+    padding-left: 40px;
+}
+
+.tblist .paddL60 {
+    padding-left: 60px;
+}
+
+.tblist tr.topic {
+    background: url(../images/bg_topic.gif);
+}
+
+
 	.div_attach {
 		margin:5px;
 	}
@@ -59,16 +147,16 @@
 	<?php echo form_dropdown(false, array(1 => 'กองทุนเด็กฯ', 2 => 'กองทุนส่งเสริมฯ', 3 => 'กองทุนป้องกันค้ามนุษย์ฯ'), $_GET['type'], 'class="form-control" onchange = "memberForm($(this).val());"'); ?>
 </h4>
 
-<? 
+<?php 
 	
-	
-	//echo $status = 'edit';
-?>
-<?php echo form_hidden('type', @$_GET['type']); ?>
+	echo form_hidden('type', @$_GET['type']); 
+	if($status == 'edit') { ?>  
+		<link rel="stylesheet" type="text/css" media="screen"  href="media/js/colorbox/example1/colorbox.css" />
+
+		<form action="org/claimfund/saveChild/<?php echo @$rs['id']; ?>" method='post' enctype="multipart/form-data"> 
+	<? } 
 
 
-<? if($status == 'edit') { ?>  <form action="org/claimfund/saveChild/<?php echo @$rs['id']; ?>" method='post' enctype="multipart/form-data"> <? } ?>
-<?php
 	$year_budget = (empty($rs['year_budget']))?(date('Y')+543):$rs['year_budget'];
 	$project_code = (empty($rs['project_code']))?'คคด/'.(date('Y')+543).'/'.@$value['province_name'].'/XXXX':$rs['project_code'];
 	
@@ -167,21 +255,30 @@
 	<tr>
 		<th>ชื่อองค์กรที่เสนอขอรับ <span class="textRed">*</span></th>
 		<td>
-			<?php if($status == 'edit') { 
-				echo form_hidden('welfare_benefit_id', @$rs['welfare_benefit_id']); 
-				?>
-				<input type="text"  class="form-control" style="width:550px;" value="<?php echo @$rs['welfare_benefit_title']; ?>" readonly="readonly"/>
-			<? } else {
-				/*$query = "SELECT ORGAN_NAME
-				FROM ACT_WELFARE_BENEFIT WHERE ID = '".$rs['welfare_benefit_id']."'";
-				$benefit_title = $this->ado->GetOne($query);
-				dbConvert($benefit_title);
-				
-				#echo @$rs['welfare_benefit_title'];
-				echo $benefit_title;
-				*/
-				echo $rs['organ_name'];
-			} ?>
+			<?php	
+				if($status == 'edit') {
+					echo form_hidden('welfare_type', @$rs['welfare_type']);
+					echo form_hidden('welfare_id', @$rs['welfare_id']);
+					echo form_input('welfare_title', @$rs['welfare_tog_title'], 'readonly="readonly" style="width:400px;"').' ';
+					echo '<span style="line-height:30px; margin-right:20px;" id="welfare_title">';
+						echo (empty($rs['welfare_tog_title']))?'--ไม่ระบุ--':@$rs['welfare_tog_title'];
+					echo '</span> ';
+					echo form_button(null, 'เลือกองค์กร', 'class="btn btn-sm btn-default" id="btnSlcBenefit"');
+				} else {
+					echo @$rs['welfare_tog_title']; 
+				} 
+			?>
+
+			<!-- Colorbox -->
+			<div style='display:none;'><div id="listBenefit" style="padding:10px 20px;">
+				<h3>บันทึก องค์กรสารธรณประโยชน์ และ บันทึกองค์กรสวัสดิการชุมชน</h3>
+				<div id="search" style='padding:10px 20px;'>
+					ประเภท <? echo form_dropdown(null, array(1 => 'องค์กรสาธารณประโยชน์', 2 => 'องค์กรสวัสดิการชุมชน'), null, 'class="form-control" style="display:inline-block; width:auto;" id="searchBenefit_type"', '-- กรุณาเลือก --'); ?>
+					ชื่อหน่วยงาน   <input id="searchBenefit_title" type="text" value="" placeholder="ชื่อองค์กร" style="display:inline-block; width:350px;" class="form-control"> 
+					<input type="button" title="ค้นหา" class="btn btn-default btn_search" value="ค้นหา" id="btnSearchBenefit">
+				</div>
+				<div id="listBenefit_content"></div>
+			</div></div>
 		</td>
 	</tr>
 	<tr>
@@ -310,23 +407,42 @@
 		<td>
 			<?php if($status == 'edit') { 
 				foreach($formInput['project_target_set_id'] as $item) {
-					$value = $checked = null;
-					if(!empty($rs['project_target_set'][$item['id']])) {
+					$comment = $value = $checked = null;
+					if(!empty($rs['project_target_set'][$item['id']]) || @$rs['project_target_set'][$item['id']] == '0') {
 						$checked = 'checked = "checked" ';
 						$value = $rs['project_target_set'][$item['id']];
+						$comment = $rs['project_target_set_comment'][$item['id']];
 					}
 					
-					echo '<span style="margin-right:15px;">
-						<input type="checkbox" name="project_target_set_id[]" value="'.$item['id'].'" '.$checked.'> 
-						<input type="text" name="project_target_set_val['.$item['id'].']" value="'.$value.'" class="nformat" style="width:50px;"> '.$item['title'].'
-					</span>';
+					if($item['is_comment'] != 1) {
+						echo '<span style="margin-right:25px;">
+							<input type="checkbox" name="project_target_set_id[]" value="'.$item['id'].'" '.$checked.'> 
+							'.$item['title'].' 
+							<input type="text"  name="project_target_set_val['.$item['id'].']" value="'.$value.'" class="form-control nformat" style="display:inline-block; width:50px;"> คน
+						</span>';	
+					} else {
+						echo '<span style="margin-right:25px;">
+							<input type="checkbox" name="project_target_set_id[]" value="'.$item['id'].'" '.$checked.'> 
+							'.$item['title'].' 
+							<input type="text" class="form-control" style="display:inline-block; width:300px;" name="project_target_set_comment['.$item['id'].']" value="'.$comment.'">
+						</span>';
+					}
+					
 				}
 			} else { 
 				foreach($formInput['project_target_set_id'] as $item) {
-					if(!empty($rs['project_target_set'][$item['id']])) {
-						echo '<span style="margin-right:25px;">
-							'.$item['title'].' '.$rs['project_target_set'][$item['id']].' คน 
-						</span>';
+					if(!empty($rs['project_target_set'][$item['id']]) || @$rs['project_target_set'][$item['id']] == '0') {
+						echo '<img src="media/images/checked.png"> ';
+						if($item['is_comment'] != 1) {
+							echo '<span style="margin-right:25px;">
+								'.$item['title'].' '.$rs['project_target_set'][$item['id']].' คน 
+							</span>';
+						} else {
+							echo '<span style="margin-right:25px;">
+								'.$item['title'].' 
+								"'.$rs['project_target_set_comment'][$item['id']].'"
+							</span>';
+						}
 					}	
 				}
 			} //if($status == 'edit') ?>
@@ -444,5 +560,60 @@
 			}
 			$('[name=budget_project]').val(numeral(project_budget).format('0,0.00'));
 		});
+
+		//Row 8
+			//Row 8 -- ชื่อองค์กรที่เสนอขอรับ
+			$('#btnSlcBenefit').live('click', function(){
+				$('#listBenefit_content').html("<div style='text-align:center; color:#aaa;'>Loading...</div>");
+				$.get('org/claimfund/cbox_list_benefit', function(data){
+					$('#listBenefit_content').html(data);
+				});
+			});
+
+			//Row 8 __ colorbox
+			//Row 8 __ colorbox -- ชื่อองค์กรที่เสนอขอรับ -- call color box
+			$('#btnSlcBenefit').colorbox({
+				height	: "80%",
+				width	: "80%",
+				inline	: true,
+				href	: "#listBenefit",
+				onClosed: function(){ 
+					$("#listBenefit_content").html(""); 
+					$('#searchBenefit_type').val('');
+					$('#searchBenefit_title').val('');
+				} //Clear #listBenefit_content
+			});
+
+			//Row 8 __ colorbox -- pagination
+			$('.pagination a').live('click', function(){
+				$('#listBenefit_content').html("<div style='text-align:center; color:#aaa;'>Loading...</div>");
+				$.get('org/claimfund/cbox_list_benefit/'+$(this).attr('href'), function(data){
+					$('#listBenefit_content').html(data);
+				});
+				return false;
+			});
+
+			//Row 8 __ colorbox -- Search box 
+			$('#btnSearchBenefit').live('click', function(){
+				$('#listBenefit_content').html("<div style='text-align:center; color:#aaa;'>Loading...</div>");
+				$.get('org/claimfund/cbox_list_benefit'
+					, {
+						b_type : $('#searchBenefit_type option:selected').val()
+						,title : $('#searchBenefit_title').val()
+					}, function(data){
+						$('#listBenefit_content').html(data);
+					}
+				);
+			});
+
+			//Row 8 __ colorbox -- ชื่อองค์กรที่เสนอขอรับ -- Button select
+			$('.btnSlcWelfare').live('click', function(){
+				$('[name=welfare_type]').val($(this).attr('rel_type'));
+				$('[name=welfare_id]').val($(this).attr('rel_id'));
+				$('[name=welfare_title]').val($(this).attr('rel_title'));
+				$('#welfare_title').html($(this).attr('rel_title'));
+
+				$.colorbox.close();
+			});
 	});
 </script>

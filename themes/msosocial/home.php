@@ -31,16 +31,16 @@
 	
 <div id="col1">
 	
-        <?php echo modules::run('infos/news_relation_mso'); ?>
+       <?=modules::run('infos/news_relation_mso'); ?>
         <!---------------------------------------------END News------------------------------------------>
         
-		<?php echo modules::run('welfare/home_welfare'); ?>
+		<?=modules::run('welfare/home_welfare'); ?>
             <!---------------------------------------------END WELFARE------------------------------------------>
                             
-        <?php echo modules::run('infos/home_situation'); ?>
+        <?=modules::run('infos/home_situation'); ?>
         <!---------------------------------------------END situation------------------------------------------>
         
-        <?php echo modules::run('downloads/home_download'); ?>
+        <?=modules::run('downloads/home_download'); ?>
         
 
         <!---------------------------------------------END DOWNLOAD------------------------------------------>    	
@@ -48,7 +48,13 @@
 
         <div id="download">
                 <div class="download-title">รายงาน</div>
-          
+          <?php
+		  
+/*		  	echo "<br>";
+			echo $_SERVER['HTTP_HOST'];
+			echo "<br>";*/
+		
+		  ?>
 
        </div>
  

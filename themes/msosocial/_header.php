@@ -1,6 +1,9 @@
 
 <script type="text/javascript" src="themes/msosocial/js/jquery.js"></script>
 <script type="text/javascript" src="media/js/colorbox/jquery.colorbox.js"></script>
+<script type="text/javascript" src="media/js/jquery.chainedSelect.min.js"></script>
+<script type="text/javascript" src="media/js/jquery.validate.min.js"></script>
+
 <!--   <script src="themes/msosocial/js/jquery-latest.min.js" type="text/javascript"></script>
    <script src="themes/msosocial/js/script.js"></script>-->
 <script type="text/javascript">

@@ -1,7 +1,12 @@
 <div id="icon-social">
       <a href="https://www.facebook.com/SWsocialwelfare?ref=hL" target="_blank"><img src="themes/msosocial/images/icon-facebook.jpg" width="23" height="22" /></a> 
       <a href="https://www.facebook.com/SWsocialwelfare?ref=hL" target="_blank"><img src="themes/msosocial/images/icon-twitter.jpg" width="23" height="22" /></a>
-      <input name="searchbox" id="searchbox" maxlength="50" value="ค้นหา..." type="text" /><br>
+      
+<!--      <input name="searchbox" id="searchbox" maxlength="50" value="ค้นหา..." type="text" onkeydown="if (event.keyCode == 13 || event.which == 13) { location='http://www.google.com/search?q=' + encodeURIComponent(document.getElementById('searchbox').value);}" />-->
+
+      <INPUT TYPE='text' name='searchbox' id='searchbox' maxlength='50' value='ค้นหา...' onClick="document.getElementById('searchbox').value=''" onkeydown="if (event.keyCode == 13 || event.which == 13) { location='http://www.google.com/search?q=' + encodeURIComponent(document.getElementById('searchbox').value)+'&sa=' + encodeURIComponent(document.getElementById('searchbox').value)+'&domains=msosocial.m-society.go.th&sitesearch=msosocial.m-society.go.th'; }">
+      <br>
+      
       <span id="login">
         <img src="themes/msosocial/images/icon-key.png" width="14" height="14" />
         	<span id="userlogin">

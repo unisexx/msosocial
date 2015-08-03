@@ -72,12 +72,27 @@ if(!function_exists('option_publish'))
 
 if(!function_exists('get_option'))
 {
-	function get_option($value,$text,$table,$condition = NULL,$lang = NULL)
+	function get_option($value,$text,$table,$condition = NULL,$lang = NULL, $connection_type= NULL)
 	{
-		$CI =& get_instance();
-		$query = $CI->db->query("select * from $table $condition");
-		foreach($query->result() as $item) $option[$item->{$value}] = lang_decode($item->{$text},$lang);
-		return $option;
+		switch($connection_type):
+			case 'adoDB':
+				$CI =& get_instance();
+				$CI->load->library('adodb');				
+				$sql = "SELECT * FROM $table WHERE $condition ";
+				//echo $sql."<br>";		
+				$query = $CI->ado->GetArray($sql);
+				dbConvert($query);
+				//var_dump($query);
+				foreach($query as $item) $option[$item[$value]] = lang_decode($item[$text],$lang);
+				return $option;
+			break;
+			default:
+				$CI =& get_instance();
+				$query = $CI->db->query("select * from $table $condition");
+				foreach($query->result() as $item) $option[$item->{$value}] = lang_decode($item->{$text},$lang);
+				return $option;
+			break;
+		endswitch;
 	}
 }
 

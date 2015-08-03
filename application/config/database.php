@@ -42,10 +42,10 @@ $active_group = 'default';
 $active_record = TRUE;
 
 
-$db['default']['hostname'] = 'localhost';
+$db['default']['hostname'] = '192.168.1.225';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '1234';
-$db['default']['database'] = 'funlaw';
+$db['default']['database'] = 'msosocial';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
