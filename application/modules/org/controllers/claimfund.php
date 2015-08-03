@@ -676,6 +676,7 @@ class Claimfund extends Public_Controller
 					$welfare['edit_time'] = ($welfare['edit_time']+1);
 					$welfare['budget_total'] = 0;
 					$welfare['web_status'] = 0;
+					$welfare['id'] = $id;	
 				} else {
 					$welfare['web_form'] = 1;
 					$welfare["act_user_id"] = $this->session->userdata('id');
@@ -850,7 +851,12 @@ class Claimfund extends Public_Controller
 					$this->ado->debug = true;
 					$welfare['id'] = $this->ado->GetOne("SELECT (NVL(MAX(ID),0)+1) FROM FUND_WELFARE");
 					array_walk($welfare,'dbConvert','TIS-620');
-					$this->ado->AutoExecute('FUND_WELFARE',$welfare,'INSERT');
+					if($id) {
+						$this->ado->AutoExecute('FUND_WELFARE',$welfare, "UPDATE");
+					} else {
+						$this->ado->AutoExecute('FUND_WELFARE',$welfare,'INSERT');
+					}
+						
 
 					$id = $welfare['id'];
 
