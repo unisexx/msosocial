@@ -108,16 +108,16 @@ class Org extends Public_Controller
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
 			if($_FILES["UploadFile"]["error"] != 4){
-				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/welfare_benefit/map/') : @$_POST['hdfilemap'];
-				$_POST['filemap'] = base_url().'uploads/welfare_benefit/map/'.$_POST['filemap'];
+				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/file_shares/welfare_benefit/map/') : @$_POST['hdfilemap'];
+				$_POST['filemap'] = base_url().'uploads/file_shares/welfare_benefit/map/'.$_POST['filemap'];
 		    }else{
 				$_POST['filemap'] = @$_POST['hdfilemap'];
 		    }
 			
 			// แผนที่ตั้งของสำนักงานสาขา
 			if($_FILES["UploadFile2"]["error"] != 4){
-				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/welfare_benefit/map/') : @$_POST['hdfilemap2'];
-				$_POST['b_filemap'] = base_url().'uploads/welfare_benefit/map/'.$_POST['b_filemap'];
+				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/file_shares/welfare_benefit/map/') : @$_POST['hdfilemap2'];
+				$_POST['b_filemap'] = base_url().'uploads/file_shares/welfare_benefit/map/'.$_POST['b_filemap'];
 		    }else{
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
@@ -188,12 +188,12 @@ class Org extends Public_Controller
 				{
 					if($_FILES['filesToUpload'][$key]['name'])
 					{
-						$files = $service->upload($_FILES['filesToUpload'][$key],'uploads/welfare_benefit/doc/');
+						$files = $service->upload($_FILES['filesToUpload'][$key],'uploads/file_shares/welfare_benefit/doc/');
 						
 						$record["id"] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_BENEFIT_DOC)');
 						$record['id'] = $record['id'] == "" ? "1" : $record['id'];
 						$record["act_welfare_benefit_id"] = $_POST['id'];
-						$record["files"] = base_url().'uploads/welfare_benefit/doc/'.$files;
+						$record["files"] = base_url().'uploads/file_shares/welfare_benefit/doc/'.$files;
 						$record["storage"] = 'fund02';
 						
 						$this->ado->AutoExecute('ACT_WELFARE_BENEFIT_DOC',$record,'INSERT');
@@ -289,16 +289,16 @@ class Org extends Public_Controller
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
 			if($_FILES["UploadFile"]["error"] != 4){
-				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/welfare_community/map/') : @$_POST['hdfilemap'];
-				$_POST['filemap'] = base_url().'uploads/welfare_community/map/'.$_POST['filemap'];
+				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/file_shares/welfare_community/map/') : @$_POST['hdfilemap'];
+				$_POST['filemap'] = base_url().'uploads/file_shares/welfare_community/map/'.$_POST['filemap'];
 		    }else{
 				$_POST['filemap'] = @$_POST['hdfilemap'];
 		    }
 			
 			// แผนที่ตั้งของสำนักงานสาขา
 			if($_FILES["UploadFile2"]["error"] != 4){
-				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/welfare_community/map/') : @$_POST['hdfilemap2'];
-				$_POST['b_filemap'] = base_url().'uploads/welfare_community/map/'.$_POST['b_filemap'];
+				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/file_shares/welfare_community/map/') : @$_POST['hdfilemap2'];
+				$_POST['b_filemap'] = base_url().'uploads/file_shares/welfare_community/map/'.$_POST['b_filemap'];
 		    }else{
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
@@ -391,12 +391,12 @@ class Org extends Public_Controller
 				{
 					if($_FILES['filesToUpload'][$key]['name'])
 					{
-						$files = $service->upload($_FILES['filesToUpload'][$key],'uploads/welfare_community/doc/');
+						$files = $service->upload($_FILES['filesToUpload'][$key],'uploads/file_shares/welfare_community/doc/');
 						
 						$record["id"] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_COMM_DOC)');
 						$record['id'] = $record['id'] == "" ? "1" : $record['id'];
 						$record["act_welfare_comm_id"] = $_POST['id'];
-						$record["files"] = base_url().'uploads/welfare_community/doc/'.$files;
+						$record["files"] = base_url().'uploads/file_shares/welfare_community/doc/'.$files;
 						$record["storage"] = 'fund02';
 						
 						$this->ado->AutoExecute('ACT_WELFARE_COMM_DOC',$record,'INSERT');
@@ -493,12 +493,12 @@ class Org extends Public_Controller
 				{
 					if($_FILES['filesToUpload'][$key]['name'])
 					{
-						$files = $service->upload($_FILES['filesToUpload'][$key],'uploads/reg_member_doc/');
+						$files = $service->upload($_FILES['filesToUpload'][$key],'uploads/file_shares/reg_member_doc/');
 						
 						$record["id"] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_USER_DOC)');
 						$record['id'] = $record['id'] == "" ? "1" : $record['id'];
 						$record["act_user_id"] = $_POST['id'];
-						$record["files"] = base_url().'uploads/reg_member_doc/'.$files;
+						$record["files"] = base_url().'uploads/file_shares/reg_member_doc/'.$files;
 						$record["storage"] = 'fund02';
 						
 						$this->ado->AutoExecute('ACT_USER_DOC',$record,'INSERT');
@@ -554,7 +554,7 @@ class Org extends Public_Controller
 		array_walk($_POST,'dbConvert','TIS-620');
 		$this->load->library('adodb');
 		// $this->ado->debug = true;
-		$rs = $this->ado->GetRow("SELECT * FROM ACT_USER WHERE USERNAME='".$_POST['username']."' AND PASSWORD = '".$_POST['password']."' AND STATUS = '".$_POST['status']."'");
+		$rs = $this->ado->GetRow("SELECT * FROM ACT_USER WHERE USERNAME='".$_POST['username']."' AND PASSWORD = '".md5($_POST['password'])."' AND STATUS = '".$_POST['status']."'");
 		dbConvert($rs);
 		if(@$rs['id'] != "")
 		{
@@ -712,16 +712,16 @@ class Org extends Public_Controller
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
 			if($_FILES["UploadFile"]["error"] != 4){
-				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/welfare_community/map/') : @$_POST['hdfilemap'];
-				$_POST['filemap'] = base_url().'uploads/welfare_community/map/'.$_POST['filemap'];
+				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/file_shares/welfare_community/map/') : @$_POST['hdfilemap'];
+				$_POST['filemap'] = base_url().'uploads/file_shares/welfare_community/map/'.$_POST['filemap'];
 		    }else{
 				$_POST['filemap'] = @$_POST['hdfilemap'];
 		    }
 			
 			// แผนที่ตั้งของสำนักงานสาขา
 			if($_FILES["UploadFile2"]["error"] != 4){
-				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/welfare_community/map/') : @$_POST['hdfilemap2'];
-				$_POST['b_filemap'] = base_url().'uploads/welfare_community/map/'.$_POST['b_filemap'];
+				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/file_shares/welfare_community/map/') : @$_POST['hdfilemap2'];
+				$_POST['b_filemap'] = base_url().'uploads/file_shares/welfare_community/map/'.$_POST['b_filemap'];
 		    }else{
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
@@ -814,12 +814,12 @@ class Org extends Public_Controller
 				{
 					if($_FILES['filesToUpload'][$key]['name'])
 					{
-						$files = $service->upload($_FILES['filesToUpload'][$key],'uploads/welfare_community/doc/');
+						$files = $service->upload($_FILES['filesToUpload'][$key],'uploads/file_shares/welfare_community/doc/');
 						
 						$record["id"] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_COMM_DOC)');
 						$record['id'] = $record['id'] == "" ? "1" : $record['id'];
 						$record["act_welfare_comm_id"] = $_POST['id'];
-						$record["files"] = base_url().'uploads/welfare_community/doc/'.$files;
+						$record["files"] = base_url().'uploads/file_shares/welfare_community/doc/'.$files;
 						$record["storage"] = 'fund02';
 						
 						$this->ado->AutoExecute('ACT_WELFARE_COMM_DOC',$record,'INSERT');
@@ -857,16 +857,16 @@ class Org extends Public_Controller
 			$service = new Act_service();
 			// แผนที่ตั้งของสำนักงานใหญ่
 			if($_FILES["UploadFile"]["error"] != 4){
-				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/welfare_benefit/map/') : @$_POST['hdfilemap'];
-				$_POST['filemap'] = base_url().'uploads/welfare_benefit/map/'.$_POST['filemap'];
+				$_POST['filemap']=isset($_FILES["UploadFile"])!='' ? $service->upload($_FILES['UploadFile'],'uploads/file_shares/welfare_benefit/map/') : @$_POST['hdfilemap'];
+				$_POST['filemap'] = base_url().'uploads/file_shares/welfare_benefit/map/'.$_POST['filemap'];
 		    }else{
 				$_POST['filemap'] = @$_POST['hdfilemap'];
 		    }
 			
 			// แผนที่ตั้งของสำนักงานสาขา
 			if($_FILES["UploadFile2"]["error"] != 4){
-				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/welfare_benefit/map/') : @$_POST['hdfilemap2'];
-				$_POST['b_filemap'] = base_url().'uploads/welfare_benefit/map/'.$_POST['b_filemap'];
+				$_POST['b_filemap']=isset($_FILES["UploadFile2"])!='' ? $service->upload($_FILES['UploadFile2'],'uploads/file_shares/welfare_benefit/map/') : @$_POST['hdfilemap2'];
+				$_POST['b_filemap'] = base_url().'uploads/file_shares/welfare_benefit/map/'.$_POST['b_filemap'];
 		    }else{
 				$_POST['b_filemap'] = @$_POST['hdfilemap2'];
 		    }
@@ -937,12 +937,12 @@ class Org extends Public_Controller
 				{
 					if($_FILES['filesToUpload'][$key]['name'])
 					{
-						$files = $service->upload($_FILES['filesToUpload'][$key],'uploads/welfare_benefit/doc/');
+						$files = $service->upload($_FILES['filesToUpload'][$key],'uploads/file_shares/welfare_benefit/doc/');
 						
 						$record["id"] = $this->ado->GetOne('(SELECT MAX(ID)+1 FROM ACT_WELFARE_BENEFIT_DOC)');
 						$record['id'] = $record['id'] == "" ? "1" : $record['id'];
 						$record["act_welfare_benefit_id"] = $_POST['id'];
-						$record["files"] = base_url().'uploads/welfare_benefit/doc/'.$files;
+						$record["files"] = base_url().'uploads/file_shares/welfare_benefit/doc/'.$files;
 						$record["storage"] = 'fund02';
 						
 						$this->ado->AutoExecute('ACT_WELFARE_BENEFIT_DOC',$record,'INSERT');
