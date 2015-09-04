@@ -217,7 +217,24 @@ class Claimfund extends Public_Controller
 
 				$query = "SELECT * FROM FUND_WELFARE_SECTOR_SELECT WHERE FUND_WELFARE_ID = $id ORDER BY ID ASC";
 				$data["csectors"] = $this->ado->GetArray($query);
-
+				
+				// งบประมาณที่ขอรับการสนับสนุน
+				$query = "SELECT * FROM FUND_WELFARE_BUDGET_OTHER WHERE FUND_WELFARE_ID = $id AND HAS_BUDGET_OTHER_1 = 1 ORDER BY ID ASC";
+				$data["other1"] = $this->ado->GetArray($query);
+				
+				$query = "SELECT * FROM FUND_WELFARE_BUDGET_OTHER WHERE FUND_WELFARE_ID = $id AND HAS_BUDGET_OTHER_2 = 1 ORDER BY ID ASC";
+				$data["other2"] = $this->ado->GetArray($query);
+				
+				$query = "SELECT * FROM FUND_WELFARE_BUDGET_OTHER WHERE FUND_WELFARE_ID = $id AND HAS_BUDGET_OTHER_3 = 1 ORDER BY ID ASC";
+				$data["other3"] = $this->ado->GetArray($query);
+				
+				$query = "SELECT * FROM FUND_WELFARE_BUDGET_OTHER WHERE FUND_WELFARE_ID = $id AND ORGANIZATION_BUDGET_TITLE IS NOT NULL";
+				$data["other4"] = $this->ado->GetArray($query);
+				
+				dbConvert($data['other1']);
+				dbConvert($data['other2']);
+				dbConvert($data['other3']);
+				dbConvert($data['other4']);
 				dbConvert($data['value']);
 				dbConvert($data['csectors']);
 
@@ -765,57 +782,45 @@ class Claimfund extends Public_Controller
 				$welfare["budget_request"] = cleanformat($_POST["budget_request"]) ? $_POST["budget_request"] : 0;
 				$welfare["budget_total"] += $welfare["budget_request"];
 				
+				
 				//	งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> หน่วยงานรัฐ
-				if(@$_POST["has_budget_other_1"]==1) {
-					$welfare["has_budget_other_1"] = 1;
-					$welfare["budget_other_1"] = cleanformat($_POST["budget_other_1"]) ? $_POST["budget_other_1"] : 0;
-					$welfare["budget_total"] += $welfare["budget_other_1"];
+				if(@$_POST['budget_other_1_title']){
+					foreach ($_POST['budget_other_1_title'] as $key => $bother1) {
+						@$welfare["budget_total"] += cleanformat($_POST["budget_other_1"][$key]) ? $_POST["budget_other_1"][$key] : 0;
+					}
 				}
 				
 				//	งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> หน่วยงานภาคเอกชน
-				if(@$_POST["has_budget_other_2"]==1) {
-					$welfare["has_budget_other_2"] = 1;
-					$welfare["budget_other_2"] = cleanformat($_POST["budget_other_2"]) ? $_POST["budget_other_2"] : 0;
-					$welfare["budget_total"] += $welfare["budget_other_2"];
+				if(@$_POST['budget_other_2_title']){
+					foreach ($_POST['budget_other_2_title'] as $key => $bother2) {
+						@$welfare["budget_total"] += cleanformat($_POST["budget_other_2"][$key]) ? $_POST["budget_other_2"][$key] : 0;
+					}
 				}
 				
 				//	งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> ท้องถิ่น
-				if(@$_POST["has_budget_other_3"]==1) {
-					$welfare["has_budget_other_3"] = 1;
-					
-					//	องค์การบริหารส่วนจังหวัด
-					if(@$_POST["has_budget_other_3_1"]==1) {
-						$welfare["has_budget_other_3_1"] = 1;
-						$welfare["budget_other_3_1"] = cleanformat($_POST["budget_other_3_1"]) ? $_POST["budget_other_3_1"] : 0;
-						$welfare["budget_total"] += $welfare["budget_other_3_1"];
+				if(@$_POST['budget_other_3_title']){
+					foreach ($_POST['budget_other_3_title'] as $key => $bother3) {
+						@$welfare["budget_total"] += cleanformat($_POST["budget_other_3_1"][$key]) ? $_POST["budget_other_3_1"][$key] : 0;
+						@$welfare["budget_total"] += cleanformat($_POST["budget_other_3_2"][$key]) ? $_POST["budget_other_3_2"][$key] : 0;
+						@$welfare["budget_total"] += cleanformat($_POST["budget_other_3_3"][$key]) ? $_POST["budget_other_3_3"][$key] : 0;
+						@$welfare["budget_total"] += cleanformat($_POST["budget_other_3_4"][$key]) ? $_POST["budget_other_3_4"][$key] : 0;
 					}
-					
-					//	องค์การบริหารส่วนตำบล
-					if(@$_POST["has_budget_other_3_2"]==1) {
-						$welfare["has_budget_other_3_2"] = 1;
-						$welfare["budget_other_3_2"] = cleanformat($_POST["budget_other_3_2"]) ? $_POST["budget_other_3_2"] : 0;
-						$welfare["budget_total"] += $welfare["budget_other_3_2"];
-					}
-					
-					//	องค์กรปกครองส่วนท้องถิ่น
-					if(@$_POST["has_budget_other_3_3"]==1) {
-						$welfare["has_budget_other_3_3"] = 1;
-						$welfare["budget_other_3_3"] = cleanformat($_POST["budget_other_3_3"]) ? $_POST["budget_other_3_3"] : 0;
-						$welfare["budget_total"] += $welfare["budget_other_3_3"];
-					}
-					
-					//	องค์การบริหารส่วนจังหวัด
-					if(@$_POST["has_budget_other_3_4"]==1) {
-						$welfare["has_budget_other_3_4"] = 1;
-						$welfare["budget_other_3_4"] = cleanformat($_POST["budget_other_3_4"]) ? $_POST["budget_other_3_4"] : 0;
-						$welfare["budget_total"] += $welfare["budget_other_3_4"];
+				}
+				
+				
+				// งบประมาณที่องค์กรสมทบเอง
+				// $this->ado->debug = true;
+				if(@$_POST['organization_budget_title']){
+					foreach ($_POST['organization_budget_title'] as $key => $bother4) {
+						@$welfare["budget_total"] += cleanformat($_POST["organization_budget"][$key]) ? $_POST["organization_budget"][$key] : 0;
 					}
 				}
 					
-				$welfare["organization_budget"] = cleanformat($_POST["organization_budget"]) ? $_POST["organization_budget"] : 0;
-				$welfare["budget_total"] += $welfare["organization_budget"];
 			
 				//	งบประมาณโครงการและแหล่งสนับสนุน(เฉพาะปีปัจจุบัน) --------------------------------------------------------------------------------------------------
+				// echo '$_POST["budget_total"] = '.$_POST["budget_total"]."<br>";
+				// echo '$welfare["budget_total"] = '.$welfare["budget_total"]."<br>";
+				
 				if($_POST["budget_total"]==$welfare["budget_total"]) {
 						
 					//	ขนาดโครงการ
@@ -848,11 +853,11 @@ class Claimfund extends Public_Controller
 						$i++;
 					}
 
-					$this->ado->debug = true;
+
 					$welfare['id'] = $this->ado->GetOne("SELECT (NVL(MAX(ID),0)+1) FROM FUND_WELFARE");
 					array_walk($welfare,'dbConvert','TIS-620');
 					if($id) {
-						$this->ado->AutoExecute('FUND_WELFARE',$welfare, "UPDATE");
+						$this->ado->AutoExecute('FUND_WELFARE',$welfare,'UPDATE','ID = '.$id);
 					} else {
 						$this->ado->AutoExecute('FUND_WELFARE',$welfare,'INSERT');
 					}
@@ -950,6 +955,88 @@ class Claimfund extends Public_Controller
 						$this->ado->AutoExecute('FUND_WELFARE_SECTOR_SELECT',$data,'INSERT');
 					}
 					//	สาขาของโครงการที่ขอรับสนับสนุน --------------------------------------------------------------------------------------------------
+					
+					
+					
+					//	งบประมาณโครงการและแหล่งสนับสนุน(เฉพาะปีปัจจุบัน) ทำใหม่แบบเพิ่มรายการได้ --------------------------------------------------------------------------------------------------
+					// ลบของเก่าออกทั้งหมด
+					// $this->ado->Execute('DELETE FROM FUND_WELFARE_BUDGET_OTHER WHERE FUND_WELFARE_ID = '.$id);
+					
+					//	งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> หน่วยงานรัฐ
+					if(@$_POST['budget_other_1_title']){
+						foreach ($_POST['budget_other_1_title'] as $key => $bother1) {
+							$max_id = $this->ado->GetOne("SELECT (NVL(MAX(ID),0)+1) FROM FUND_WELFARE_BUDGET_OTHER");
+							if($bother1 != ""){
+								$data = array(
+									"id" => $max_id,
+									"fund_welfare_id"	=> $id,
+									"has_budget_other_1"	=> $_POST['has_budget_other_1'],
+									"budget_other_1"	=> $_POST['budget_other_1'][$key],
+									"budget_other_1_title" => $bother1
+								);
+								array_walk($data, 'dbConvert','TIS-620');
+								$this->ado->AutoExecute('FUND_WELFARE_BUDGET_OTHER',$data,'INSERT');
+							}
+						}
+					}
+					
+					//	งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> หน่วยงานภาคเอกชน
+					if(@$_POST['budget_other_2_title']){
+						foreach ($_POST['budget_other_2_title'] as $key => $bother1) {
+							$max_id = $this->ado->GetOne("SELECT (NVL(MAX(ID),0)+1) FROM FUND_WELFARE_BUDGET_OTHER");
+							if($bother1 != ""){
+								$data = array(
+									"id" => $max_id,
+									"fund_welfare_id"	=> $id,
+									"has_budget_other_2"	=> $_POST['has_budget_other_2'],
+									"budget_other_2"	=> $_POST['budget_other_2'][$key],
+									"budget_other_2_title" => $bother1
+								);
+								array_walk($data, 'dbConvert','TIS-620');
+								$this->ado->AutoExecute('FUND_WELFARE_BUDGET_OTHER',$data,'INSERT');
+							}
+						}
+					}
+					
+					//	งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> ท้องถิ่น
+					if(@$_POST['budget_other_3_title']){
+						foreach ($_POST['budget_other_3_title'] as $key => $bother3) {
+							$max_id = $this->ado->GetOne("SELECT (NVL(MAX(ID),0)+1) FROM FUND_WELFARE_BUDGET_OTHER");
+							if($bother3 != ""){
+								$data = array(
+									"id" => $max_id,
+									"fund_welfare_id"	=> $id,
+									"has_budget_other_3"	=> $_POST['has_budget_other_3'],
+									"budget_other_3_1"	=> $_POST['budget_other_3_1'][$key],
+									"budget_other_3_2"	=> $_POST['budget_other_3_2'][$key],
+									"budget_other_3_3"	=> $_POST['budget_other_3_3'][$key],
+									"budget_other_3_4"	=> $_POST['budget_other_3_4'][$key],
+									"budget_other_3_title" => $bother3
+								);
+								array_walk($data, 'dbConvert','TIS-620');
+								$this->ado->AutoExecute('FUND_WELFARE_BUDGET_OTHER',$data,'INSERT');
+							}
+						}
+					}
+					
+					// งบประมาณที่องค์กรสมทบเอง
+					// $this->ado->debug = true;
+					if(@$_POST['organization_budget_title']){
+						foreach ($_POST['organization_budget_title'] as $key => $bother4) {
+							$max_id = $this->ado->GetOne("SELECT (NVL(MAX(ID),0)+1) FROM FUND_WELFARE_BUDGET_OTHER");
+							if($bother4 != ""){
+								$data = array(
+									"id" => $max_id,
+									"fund_welfare_id"	=> $id,
+									"organization_budget"	=> $_POST['organization_budget'][$key],
+									"organization_budget_title" => $bother4
+								);
+								array_walk($data, 'dbConvert','TIS-620');
+								$this->ado->AutoExecute('FUND_WELFARE_BUDGET_OTHER',$data,'INSERT');
+							}
+						}
+					}
+					
 					
 					set_notify('success', 'ยื่นแบบฟอร์มการขอรับเงินสนับสนุนโครงการกองทุนส่งเสริมการจัดสวัสดิการสังคมสำเร็จ');
 				} else {

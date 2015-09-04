@@ -414,7 +414,7 @@
 						$comment = $rs['project_target_set_comment'][$item['id']];
 					}
 					
-					if($item['is_comment'] != 1) {
+					if(@$item['is_comment'] != 1) {
 						echo '<span style="margin-right:25px;">
 							<input type="checkbox" name="project_target_set_id[]" value="'.$item['id'].'" '.$checked.'> 
 							'.$item['title'].' 

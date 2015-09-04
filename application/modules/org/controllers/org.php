@@ -555,6 +555,7 @@ class Org extends Public_Controller
 		$this->load->library('adodb');
 		// $this->ado->debug = true;
 		$rs = $this->ado->GetRow("SELECT * FROM ACT_USER WHERE USERNAME='".$_POST['username']."' AND PASSWORD = '".md5($_POST['password'])."' AND STATUS = '".$_POST['status']."'");
+		// $rs = $this->ado->GetRow("SELECT * FROM ACT_USER WHERE USERNAME='".$_POST['username']."' AND PASSWORD = '".$_POST['password']."' AND STATUS = '".$_POST['status']."'");
 		dbConvert($rs);
 		if(@$rs['id'] != "")
 		{

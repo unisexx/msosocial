@@ -94,75 +94,69 @@
               <div style="padding-left: 50px;">
                   งบประมาณที่ได้รับสมทบจากแหล่งอื่น
 
-                  <div style="padding-left: 20px;">
-                      <div style="display: inline-block; width: 240px;">
-                          หน่วยงานรัฐ
-                      </div>
-                      <?php echo number_format($value['budget_other_1'],0);?> บาท
-                  </div>
-
-                  <?php if($value['has_budget_other_2']==1):?>
-                  <div style="padding-left: 20px;">
-                      <div style="display: inline-block; width: 240px;">
-                          หน่วยงานภาคเอกชน
-                      </div>
-                      <?php echo number_format($value['budget_other_2'],0);?> บาท
-                  </div>
-                  <?php endif?>
-
-                  <?php if($value['has_budget_other_3_1']==1 || $value['has_budget_other_3_2']==1 || $value['has_budget_other_3_3']==1 || $value['has_budget_other_3_4']==1):?>
-                  <div style="padding-left: 20px;">
-                      ท้องถิ่น
-
-                      <div id="div_has_budget_other_3" style="padding-left: 40px;<?php if(@$value['has_budget_other_3']!=1) echo 'display: none;'?>" >
-
-                          <?php if($value['has_budget_other_3_1']==1):?>
-                          <div>
-                              <div style="display: inline-block; width: 200px;">
-                                  องค์การบริหารส่วนจังหวัด
-                              </div>
-                              <?php echo number_format($value['budget_other_3_1'],0);?> บาท
-                          </div>
-                          <?php endif?>
-
-                          <?php if($value['has_budget_other_3_2']==1):?>
-                          <div>
-                              <div style="display: inline-block; width: 200px;">
-                                  องค์การบริหารส่วนตำบล
-                              </div>
-                              <?php echo number_format($value['budget_other_3_2'],0);?> บาท
-                          </div>
-                          <?php endif?>
-
-                          <?php if($value['has_budget_other_3_3']==1):?>
-                          <div>
-                              <div style="display: inline-block; width: 200px;">
-                                  องค์กรปกครองส่วนท้องถิ่น
-                              </div>
-                              <?php echo number_format($value['budget_other_3_3'],0);?> บาท
-                          </div>
-                          <?php endif?>
-
-                          <?php if($value['has_budget_other_3_4']==1):?>
-                          <div>
-                              <div style="display: inline-block; width: 200px;">
-                                  เทศบาล
-                              </div>
-                              <?php echo number_format($value['budget_other_3_4'],0);?> บาท
-                          </div>
-                          <?php endif?>
-
-                      </div>
-                  </div>
+                  <style>
+						body .tbother td{width:0px!important;}
+					</style>
+					<table class="tbother table table-bordered">
+						<?if(@$other1[0]["has_budget_other_1"]==1):?>
+						<tr>
+							<td style="width:240px!important;">หน่วยงานรัฐ</td>
+							<td style="width:71%!important;">
+								<?foreach($other1 as $key => $row):?>
+									<?=$row['budget_other_1_title']?> : <?=@number_format($row['budget_other_1'])?> บาท<br>
+								<?endforeach;?>
+							</td>
+						</tr>
+						<?endif;?>
+						
+						<?if(@$other2[0]["has_budget_other_2"]==1):?>
+						<tr>
+							<td>หน่วยงานภาคเอกชน</td>
+							<td>
+								<?foreach($other2 as $key => $row):?>
+									<?=$row['budget_other_2_title']?> : <?=@number_format($row['budget_other_2'])?> บาท<br>
+								<?endforeach;?>
+							</td>
+						</tr>
+						<?endif;?>
+						
+						<?if(@$other3[0]["has_budget_other_3"]==1):?>
+						<tr>
+							<td>ท้องถิ่น</td>
+							<td>
+								<?foreach($other3 as $key => $row):?>
+									<?=$row['budget_other_3_title']?><br>
+									- องค์การบริหารส่วนจังหวัด : <?=@number_format($row['budget_other_3_1'])?> บาท<br>
+									- องค์การบริหารส่วนตำบล : <?=@number_format($row['budget_other_3_2'])?> บาท<br>
+									- องค์กรปกครองส่วนท้องถิ่น : <?=@number_format($row['budget_other_3_3'])?> บาท<br>
+									- เทศบาล : <?=@number_format($row['budget_other_3_4'])?> บาท<br>
+								<?endforeach;?>
+							</td>
+						</tr>
+						<?endif;?>
+						
+						
+						<tr>
+							<td>งบประมาณที่องค์กรสมทบเอง </td>
+							<td>
+								<?foreach($other4 as $key => $row):?>
+									<?=$row['organization_budget_title']?> : <?=@number_format($row['organization_budget'])?> บาท<br>
+								<?endforeach;?>
+							</td>
+						</tr>
+						
+					</table>
+					
+					
+                  
               </div>
-              <?php endif?>
 
-              <div>
+              <!-- <div>
                   <div style="display: inline-block; width: 310px;">
                       งบประมาณที่องค์กรสมทบเอง
                   </div>
                   <?php echo number_format($value['organization_budget'],0);?> บาท
-              </div>
+              </div> -->
 
           </td>
         </tr>

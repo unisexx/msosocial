@@ -6,11 +6,11 @@
 
 <h4 style="margin-top:0; color:#393;" class="form-inline ">
   แบบฟอร์มการขอรับเงินสนับสนุนโครงการ 
-  <?php //  echo form_dropdown(false, array(1 => 'กองทุนเด็กฯ', 2 => 'กองทุนส่งเสริมฯ', 3 => 'กองทุนป้องกันค้ามนุษย์ฯ'), $_GET['type'], 'class="form-control" onchange = "memberForm($(this).val());"'); ?>
+  <?php echo form_dropdown(false, array(1 => 'กองทุนเด็กฯ', 2 => 'กองทุนส่งเสริมฯ', 3 => 'กองทุนป้องกันค้ามนุษย์ฯ'), $_GET['type'], 'class="form-control" onchange = "memberForm($(this).val());"'); ?>
 </h4>
 
 
-<form action="org/claimfund/saveSupport/<?php echo @$value['id'];?>" method='post' enctype="multipart/form-data" >
+<form action="org/claimfund/saveSupport" method='post' enctype="multipart/form-data" >
 <div class="dvSupport">
     <table class="tblForm">
         <tr>
@@ -154,21 +154,21 @@
               <div style="padding-left: 50px;">
                   งบประมาณที่ได้รับสมทบจากแหล่งอื่น
 
-                  <!-- <div style="padding-left: 20px;">
+                  <div style="padding-left: 20px;">
                       <div style="display: inline-block; width: 240px;">
                           <input type="checkbox" id="budget_other_1" class="budget_other" name="has_budget_other_1" data-target="1" value="1" <?php if(@$value['has_budget_other_1']==1) echo 'checked'?> /> หน่วยงานรัฐ
                       </div>
                       <input type="number" class="calculate-budget form-control" name="budget_other_1" value="<?php echo @$value['budget_other_1'];?>" style="display: inline; width: 250px;" <?php if(@$value['has_budget_other_1']!=1) echo 'disabled'?>  > บาท
-                  </div> -->
+                  </div>
 
-                  <!-- <div style="padding-left: 20px;">
+                  <div style="padding-left: 20px;">
                       <div style="display: inline-block; width: 240px;">
                           <input type="checkbox" id="budget_other_2" class="budget_other" name="has_budget_other_2" data-target="2" value="1" <?php if(@$value['has_budget_other_2']==1) echo 'checked'?> /> หน่วยงานภาคเอกชน
                       </div>
                       <input type="number" class="calculate-budget form-control" name="budget_other_2" value="<?php echo @$value['budget_other_2'];?>" style="display: inline; width: 250px;" <?php if(@$value['has_budget_other_2']!=1) echo 'disabled'?>  > บาท
-                  </div> -->
+                  </div>
 
-                  <!-- <div style="padding-left: 20px;">
+                  <div style="padding-left: 20px;">
                       <input type="checkbox" id="has_budget_other_3" name="has_budget_other_3" value="1" <?php if(@$value['has_budget_other_3']==1) echo 'checked'?> /> ท้องถิ่น
 
                       <div id="div_has_budget_other_3" style="padding-left: 40px;<?php if(@$value['has_budget_other_3']!=1) echo 'display: none;'?>" >
@@ -201,259 +201,15 @@
                           </div>
                       </div>
                   </div>
-              </div> -->
+              </div>
 
-              <!-- <div>
+              <div>
                   <div style="display: inline-block; width: 310px;">
                       งบประมาณที่องค์กรสมทบเอง
                   </div>
-                  <input type="number" class="calculate-budget form-control" name="organization_budget" value="<?php echo @$value['organization_budget'];?>" style="display: inline; width: 250px;" > บาท
-              </div> -->
+                  <input type="text" class="calculate-budget form-control" name="organization_budget" value="<?php echo @$value['organization_budget'];?>" style="display: inline; width: 250px;" > บาท
+              </div>
 
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <br><br>
-          <table class="table table-bordered">
-					<tr class="other1">
-						<td class="span3">
-							<input type="checkbox" id="budget_other_1" class="budget_other" name="has_budget_other_1" data-target="1" value="1" <?if(@$other1[0]['has_budget_other_1']==1) echo "checked" ?>/> หน่วยงานรัฐ
-						</td>
-						<td class="span7">
-							<?if(@is_array($other1)):?>
-							<?foreach($other1 as $row):?>
-							<div>
-							<input 
-								type="text" 		
-								class='budget_other_1 form-control input-sm'	
-								name="budget_other_1_title[]"  
-								value="<?php echo $row["budget_other_1_title"]?>"  
-								<?if(@!is_array($other1)) echo "disabled"?> 
-								style="width:200px;display:inline;" placeholder="ระบุชื่อหน่วยงาน"
-							/> 
-							<input 
-								type="number"
-								class="calculate-budget budget_value budget_other_1 form-control input-sm" 
-								name="budget_other_1[]" 
-								value="<?php echo $row["budget_other_1"]?>" 
-								<?if(@!is_array($other1)) echo "disabled"?> 
-								style="width:100px;display:inline;"
-							/> บาท
-							</div>
-							<?endforeach;?>
-							<?endif;?>
-							<div> 
-								<input type="text" class='budget_other_1 form-control input-sm' name="budget_other_1_title[]" value="" <?php if(@$other1[0]['has_budget_other_1']!=1) echo "disabled"?> style="width:200px;display:inline;" placeholder="ระบุชื่อหน่วยงาน"/>
-								<input type="number" class="calculate-budget budget_value budget_other_1 form-control input-sm" name="budget_other_1[]" value="" <?php if(@$other1[0]['has_budget_other_1']!=1) echo "disabled"?> style="width:100px;display:inline;"/> บาท
-							</div>
-							<span class="replace_blk"></span>
-						</td>
-						<td class="span1">
-							<img class="add_budget_other_1" src="themes/msosocial/images/btn_add.png" style="cursor: pointer;">
-						</td>
-					</tr>
-					
-					
-					
-					
-					<tr class="other2">
-						<td class="span3">
-							<input type="checkbox" id="budget_other_2" class="budget_other" name="has_budget_other_2" data-target="2" value="1" <?if(@$other2[0]['has_budget_other_2']==1) echo "checked" ?>/> หน่วยงานภาคเอกชน
-						</td>
-						<td class="span7">
-							<?if(@is_array($other2)):?>
-							<?foreach($other2 as $row):?>
-							<div>
-								<input type="text" class='budget_other_2 form-control input-sm' name="budget_other_2_title[]" value="<?php echo $row["budget_other_2_title"]?>" <?if(@!is_array($other2)) echo "disabled"?> style="width:200px;display:inline;" placeholder="ระบุชื่อหน่วยงาน" /> 
-								<input type="number" class="calculate-budget budget_value budget_other_2 form-control input-sm" name="budget_other_2[]" value="<?php echo $row["budget_other_2"]?>" <?if(@!is_array($other2)) echo "disabled"?> style="width:100px;display:inline;" /> บาท
-							</div>
-							<?endforeach;?>
-							<?endif;?>
-							<div> 
-								<input type="text" class='budget_other_2 form-control input-sm' name="budget_other_2_title[]" value="" <?php if(@$other2[0]['has_budget_other_2']!=1) echo "disabled"?> style="width:200px;display:inline;" placeholder="ระบุชื่อหน่วยงาน" />
-								<input type="number" class="calculate-budget budget_value budget_other_2 form-control input-sm" name="budget_other_2[]" value="" <?php if(@$other2[0]['has_budget_other_2']!=1) echo "disabled"?> style="width:100px;display:inline;"/> บาท
-							</div>
-							<span class="replace_blk2"></span>
-						</td>
-						<td class="span1">
-							<img class="add_budget_other_2" src="themes/msosocial/images/btn_add.png" style="cursor: pointer;">
-						</td>
-					</tr>
-					
-					
-					
-					
-					
-					<tr class="other3">
-							<td class="span3">
-								<input type="checkbox" id="budget_other_3" class="budget_other" name="has_budget_other_3" data-target="3" value="1" <?if(@$other3[0]['has_budget_other_3']==1) echo "checked" ?>/> ท้องถิ่น
-							</td>
-							<td class="span7">
-								<?if(@is_array($other3)):?>
-								<?foreach($other3 as $row):?>
-								<div class="div_has_budget_other_3">
-									<div>ระบุชื่อหน่วยงาน 
-										<input type="text" class='budget_other_3 form-control input-sm' name="budget_other_3_title[]" value="<?=$row['budget_other_3_title']?>" <?php if(@$other3[0]['has_budget_other_3']!=1) echo "disabled"?> style="width:200px;display:inline;"/>
-									</div>
-									
-									<div>
-										<div style="display: inline-block; width: 200px;" > 
-											องค์การบริหารส่วนจังหวัด
-										</div>
-										<input type="number" class="has_budget_other_3 calculate-budget budget_value form-control input-sm" name="budget_other_3_1[]" value="<?php echo $row["budget_other_3_1"]?>" <?php if(@$other3[0]['has_budget_other_3']!=1) echo "disabled"?> style="width:100px;display:inline;"/> บาท
-									</div>
-									
-									<div>
-										<div style="display: inline-block; width: 200px;" >
-											องค์การบริหารส่วนตำบล
-										</div>
-										<input type="number" class="has_budget_other_3 calculate-budget budget_value form-control input-sm" name="budget_other_3_2[]" value="<?php echo $row["budget_other_3_2"]?>" <?php if(@$other3[0]['has_budget_other_3']!=1) echo "disabled"?> style="width:100px;display:inline;"/> บาท
-									</div>
-									
-									<div>
-										<div style="display: inline-block; width: 200px;" >
-											องค์กรปกครองส่วนท้องถิ่น
-										</div>
-										<input type="number" class="has_budget_other_3 calculate-budget budget_value form-control input-sm" name="budget_other_3_3[]" value="<?php echo $row["budget_other_3_3"]?>" <?php if(@$other3[0]['has_budget_other_3']!=1) echo "disabled"?> style="width:100px;display:inline;"/> บาท
-									</div>
-									
-									<div>
-										<div style="display: inline-block; width: 200px;" >
-											เทศบาล
-										</div>
-										<input type="number" class="has_budget_other_3 calculate-budget budget_value form-control input-sm" name="budget_other_3_4[]" value="<?php echo $row["budget_other_3_4"]?>" <?php if(@$other3[0]['has_budget_other_3']!=1) echo "disabled"?> style="width:100px;display:inline;"/> บาท
-									</div>
-								</div>
-								<?endforeach;?>
-								<?endif;?>
-								<div class="div_has_budget_other_3">
-									<div>ระบุชื่อหน่วยงาน 
-										<input type="text" class='budget_other_3  form-control input-sm' name="budget_other_3_title[]" value="" <?php if(@$other3[0]['has_budget_other_3']!=1) echo "disabled"?> style="width:200px;display:inline;"/>
-									</div>
-									
-									<div>
-										<div style="display: inline-block; width: 200px;" > 
-											องค์การบริหารส่วนจังหวัด
-										</div>
-										<input type="number" class="has_budget_other_3 calculate-budget budget_value  form-control input-sm" name="budget_other_3_1[]" value="" <?php if(@$other3[0]['has_budget_other_3']!=1) echo "disabled"?> style="width:100px;display:inline;"/> บาท
-									</div>
-									
-									<div>
-										<div style="display: inline-block; width: 200px;" >
-											องค์การบริหารส่วนตำบล
-										</div>
-										<input type="number" class="has_budget_other_3 calculate-budget budget_value  form-control input-sm" name="budget_other_3_2[]" value="" <?php if(@$other3[0]['has_budget_other_3']!=1) echo "disabled"?> style="width:100px;display:inline;"/> บาท
-									</div>
-									
-									<div>
-										<div style="display: inline-block; width: 200px;" >
-											องค์กรปกครองส่วนท้องถิ่น
-										</div>
-										<input type="number" class="has_budget_other_3 calculate-budget budget_value  form-control input-sm" name="budget_other_3_3[]" value="" <?php if(@$other3[0]['has_budget_other_3']!=1) echo "disabled"?> style="width:100px;display:inline;"/> บาท
-									</div>
-									
-									<div>
-										<div style="display: inline-block; width: 200px;" >
-											เทศบาล
-										</div>
-										<input type="number" class="has_budget_other_3 calculate-budget budget_value  form-control input-sm" name="budget_other_3_4[]" value="" <?php if(@$other3[0]['has_budget_other_3']!=1) echo "disabled"?> style="width:100px;display:inline;"/> บาท
-									</div>
-								</div>
-								<span class="replace_blk3"></span>
-							</td>
-							<td class="span1">
-								<img class="add_budget_other_3" src="themes/msosocial/images/btn_add.png" style="cursor: pointer;">
-							</td>
-						</tr>
-				</table>
-				
-				
-				
-				
-				<table class="table table-bordered">
-					<tr class="other4">
-						<td class="span3">งบประมาณที่องค์กรสมทบเอง</td>
-						<td class="span6">
-							<?if(@is_array($other4)):?>
-							<?foreach($other4 as $row):?>
-							<div>
-							<input 
-								class="form-control input-sm" 
-								type="text" 	
-								name="organization_budget_title[]"  
-								value="<?php echo $row["organization_budget_title"]?>"  
-								placeholder="ระบุชื่อหน่วยงาน" style="width:200px;display:inline;"
-							/> 
-							<input 
-								type="number"
-								class="calculate-budget budget_value form-control input-sm" 
-								name="organization_budget[]" 
-								value="<?php echo $row["organization_budget"]?>" 
-								style="width:100px;display:inline;"
-							/> บาท
-							</div>
-							<?endforeach;?>
-							<?endif;?>
-							<div>
-							<input type="text" class="form-control input-sm" name="organization_budget_title[]" value="" placeholder="ระบุชื่อหน่วยงาน" style="width:200px;display:inline;"/> 
-							<input type="text" class="calculate-budget budget_value form-control input-sm" name="organization_budget[]" value="" style="width:100px;display:inline;"/> บาท
-							</div>
-							<span class="replace_blk4"></span>
-						</td>
-						<td class="span1">
-							<img class="add_budget_other_4" src="themes/msosocial/images/btn_add.png" style="cursor: pointer;">
-						</td>
-					</tr>
-				</table>
-				<script type="text/javascript">
-					$(document).ready(function(){
-						$('.add_budget_other_1').click(function(){
-							var budget_other_1_blk = "";
-							budget_other_1_blk = $(this).closest('tr.other1').find('td.span7 > div:last').clone().find("input:text,input[type=number]").val("").end().appendTo( ".replace_blk" );
-						});
-						
-						$('.add_budget_other_2').click(function(){
-							var budget_other_2_blk = "";
-							budget_other_2_blk = $(this).closest('tr.other2').find('td.span7 > div:last').clone().find("input:text,input[type=number]").val("").end().appendTo( ".replace_blk2" );
-						});
-// 								
-						$('.add_budget_other_3').click(function(){
-							var budget_other_3_blk = "";
-							budget_other_3_blk = $(this).closest('tr.other3').find('td.span7 > .div_has_budget_other_3:last').clone().find("input:text,input[type=number]").val("").end().appendTo( ".replace_blk3" );
-						});
-						
-						$('.add_budget_other_4').click(function(){
-							var budget_other_4_blk = "";
-							budget_other_4_blk = $(this).closest('tr.other4').find('td.span6 > div:last').clone().find("input:text,input[type=number]").val("").end().appendTo( ".replace_blk4" );
-						});
-					});
-				</script>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
           </td>
         </tr>
         <tr style="display: none;" >
@@ -481,21 +237,8 @@
     -webkit-appearance: none; 
     margin: 0;
   }
-  #project_target span {
-    margin: 2px 0;
-  }
 </style>
 <script type="text/javascript">
-
-  var ajaxLoader = "<img src='images/ajax-loader.gif' />";
-
-  function getTarget() {
-    <?php if(@$value['id']):?>
-      $.get("org/claimfund/getTarget/<?php echo $value['project_system']?>/<?php echo $value['id']?>", function(data) {
-        $("#project_target").html(data);
-      });
-    <?php endif?>
-  }
 
   function getOtherTarget() {
     var c = $("input[name=project_target_other]");
@@ -531,7 +274,6 @@
   }
 
   $(document).ready(function(){
-    getTarget();
 
     //  คลิกเลือก ระบบการขอรับเงินสนับสนุน 1= ระบบปกติ,2 = ระบบกระจาย
     $("input[name=project_system]").click(function() {
@@ -570,10 +312,9 @@
     });
 
     //  งบประมาณทั้งโครงการ
-    //  งบประมาณทั้งโครงการ
-    $(".calculate-budget").live('keyup',function() {
-		calculateTotal();
-	})
+    $(".calculate-budget").keyup(function() {
+        calculateTotal();
+    })
 
     //  คลิกกลุ่มเป้าหมายสำหรับกรอกจำนวน
     $("input.project_target[data-target]").live("click", function() {
@@ -589,24 +330,6 @@
       
       formValidate();
     });
-    
-    //  คลิกกลุ่มเป้าหมายสำหรับกรอกจำนวน 2
-    $(".budget_other").click(function() {
-		var c = $(this);
-		var target = $(this).attr("data-target");
-		//var input = $("input[name=budget_other_"+target+"]");
-		var input = $('input.budget_other_'+target);
-		
-		if(c.is(":checked")) {
-			input.attr("disabled",false);
-		} else {
-			input.val("");
-			input.attr("disabled",true);
-		}
-		
-		calculateTotal();
-		formValidate();
-	});
     
     //  คลิกกลุ่มเป้าหมายอื่นๆ (กรณีระบบปกติ)
     $("input[name=project_target_other]").live("click", function() {
@@ -637,42 +360,37 @@
         formValidate();
     })
 
-    //	งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> ท้องถิ่น
-	$("input[name=has_budget_other_3]").click(function() {
-		var c = $(this);
-		
-		if(c.is(":checked")) {
-			$('.budget_other_3,input.has_budget_other_3[type=number]').attr('disabled', false).val("");
-			// $("#div_has_budget_other_3").show();
-		} else {
-			$('.budget_other_3,input.has_budget_other_3[type=number]').attr('disabled', true);
-			// $("#div_has_budget_other_3").hide();
-			$("input.has_budget_other_3[type=checkbox]").attr("checked",false);
-			$("input.has_budget_other_3[type=number]").attr("disabled",true);
-		}
-		
-		calculateTotal();
-		formValidate();
-	});
-	
-	//	งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> ท้องถิ่น -> องค์กร...
-	$("input.has_budget_other_3[type=checkbox]").live('click',function() {
-		var c = $(this);
-		var target = c.attr("data-target");
-		var t = $("input.has_budget_other_3[name=budget_other_3_"+target+"]");
-		
-		if(c.is(":checked")) {
-			// t.attr("disabled",false);
-			c.parent().next('input.has_budget_other_3').attr("disabled",false);
-		} else {
-			t.val("");
-			// t.attr("disabled",true);
-			c.parent().next('input.has_budget_other_3').attr("disabled",true);
-		}
-		
-		calculateTotal();
-		formValidate();
-	});
+    //  งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> ท้องถิ่น
+    $("input[name=has_budget_other_3]").click(function() {
+        var c = $(this);
+
+        if (c.is(":checked")) {
+            $("#div_has_budget_other_3").show();
+        } else {
+            $("#div_has_budget_other_3").hide();
+            $("input.has_budget_other_3[type=checkbox]").attr("checked", false);
+            $("input.has_budget_other_3[type=number]").attr("disabled", true);
+        }
+
+        calculateTotal();
+        formValidate();
+    });
+
+    //  งบประมาณที่ได้รับสมทบจากแหล่งอื่น -> ท้องถิ่น -> องค์กร...
+    $("input.has_budget_other_3[type=checkbox]").click(function() {
+        var c = $(this);
+        var target = c.attr("data-target");
+        var t = $("input.has_budget_other_3[name=budget_other_3_" + target + "]");
+
+        if (c.is(":checked")) {
+            t.attr("disabled", false);
+        } else {
+            t.attr("disabled", true);
+        }
+
+        calculateTotal();
+        formValidate();
+    });
 
   });
 </script>
