@@ -8,6 +8,12 @@
       <br>
       
       <span id="login">
+      	<?php if($this->session->userdata('id')==true):?>
+      		<style>
+      			#login{width:340px!important;}
+      		</style>
+			<a class="inline" href="org/member" style="color: #a21665;font-size: 11pt;padding-left: 3px;padding-right: 10px;">ข้อมูลองค์กร</a>
+		<?php endif;?>
         <img src="themes/msosocial/images/icon-key.png" width="14" height="14" />
         	<span id="userlogin">
         		<?php if($this->session->userdata('id')==true):?>
@@ -137,7 +143,12 @@ $(document).ready(function(){
 			'organ_name' : $('input[name=organ_name]').val()
 		},function(data){
 			if(data == 'success'){
-				window.location.href = 'org/reg_member';
+				$.post('org/ajax_register_success', {
+					'organ_name' : $('input[name=organ_name]').val()
+				}, function(data){
+					$('body').html(data);
+					// window.location.href = 'org/reg_member';
+				});
 			}else{
 				$('.check_fail').html(data);
 			}

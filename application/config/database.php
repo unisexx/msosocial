@@ -38,14 +38,20 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = 'mso';
 $active_record = TRUE;
 
 
-$db['default']['hostname'] = 'localhost';
+/*$db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = '1234';
-$db['default']['database'] = 'funlaw';
+$db['default']['password'] = '';
+$db['default']['database'] = 'fundv2';*/
+
+$db['default']['hostname'] = 'mysql1.favouritehosting.com';
+$db['default']['username'] = 'c1fundlaw';
+$db['default']['password'] = 'fl1234';
+$db['default']['database'] = 'c1fundlaw';
+
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
@@ -57,6 +63,38 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
+
+$db['mso']['hostname'] = 'localhost';
+$db['mso']['username'] = 'root';
+$db['mso']['password'] = 'S^69XY<Kzp';
+$db['mso']['database'] = 'fund02';
+$db['mso']['dbdriver'] = 'mysql';
+$db['mso']['dbprefix'] = '';
+$db['mso']['pconnect'] = TRUE;
+$db['mso']['db_debug'] = TRUE;
+$db['mso']['cache_on'] = FALSE;
+$db['mso']['cachedir'] = '';
+$db['mso']['char_set'] = 'utf8';
+$db['mso']['dbcollat'] = 'utf8_general_ci';
+$db['mso']['swap_pre'] = '';
+$db['mso']['autoinit'] = TRUE;
+$db['mso']['stricton'] = FALSE;
+
+$db['adodb']['hostname'] = '10.20.50.12';
+$db['adodb']['username'] = 'boffice';
+$db['adodb']['password'] = 'bo2557';
+$db['adodb']['database'] = 'BOFFICE';
+$db['adodb']['dbdriver'] = 'oci8po';
+$db['adodb']['dbprefix'] = '';
+$db['adodb']['pconnect'] = TRUE;
+$db['adodb']['db_debug'] = TRUE;
+$db['adodb']['cache_on'] = FALSE;
+$db['adodb']['cachedir'] = '';
+$db['adodb']['char_set'] = 'utf8';
+$db['adodb']['dbcollat'] = 'utf8_unicode_ci';
+$db['adodb']['swap_pre'] = '';
+$db['adodb']['autoinit'] = TRUE;
+$db['adodb']['stricton'] = FALSE;
 
 
 /* End of file database.php */

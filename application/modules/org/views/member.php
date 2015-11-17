@@ -1,4 +1,4 @@
-<div id="title-blank"> ยืนยันความเป็นองค์กร เพื่อสมัครสมาชิกออนไลน์</div><br>
+<div id="title-blank"> รายละเอียดข้อมูลองค์กร / ขอรับเงินสนับสนุน</div><br>
 <h2 style="margin-top:0; color:#CC075F"><?php echo @$rs['organ_name']?></h2>
 
 <div id="tabs">
@@ -963,7 +963,6 @@
     </tr>
     <?php endforeach;?>
     </table>
-    
   	
 
   </div>

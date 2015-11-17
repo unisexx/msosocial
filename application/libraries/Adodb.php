@@ -7,10 +7,9 @@ class Adodb {
 
 	function __construct(){
 		
-		// $config['hostname'] = '27.254.33.52';
-		$config['hostname'] = 'localhost';
-		$config['username'] = 'BOFFICE';
-		$config['password'] = '1234';
+		$config['hostname'] = '10.20.50.12';
+		$config['username'] = 'boffice';
+		$config['password'] = 'bo2557';
 		$config['database'] = 'BOFFICE';
 		$config['dbdriver'] = 'oci8po';
 		$config['dbprefix'] = '';
