@@ -123,6 +123,7 @@ body {
 		    <label class="col-sm-2 control-label">ที่ตั้งสำนักงานใหญ๋ <span class="vald">*</span></label>
 		
 			<div class="form-inline col-sm-8">
+			  <input name="location" value="<?php echo @$rs['location']?>" type="text" class="form-control" placeholder="สถานที่ตั้ง" style="width:600px;"> 
 		      <input name="home_no" value="<?php echo @$rs['home_no']?>" type="text" class="form-control numInt" placeholder="เลขที่" style="width:80px;" required> 
 		      <input name="moo" value="<?php echo @$rs['moo']?>" type="text" class="form-control numOnly" placeholder="หมู่ที่" style="width:80px;" required>
 		      <input name="soi" value="<?php echo @$rs['soi']?>" type="text" class="form-control" placeholder="ตรอก/ซอย" style="width:230px;" required>
@@ -294,11 +295,16 @@ body {
 		    <div class="form-group">
 		    <label class="col-sm-2 control-label">จำนวนอาสาสมัครในการปฎิบัติ <span class="vald">*</span></label>
 		    <div class="form-inline col-sm-10 section">
-		      <p>ปฎิบัติงานประจำ ::: วุฒิต่ำกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="volunteer_1" value="<?php echo @$rs['volunteer_1']?>" /> <span class="padR20">คน</span> 
+		      <p>
+		      วุฒิต่ำกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="volunteer_1" value="<?php echo @$rs['volunteer_1']?>" /> <span class="padR20">คน</span> 
 		      วุฒิปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="volunteer_2" value="<?php echo @$rs['volunteer_2']?>"/> <span class="padR20">คน</span> 
-		      วุฒิสูงกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="volunteer_3" value="<?php echo @$rs['volunteer_3']?>"/> <span class="padR20">คน</span> </p>
-		      <p>ปฎิบัติงานไม่ประจำ <input type="text" class="form-control input" style="width:60px;" name="volunteer_4" value="<?php echo @$rs['volunteer_4']?>"/> <span class="padR20">คน</span>
-		       รวมอาสาสมัคร <input type="text" class="form-control total" style="width:80px;" readonly="readonly" name="volunteer_total" value="<?php echo @$rs['volunteer_total']?>" /> คน</p>
+		      วุฒิสูงกว่าปริญญาตรี <input type="text" class="form-control input" style="width:60px;" name="volunteer_3" value="<?php echo @$rs['volunteer_3']?>"/> <span class="padR20">คน</span> 
+		      ปฎิบัติงานประจำ <input type="text" class="form-control input" style="width:60px;" name="volunteer_5" value="<?php echo @$rs['volunteer_5']?>"/> <span class="padR20">คน</span> 
+		      </p>
+		      <p>
+		      	ปฎิบัติงานไม่ประจำ <input type="text" class="form-control input" style="width:60px;" name="volunteer_4" value="<?php echo @$rs['volunteer_4']?>"/> <span class="padR20">คน</span>
+		       รวมอาสาสมัคร <input type="text" class="form-control total" style="width:80px;" readonly="readonly" name="volunteer_total" value="<?php echo @$rs['volunteer_total']?>" /> คน
+		       </p>
 		      </div>
 		  	</div>
 		
@@ -314,7 +320,7 @@ body {
 			    	<div> <!--๑)-->
 				    <input class="form-control" type="text" name="a_name[]" value="<?php echo @$row['name']?>" style="width:150px;" placeholder="ชื่อ" />
 				    <input class="form-control" type="text" name="a_surname[]" value="<?php echo @$row['surname']?>" style="width:250px;" placeholder="นามสกุล" />
-				    <input class="form-control" type="text" name="a_education[]" value="<?php echo @$row['surname']?>" style="width:350px;" placeholder="วุฒิ" />
+				    <input class="form-control" type="text" name="a_education[]" value="<?php echo @$row['education']?>" style="width:350px;" placeholder="วุฒิ" />
 				    </div>
 				    <div>
 				    <input class="form-control" type="text" name="a_experience[]" value="<?php echo @$row['experience']?>" style="width:400px;" placeholder="ประสบการณ์ทำงาน" />
@@ -332,7 +338,7 @@ body {
 			    </div>
 		    	<?endforeach;?>
 		    	<?endif;?>
-		    <div class="adviser_addr" style="margin: 25px 0; position: relative;">
+		    <div class="adviser_addr" style="margin: 25px 0; position: relative; display:none;">
 			<img class="remove_adviser_btn" src="themes/msosocial/images/remove2.png" width="16" height="16" title="ลบที่ปรึกษา" style="cursor:pointer; position: absolute; right: 10px; top: 0;" />
 		    <p>
 		    <input type="text" class="form-control" name="a_name[]" style="width:150px;" placeholder="ชื่อ" />
@@ -378,7 +384,7 @@ body {
 		
 		$('.add_adviser_btn').click(function(){
 			var e = $('.adviser_addr:first');
-		    e.clone().find("input:text").val("").end().insertAfter($('.adviser_addr:last'));
+		    e.clone().find("input:text").val("").end().insertAfter($('.adviser_addr:last')).show();
 		    $('.remove_adviser_btn:not(:first)').show();
 		    adviser_count();
 		});
@@ -395,11 +401,16 @@ body {
 	});	
 	
 	function adviser_count(x){
-		if(x == 'form_load'){
-			var count = $('.adviser_addr').length-1;
-		}else{
-			var count = $('.adviser_addr').length;
-		}
+		// if(x == 'form_load'){
+			// var count = $('.adviser_addr').length-1;
+		// }else{
+			// var count = $('.adviser_addr').length;
+		// }
+		
+		var count = $('.adviser_addr').filter(function() {
+		    return $(this).css('display') !== 'none';
+		}).length;
+	
 		$('input[name=adviser]').val(count);
 	}
 	</script>
@@ -749,6 +760,17 @@ $(document).ready(function () {
 <script type="text/javascript" src="media/js/jquery.chainedSelect.min.js"></script>
 <script type="text/javascript">
 $(function(){
+	$('.dvType2').hide();
+	$('input[name=agency_sub_type_id]').click(function(){
+		if($(this).val() == 3){
+			$('.dvType1').hide();
+			$('.dvType2').show();
+		}else{
+			$('.dvType1').show();
+			$('.dvType2').hide();
+		}
+	});
+	
 	// jquery-ui datepicker
 	var dateBefore=null;
 	$("#dateInput").datepicker({
