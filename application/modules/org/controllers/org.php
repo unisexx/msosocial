@@ -224,7 +224,52 @@ class Org extends Public_Controller
 			$status['status_type'] = $_POST['current_status'];
 			$this->ado->AutoExecute('ACT_BENEFIT_STATUS',$status,'INSERT');
 			
+
 			set_notify('success', 'ยื่นจดทะเบียนสำเร็จ รอการติดต่อกลับจากเจ้าหน้าที่');
+
+			
+			$mth_ary=array(  
+			    "0"=>"",  
+			    "1"=>"มกราคม",  
+			    "2"=>"กุมภาพันธ์",  
+			    "3"=>"มีนาคม",  
+			    "4"=>"เมษายน",  
+			    "5"=>"พฤษภาคม",  
+			    "6"=>"มิถุนายน",   
+			    "7"=>"กรกฎาคม",  
+			    "8"=>"สิงหาคม",  
+			    "9"=>"กันยายน",  
+			    "10"=>"ตุลาคม",  
+			    "11"=>"พฤศจิกายน",  
+			    "12"=>"ธันวาคม"                    
+			); 
+
+			//Send mail to officer.
+			$mailer = array(
+				'to' => 'sw@m-society.go.th',
+				'header' => 'มีองค์กรมายื่นจดทะเบียนใหม่ (m-society)',
+				'detail' => "<div>".$_POST['organ_name']." (องค์กรสาธารณประโยชน์) ได้ส่งข้อมูลการยื่นจดทะเบียนใหม่ เมื่อวันที่ ".date('d').' '.$mth_ary[(date('m')*1)].' '.(date('Y')+543)." เวลา ".date('H:i')." น.</div>
+				<br>
+				<div>ท่านสามารถเข้าไปดูข้อมูลได้ที่ระบบบริหารราชการ (boffice) <a href='http://boffice.m-society.go.th/act/welfare_benefit_reg'>คลิกที่นี่</a></div>"
+			);
+			send_mailer($mailer['to'], $mailer['header'], $mailer['detial']);
+
+
+			//Send mail to organization.
+			$mailer = array(
+				'to' => $_POST['email'],
+				'header' => 'ระบบได้รับข้อมูลการยื่นขอจดทะเบียนใหม่แล้ว (m-society)',
+				'detail' => "<div>รอเจ้าหน้าที่จะดำเนินการตรวจสอบข้อมูลการยื่นขอจดทะเบียนของ ".$_POST['organ_name']." (องค์กรสาธารณประโยชน์) ประมาณ 5 วันทำการนะค่ะ</div>
+				<br>
+				<div style='font-weight:bold;'>ติดต่อสอบถามเพิ่มเติม</div>
+				<div>สำนักงานคณะกรรมการส่งเสริมการจัดสวัสดิการสังคมแห่งชาติ กรมพัฒนาสังคมและสวัสดิการ </div>
+				<div>เลขที่ 1034 อาคาร 5 ชั้น 2 ถ.กรุงเกษม แขวงมหานาค เขตป้อมปราบศัตรูพ่าย กรุงเทพฯ 10100</div>
+				<div>เบอร์โทรศัพท์ : 02-659-6302</div>
+				<br>
+				<div>E-mail :sw@m-society.go.th</div>"
+			);
+			send_mailer($mailer['to'], $mailer['header'], $mailer['detial']);
+
 		}
 		// redirect($_SERVER['HTTP_REFERER']);
 		redirect('home');
@@ -428,6 +473,33 @@ class Org extends Public_Controller
 			$this->ado->AutoExecute('ACT_COMM_STATUS',$status,'INSERT');
 			
 			set_notify('success', 'ยื่นจดทะเบียนสำเร็จ รอการติดต่อกลับจากเจ้าหน้าที่');
+
+
+			//Send mail to officer.
+			$mailer = array(
+				'to' => 'sw@m-society.go.th',
+				'header' => 'มีองค์กรมายื่นจดทะเบียนใหม่ (m-society)',
+				'detail' => "<div>".$_POST['organ_name']." (องค์กรสวัสดิการชุมชน) ได้ส่งข้อมูลการยื่นจดทะเบียนใหม่ เมื่อวันที่ ".date('d').' '.$mth_ary[(date('m')*1)].' '.(date('Y')+543)." เวลา ".date('H:i')." น.</div>
+				<br>
+				<div>ท่านสามารถเข้าไปดูข้อมูลได้ที่ระบบบริหารราชการ (boffice) <a href='http://boffice.m-society.go.th/act/welfare_benefit_reg'>คลิกที่นี่</a></div>"
+			);
+			send_mailer($mailer['to'], $mailer['header'], $mailer['detial']);
+
+
+			//Send mail to organization.
+			$mailer = array(
+				'to' => $_POST['email'],
+				'header' => 'ระบบได้รับข้อมูลการยื่นขอจดทะเบียนใหม่แล้ว (m-society)',
+				'detail' => "<div>รอเจ้าหน้าที่จะดำเนินการตรวจสอบข้อมูลการยื่นขอจดทะเบียนของ ".$_POST['organ_name']." (องค์กรสวัสดิการชุมชน) ประมาณ 5 วันทำการนะค่ะ</div>
+				<br>
+				<div style='font-weight:bold;'>ติดต่อสอบถามเพิ่มเติม</div>
+				<div>สำนักงานคณะกรรมการส่งเสริมการจัดสวัสดิการสังคมแห่งชาติ กรมพัฒนาสังคมและสวัสดิการ </div>
+				<div>เลขที่ 1034 อาคาร 5 ชั้น 2 ถ.กรุงเกษม แขวงมหานาค เขตป้อมปราบศัตรูพ่าย กรุงเทพฯ 10100</div>
+				<div>เบอร์โทรศัพท์ : 02-659-6302</div>
+				<br>
+				<div>E-mail :sw@m-society.go.th</div>"
+			);
+			send_mailer($mailer['to'], $mailer['header'], $mailer['detial']);
 		}
 		// redirect($_SERVER['HTTP_REFERER']);
 		redirect('home');
@@ -517,15 +589,17 @@ class Org extends Public_Controller
 		array_walk($_POST,'dbConvert','TIS-620');
 		$this->load->library('adodb');
 		// $this->ado->debug = true;
-		// $rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_BENEFIT WHERE ORGAN_NAME like '%".$_POST['organ_name']."%'");
+		
 		$rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_BENEFIT WHERE ORGAN_NAME = '".$_POST['organ_name']."'  AND POST_FORM = 'app4'");
 		dbConvert($rs);
 		// print_r($rs);
+		
 		if(@$rs['id'] == "")
 		{
-			// $rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ORGAN_NAME like '%".$_POST['organ_name']."%'");
+			
 			$rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ORGAN_NAME = '".$_POST['organ_name']."' AND POST_FORM = 'app4'");
 			dbConvert($rs);
+			//print_r($rs);
 			if(@$rs['id'] == ""){
 				echo ' <font color="#CC075F">ตรวจสอบไม่พบชื่อองค์กรนี้</font>';
 			}else{
@@ -549,13 +623,77 @@ class Org extends Public_Controller
 	}
 
 
+	function ajax_register_success() {
+		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
+		array_walk($_POST,'dbConvert','TIS-620');
+		$this->load->library('adodb');
+
+
+		// สมาคมสตรีนักธุรกิจและวิชาชีพ-ภูเก็ต
+		$rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_BENEFIT WHERE ORGAN_NAME = '".$_POST['organ_name']."'  AND POST_FORM = 'app4'");
+		dbConvert($rs);
+		$organ_type = 'องค์กรสาธารณประโยชน์';
+
+		
+		if(empty($rs['id'])) {
+			$rs = $this->ado->GetRow("SELECT * FROM ACT_WELFARE_COMM WHERE ORGAN_NAME = '".$_POST['organ_name']."' AND POST_FORM = 'app4'");
+			dbConvert($rs);
+			$organ_type = 'องค์กรสวัสดิการชุมชน';
+		}
+
+		if(!empty($rs['id'])) {
+			$mth_ary=array(  
+			    "0"=>"",  
+			    "1"=>"มกราคม",  
+			    "2"=>"กุมภาพันธ์",  
+			    "3"=>"มีนาคม",  
+			    "4"=>"เมษายน",  
+			    "5"=>"พฤษภาคม",  
+			    "6"=>"มิถุนายน",   
+			    "7"=>"กรกฎาคม",  
+			    "8"=>"สิงหาคม",  
+			    "9"=>"กันยายน",  
+			    "10"=>"ตุลาคม",  
+			    "11"=>"พฤศจิกายน",  
+			    "12"=>"ธันวาคม"                    
+			); 
+
+
+			//Send email to sw.
+			$email = "sw@m-society.go.th";
+
+			$header = "องค์กรขอสมัครสมาชิกใหม่ (m-society)";
+			$content = "<div>".$_POST['organ_name']." (".$organ_type.") ได้ส่งข้อมูลยืนยันความเป็นองค์กรเพื่อสมัครสมาชิกใหม่ เมื่อวันที่ ".date('d').' '.$mth_ary[(date('m')*1)].' '.(date('Y')+543)." เวลา ".date('H:i')." น.</div>
+				<div>ท่านสามารถเข้าไปดูข้อมูลได้ที่ระบบบริหารราชการ (boffice) <a href='http://boffice.m-society.go.th/'>คลิกที่นี่</a></div>";
+
+			send_mailer($email, $header, $content);
+
+
+			//Send email to organization
+			$email = $rs['EMAIL'];
+			$header = 'ระบบได้รับข้อมูลยืนยันความเป็นองค์กรเพื่อสมัครสมาชิกใหม่แล้ว (m-society)';
+			$content = "<div>รอเจ้าหน้าที่จะดำเนินการตรวจสอบข้อมูลของ ".$_POST['organ_name']." (".$organ_type.") </div>
+			<br>
+			<div style='font-weight:bold;'>ติดต่อสอบถามเพิ่มเติม</div>
+			<div>สำนักปลัดกระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์ กรมพัฒนาสังคมและสวัสดิการ</div>
+			<div>เลขที่ 1034 อาคาร 5 ชั้น 2 ถ.กรุงเกษม แขวงมหานาค เขตป้อมปราบศัตรูพ่าย กรุงเทพฯ 10100</div>
+			<div>เบอร์โทรศัพท์ : 02-659-6302</div>
+			<br>
+			<div>E-mail :sw@m-society.go.th</div>";
+
+			send_mailer($email, $header, $content);
+		}
+			
+	}#function ajax_register_succes
+			
+
+
 	function ajax_login(){
 		putenv("NLS_LANG=AMERICAN_AMERICA.TH8TISASCII");
 		array_walk($_POST,'dbConvert','TIS-620');
 		$this->load->library('adodb');
 		// $this->ado->debug = true;
 		$rs = $this->ado->GetRow("SELECT * FROM ACT_USER WHERE USERNAME='".$_POST['username']."' AND PASSWORD = '".md5($_POST['password'])."' AND STATUS = '".$_POST['status']."'");
-		// $rs = $this->ado->GetRow("SELECT * FROM ACT_USER WHERE USERNAME='".$_POST['username']."' AND PASSWORD = '".$_POST['password']."' AND STATUS = '".$_POST['status']."'");
 		dbConvert($rs);
 		if(@$rs['id'] != "")
 		{
