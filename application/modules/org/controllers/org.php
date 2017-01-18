@@ -660,7 +660,7 @@ class Org extends Public_Controller
 
 
 			//Send email to sw.
-			$email = "sw@m-society.go.th";
+			$email = "unisexx@gmail.com";
 
 			$header = "องค์กรขอสมัครสมาชิกใหม่ (m-society)";
 			$content = "<div>".$_POST['organ_name']." (".$organ_type.") ได้ส่งข้อมูลยืนยันความเป็นองค์กรเพื่อสมัครสมาชิกใหม่ เมื่อวันที่ ".date('d').' '.$mth_ary[(date('m')*1)].' '.(date('Y')+543)." เวลา ".date('H:i')." น.</div>
@@ -669,19 +669,19 @@ class Org extends Public_Controller
 			send_mailer($email, $header, $content);
 
 
-			//Send email to organization
-			$email = $rs['EMAIL'];
-			$header = 'ระบบได้รับข้อมูลยืนยันความเป็นองค์กรเพื่อสมัครสมาชิกใหม่แล้ว (m-society)';
-			$content = "<div>รอเจ้าหน้าที่จะดำเนินการตรวจสอบข้อมูลของ ".$_POST['organ_name']." (".$organ_type.") </div>
-			<br>
-			<div style='font-weight:bold;'>ติดต่อสอบถามเพิ่มเติม</div>
-			<div>สำนักปลัดกระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์ กรมพัฒนาสังคมและสวัสดิการ</div>
-			<div>เลขที่ 1034 อาคาร 5 ชั้น 2 ถ.กรุงเกษม แขวงมหานาค เขตป้อมปราบศัตรูพ่าย กรุงเทพฯ 10100</div>
-			<div>เบอร์โทรศัพท์ : 02-659-6302</div>
-			<br>
-			<div>E-mail :sw@m-society.go.th</div>";
-
-			send_mailer($email, $header, $content);
+			#Send email to organization
+			// $email = $rs['EMAIL'];
+			// $header = 'ระบบได้รับข้อมูลยืนยันความเป็นองค์กรเพื่อสมัครสมาชิกใหม่แล้ว (m-society)';
+			// $content = "<div>รอเจ้าหน้าที่จะดำเนินการตรวจสอบข้อมูลของ ".$_POST['organ_name']." (".$organ_type.") </div>
+			// <br>
+			// <div style='font-weight:bold;'>ติดต่อสอบถามเพิ่มเติม</div>
+			// <div>สำนักปลัดกระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์ กรมพัฒนาสังคมและสวัสดิการ</div>
+			// <div>เลขที่ 1034 อาคาร 5 ชั้น 2 ถ.กรุงเกษม แขวงมหานาค เขตป้อมปราบศัตรูพ่าย กรุงเทพฯ 10100</div>
+			// <div>เบอร์โทรศัพท์ : 02-659-6302</div>
+			// <br>
+			// <div>E-mail :sw@m-society.go.th</div>";
+// 
+			// send_mailer($email, $header, $content);
 		}
 			
 	}#function ajax_register_succes
