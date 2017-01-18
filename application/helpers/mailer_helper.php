@@ -51,18 +51,18 @@
 		    $mail->IsSMTP();
 		    $mail->Host = 'ssl://smtp.googlemail.com';
 		    $mail->Port = 465;
-		    $mail->Username = 'line2me.info@gmail.com';
-		    $mail->Password = 'Des@gn9;';
+		    $mail->Username = 'Kpi.msociety@gmail.com';
+		    $mail->Password = 'kpimsociety';
 		    $mail->SMTPAuth = true;
 		    $mail->CharSet = "utf-8";
-		    $mail->From = $connect['user']; //  account e-mail ของเราที่ใช้ในการส่งอีเมล
-		    $mail->FromName = $content['from'];
+		    $mail->From = "Kpi.msociety@gmail.com";       //  account e-mail ของเราที่ใช้ในการส่งอีเมล
+		    $mail->FromName = "line2me.in.th";
 		    $mail->IsHTML(true);                            // ถ้า E-mail นี้ มีข้อความในการส่งเป็น tag html ต้องแก้ไข เป็น true
-		    $mail->Subject = $content['subject'];            // หัวข้อที่จะส่ง
-		    $mail->Body = $content['message'];           // ข้อความ ที่จะส่ง
-		    $mail->SMTPDebug = 1;
+		    $mail->Subject = $subject;            // หัวข้อที่จะส่ง
+		    $mail->Body = $message;              // ข้อความ ที่จะส่ง
+		    $mail->SMTPDebug = false;
 		    $mail->do_debug = 0;
-		    $mail->AddAddress($content['to']);                      // Email ปลายทางที่เราต้องการส่ง
+		    $mail->AddAddress($email);                      // Email ปลายทางที่เราต้องการส่ง
 		    $mail->send();
 		    $mail->ClearAddresses();
 		    // if (!$mail->send())
