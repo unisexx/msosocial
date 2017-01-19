@@ -258,13 +258,13 @@ class Home extends Public_Controller {
 	}
 	
 	function testmail2(){
-			 $message = "หวัดดีทุกคน \n";
-			 $message .= "ถ้า E-mail นี้ มีข้อความในการส่งเป็น tag html ต้องแก้ไข เป็น true \n";
-			 $message .= "Email ปลายทางที่เราต้องการส่ง";
+			$message = "หวัดดีทุกคน \n";
+			$message .= "ถ้า E-mail นี้ มีข้อความในการส่งเป็น tag html ต้องแก้ไข เป็น true \n";
+			$message .= "Email ปลายทางที่เราต้องการส่ง";
 			
-			 $config['charset'] = 'utf-8';
-			 $config['mailtype'] = 'text';
-			 $config['newline'] = '\r\n';
+			$config['charset'] = 'utf-8';
+			$config['mailtype'] = 'text';
+			$config['newline'] = '\r\n';
 				
 			$this->load->library('email');
 			$this->email->initialize($config);

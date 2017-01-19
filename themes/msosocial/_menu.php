@@ -115,6 +115,7 @@
 		  </div>
 		  <button id="register_btn" type="button" class="btn btn-default">ตรวจสอบ</button>
 		  <span class="check_fail"></span>
+		  <span class="check_success"></span>
 		</form>
 	</div>
 </div>
@@ -146,8 +147,10 @@ $(document).ready(function(){
 				$.post('org/ajax_register_success', {
 					'organ_name' : $('input[name=organ_name]').val()
 				}, function(data){
-					$('body').html(data);
+					// $('body').html(data);
 					// window.location.href = 'org/reg_member';
+					$('.check_success').html(data);
+					$('.check_fail').html('');
 				});
 			}else{
 				$('.check_fail').html(data);

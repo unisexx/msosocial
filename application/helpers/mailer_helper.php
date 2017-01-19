@@ -74,5 +74,36 @@
     
 		}
 	}
+
+
+	if(!function_exists('ci_send_mailer')) {
+		function ci_send_mailer($to = false, $subject = false, $message = false) {
+			$CI =& get_instance();
+			
+			$content = array(
+				'to' => $to,
+				'from' => 'งานบริหารกองทุน สำนักงานปลัดกระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์',
+				'subject' => $subject,
+				'message' => $message
+			);
+			
+			// $message = "หวัดดีทุกคน \n";
+			// $message .= "ถ้า E-mail นี้ มีข้อความในการส่งเป็น tag html ต้องแก้ไข เป็น true \n";
+			// $message .= "Email ปลายทางที่เราต้องการส่ง";
+			
+			$config['charset'] = 'utf-8';
+			$config['mailtype'] = 'html'; // text of html
+			$config['newline'] = '\r\n';
+				
+			$CI->load->library('email');
+			$CI->email->initialize($config);
+			$CI->email->from('sw@m-society.go.th', 'งานบริหารกองทุน สำนักงานปลัดกระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์');
+			$CI->email->to($content['to']);
+			$CI->email->subject($subject);
+			$CI->email->message($message);
+			$CI->email->send();
+			// echo $this->email->print_debugger();
+		}
+	}
 		
 ?>
