@@ -2,7 +2,7 @@
       	<a class="inline" href="#org_reg"><img src="themes/msosocial/images/banner-register_2.png" width="232" height="103" class="banner-regis"></a>
         <a href="board/index" target="_blank"><img src="themes/msosocial/images/banner-list_2.jpg" width="255" height="119" class="banner-list"></a>
         <div class="clearfix">&nbsp;</div>
-        <div class="title-social-welfare-organ">องค์การสวัสดิการสังคม</div>
+        <!-- <div class="title-social-welfare-organ">องค์การสวัสดิการสังคม</div>
         <div class="list-social-welfare-organ">
             <ul>
                 <li><a href="#" class="list-social-welfare-organ1">กองทุนเด็กรายบุคคล</a></li>
@@ -10,7 +10,9 @@
                 <li><a href="#" class="list-social-welfare-organ2">กองทุนส่งเสริการจัดสวัสดิการสังคม</a></li>
                 <li><a href="#" class="list-social-welfare-organ2">กองทุนป้องกันและปราบปราม<br>การค้ามนุษย์</a></li>
             </ul> 
-        </div>    
+        </div>     -->
+      <a href="http://boffice.m-society.go.th/fund" target="_blank"><img src="themes/msosocial/images/banner-fund.jpg" width="244" height="69" class="banner-link"></a>
+      <a href="http://boffice.m-society.go.th/act" target="_blank"><img src="themes/msosocial/images/banner-act.jpg" width="244" height="69" class="banner-link"/></a>
       <a href="#"><img src="themes/msosocial/images/banner01.jpg" width="244" height="69" class="banner-link"></a>
       <a href="#"><img src="themes/msosocial/images/banner02.jpg" width="244" height="69" class="banner-link"/></a>
       <a href="social_worker/register" target="_blank"><img src="themes/msosocial/images/banner03.jpg" width="244" height="69" class="banner-link"/></a>
@@ -27,7 +29,7 @@
  
         <?php //modules::run('calendar/home_calendar'); ?>
         
-        <div id="showData"></div>
+       <div id="showData"></div>
         
         <script type="text/javascript">
             $(function(){
